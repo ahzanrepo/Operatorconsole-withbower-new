@@ -1,0 +1,154 @@
+@import url("../fonts/font.css");
+
+/*HTML element */
+body {
+    color: #47505f;
+    background: #EBEEED;
+    font-family: "roboto-light", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.471;
+
+}
+
+/* theme modification */
+body .container.body .right_col {
+    background: #EBEEED;
+}
+
+.nav_menu {
+    background: #fff;
+    border-bottom: 1px solid #fff;
+}
+
+.left_col {
+    background: #fff;
+}
+
+.nav_title {
+    width: 230px;
+    float: left;
+    background: #fff;
+    border-radius: 0;
+    height: 57px;
+    border-right: 1px solid #f2f6f9 !important;
+    border-bottom: 1px solid #f2f6f9 !important;
+}
+
+.mCSB_inside > .mCSB_container {
+    margin-right: 0px;
+}
+
+.site_title {
+    font-family: "hammersmithOne-regular", sans-serif;
+    font-weight: 400;
+    font-size: 22px;
+    width: 100%;
+    line-height: 59px;
+    display: block;
+    height: 55px;
+    margin: 0;
+    padding-left: 10px;
+    color: #AFB1A8;
+}
+
+.site_title > span {
+    color: #5f5f5f;
+}
+
+.nav.child_menu > li > a, .nav.side-menu > li > a {
+    color: #000;
+    font-family: "roboto-bold", sans-serif;
+    font-size: 15px;
+}
+
+.nav.side-menu > li > a:hover {
+    color: #AFB1A8 !important;
+}
+
+.menu_section h3 {
+    padding-left: 15px;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+    font-weight: 700;
+    font-size: 11px;
+    margin-bottom: 0;
+    margin-top: 0;
+    text-shadow: 1px 1px #000;
+}
+
+.nav.side-menu > li.active, .nav.side-menu > li.current-page {
+    border-right: 0px solid #ebeeed;
+}
+
+.nav.side-menu > li.active > a {
+    text-shadow: rgba(0, 0, 0, 0) 0 -1px 0;
+    background: linear-gradient(#334556, #2C4257), #2A3F54;
+    box-shadow: rgba(0, 0, 0, 0) 0 1px 0, inset rgba(255, 255, 255, 0) 0 1px 0;
+    background: #3ED783;
+    color: #fff;
+}
+
+.nav.side-menu > li.active > a:hover {
+    color: #fff !important;
+}
+
+.active a span.fa {
+    color: #ffffff;
+}
+
+.img-circle.profile_img {
+    border: 1px solid rgba(52, 73, 94, 0);
+}
+
+.profile_info span {
+    font-family: "hammersmithOne-regular", sans-serif;
+    font-size: 15px;
+    line-height: 30px;
+    color: #a4a4a4;
+}
+
+.profile_info h2 {
+    font-size: 14px;
+    color: #212121;
+    margin: 0;
+    font-weight: 300;
+}
+
+.left_col > .profile {
+    /* Rectangle: */
+    background-image: linear-gradient(-180deg, #F9F9F9 0%, rgba(255, 255, 255, 0.00) 100%);
+}
+
+.profile_info {
+    padding: 25px 10px 30px;
+}
+
+/*top navigation */
+.nav-sm {
+    margin-left: -230px;
+}
+
+.nav_menu {
+    border-bottom: 0px solid #fff;
+}
+
+.toggle a {
+    color: #3ED783;
+}
+
+.nav-sm .main_container .top_nav {
+    display: block;
+    margin-left: 230px;
+    z-index: 2;
+}
+
+.nav-md {
+    margin-left: 0px;
+}
+
+.nav-top-sm {
+    margin-left: 160px !important;
+}
+

@@ -1,0 +1,30 @@
+@font-face {
+    font-family: hammersmithOne-regular;
+    src: url(Hammersmith/HammersmithOne-Regular.ttf);
+}
+
+/*roboto*/
+@font-face {
+    font-family: roboto-black;
+    src: url(Roboto/Roboto-Black.ttf);
+}
+
+@font-face {
+    font-family: roboto-light;
+    src: url(Roboto/Roboto-Light.ttf);
+}
+
+@font-face {
+    font-family: roboto-medium;
+    src: url(Roboto/Roboto-Medium.ttf);
+}
+
+@font-face {
+    font-family: roboto-bold;
+    src: url(Roboto/Roboto-Bold.ttf);
+}
+
+
+
+
+

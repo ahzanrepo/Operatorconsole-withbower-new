@@ -1,0 +1,79 @@
+
+.sign-in-wrp {
+    background: rgba(255, 255, 255, 1);
+    width: 100%;
+    min-height: 400px;
+    /*overflow: hidden;*/
+    position: relative;
+    margin-top: 25%;
+    border-radius: 5px;
+}
+
+.sign-header {
+    /* SIGN IN: */
+    font-family: Roboto-Bold;
+    font-size: 19px;
+    color: #3ED783;
+    letter-spacing: -0.15px;
+}
+
+.sign-in-wrp {
+    padding: 45px 45px 45px 45px;
+}
+
+.sign-header-img {
+    width: 100%;
+    text-align: center;
+    margin-top: 10%;
+    margin-bottom: 10px;
+}
+
+.header-txt {
+    font-family: "hammersmithOne-regular", sans-serif;
+    font-size: 22px;
+    color: #000;
+    padding-bottom: 30px;
+    letter-spacing: 0.2px;
+}
+
+.sign-txt {
+    display: block;
+    width: 100%;
+    height: 45px;
+    padding: 6px 12px;
+    font-size: 15px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.btn-bottom-wrp {
+    width: 100%;
+    min-height: 20px;
+    overflow: hidden;
+    position: relative;
+    padding-top: 15px;
+}
+
+.btn-green {
+    background: #3ED783;
+    color: #fff;
+    font-family: "hammersmithOne-regular", sans-serif;
+    font-size: 17px;
+    padding: 7px 15px 7px 15px;
+    border: 0px;
+}
+
+.sing-lbl {
+    font-family: "roboto-light", sans-serif;
+    font-size: 16px;
+    letter-spacing: 1px;
+}
