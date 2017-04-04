@@ -31,6 +31,9 @@
     <!-- Custom Theme Style -->
     <link href="assets/build/css/custom.min.css" rel="stylesheet">
 
+    <!-- themify fonts -->
+    <link href="assets/fonts/themify/themify-icons.css" rel="stylesheet"/>
+
 
     <!-- customer css -->
     <link rel="stylesheet" href="assets/css/op-console1.css"/>
@@ -54,7 +57,8 @@
 
 
 <!-- FastClick -->
-<script src="assets/vendors/fastclick/lib/fastclick.js"></script>
+<!--<script src="assets/vendors/fastclick/lib/fastclick.js"></script>-->
+
 <!-- jQuery custom content scroller -->
 <script src="assets/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
 
@@ -88,18 +92,22 @@
 <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script type="text/javascript" src="bower_components/angular-animate/angular-animate.min.js"></script>
 
+<script type="text/javascript" src="bower_components/moment/moment.js"></script>
+
 <!-- components -->
 <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+<!--Easy pie chart -->
+<script type="text/javascript" src="bower_components/jquery.easy-pie-chart/dist/angular.easypiechart.js"></script>
 
 <!-- angular-jwt -->
 <script type="text/javascript" src="bower_components/angular-jwt/dist/angular-jwt.js"></script>
-<script src="bower_components/satellizer/dist/satellizer.js"></script>
+<script type="text/javascript" src="bower_components/satellizer/dist/satellizer.js"></script>
 
 <!-- angular local storage --->
-<script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+<script type="text/javascript" src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
 
 <!-- base 64 -->
-<script src="bower_components/angular-base64/angular-base64.js"></script>
+<script type="text/javascript" src="bower_components/angular-base64/angular-base64.js"></script>
 
 
 <!-- main file app.js -->
@@ -108,14 +116,19 @@
 
 <!-- services -->
 
+
 <!--auth services-->
 <script type="text/javascript" src="app/auth/app/services/oAuthServices.js"></script>
 <script type="text/javascript" src="app/services/authService.js"></script>
 
+<!-- user profile -->
+<script type="text/javascript" src="app/services/user/userProfileServices.js"></script>
+<script type="text/javascript" src="app/services/dashboardServices.js"></script>
 
 
 <!-- controller -->
 <script type="text/javascript" src="app/controller/consoleCtrl.js"></script>
+<script type="text/javascript" src="app/controller/monitorServerPctrl.js"></script>
 
 <!-- auth -->
 <script type="text/javascript" src="app/auth/app/controller/loginCtrl.js"></script>

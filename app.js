@@ -3,7 +3,8 @@
  */
 
 var opConsoleApp = angular.module('opConsoleApp', ['ngRoute', 'ui.bootstrap',
-    'ui.router', 'angular-jwt', 'satellizer', 'LocalStorageModule', 'base64']);
+    'ui.router', 'angular-jwt', 'satellizer',
+    'LocalStorageModule', 'base64', 'easypiechart']);
 
 
 //app router
@@ -28,6 +29,12 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             data: {
                 requireLogin: true
             }
+        }).state('op-console.monitor-server-performance', {
+            url: "/monitor-server-performance",
+            templateUrl: "app/views/template/monitor-server-performance.html",
+            data: {
+                requireLogin: true
+            }
         }).state('sign-in', {
             url: "/sign-in",
             templateUrl: "app/auth/app/views/sign-in.html",
@@ -40,7 +47,10 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
 
 
 //app base URL
-var baseUrls = {};
+var baseUrls = {
+    'userServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'monitorServerUrl': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/Cluster/2/'
+};
 
 opConsoleApp.constant('baseUrls', baseUrls);
 
@@ -53,20 +63,20 @@ opConsoleApp.constant('config', {
 
 //authentication
 //Authentication
-// opConsoleApp.run(function ($rootScope, loginService, $location, $state) {
-//     $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
-//         var requireLogin = toState.data.requireLogin;
-//         if (requireLogin) {
-//             if (!loginService.getToken()) {
-//                 event.preventDefault();
-//                // $state.go('sign-in');
-//             }
-//             // get me a login modal!
-//         }
-//     });
-//     var decodeToken = loginService.getTokenDecode();
-//     if (!decodeToken) {
-//        /// $state.go('sign-in');
-//         return
-//     }
-// });
+opConsoleApp.run(function ($rootScope, loginService, $location, $state) {
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
+        var requireLogin = toState.data.requireLogin;
+        if (requireLogin) {
+            if (!loginService.getToken()) {
+                event.preventDefault();
+                $state.go('sign-in');
+            }
+            // get me a login modal!
+        }
+    });
+    var decodeToken = loginService.getTokenDecode();
+    if (!decodeToken) {
+        $state.go('sign-in');
+        return
+    }
+});

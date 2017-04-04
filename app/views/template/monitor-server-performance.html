@@ -1,0 +1,135 @@
+<div ng-controller="monitorServerPctrl">
+
+    <!--page title -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-title">
+                <div class="title_left">
+                    <h3>Server Performance</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-xs-6" ng-repeat="serverPer in monitorPerObj track by $index">
+            <div class="x_panel server-per-widget">
+                <div class="x_title">
+                    <h2>{{serverPer.FsHostName}}</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li>
+                            <div class="server-status-wrp">
+                                <div class="server-status online blink_me"></div>
+                                <div class="status-txt">
+                                    online
+                                </div>
+                            </div>
+
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-xs-6">
+                            <div class="s-per-chart-wrp-l">
+                                <div class="easy-chart-left">
+                                    <div class="header-chart">
+                                        IDLE - CPU
+                                    </div>
+                                    <div easypiechart options="pieoption" percent="serverPer.cpuProcess">
+                                        <div class="d1-pie-text">{{serverPer.cpuProcess}}%</div>
+                                    </div>
+                                    <div class="cpu-footer">
+                                        FsIPv4 : {{serverPer.FsIPv4}}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-xs-6">
+                            <div class="row">
+                                <div class="session-widget">
+                                    <!--<div class="header">-->
+                                    <!--SESSION-->
+                                    <!--</div>-->
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="session-cpu">
+                                                <div class="count">
+                                                    {{serverPer.MaxSessions}}
+                                                </div>
+                                                <div class="session-name">
+                                                    Max Sessions
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="session-cpu">
+                                                <div class="count">
+                                                    {{serverPer.SessionCount}}
+                                                </div>
+                                                <div class="session-name">
+                                                    Session Count
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="session-cpu">
+                                                <div class="count">
+                                                    {{serverPer.SessionsPerSec}}
+                                                </div>
+                                                <div class="session-name">
+                                                    Session Per Sec
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="session-cpu">
+                                                <div class="count">
+                                                    {{serverPer.SessionsPerSecMax}}
+                                                </div>
+                                                <div class="session-name">
+                                                    Session Per Sec Max
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="widget-row">
+                                    <div class="lg-header">
+                                        {{serverPer.UpTimeMSec}}
+                                    </div>
+                                    <div class="lg-footer">
+                                        Up Time.Sec
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+

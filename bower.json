@@ -38,6 +38,7 @@
     "jquery-ui": "^1.12.1",
     "satellizer": "^0.15.5",
     "angular-jwt": "^0.0.9",
-    "angular-base64": "^2.0.5"
+    "angular-base64": "^2.0.5",
+    "jquery.easy-pie-chart": "^2.1.6"
   }
 }
