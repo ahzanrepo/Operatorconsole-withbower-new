@@ -27,6 +27,14 @@ opConsoleApp.controller('consoleCtrl', function ($scope,
     };
     loadCurrentProfile();
 
+    //go to navigation
+    $scope.goToNavigation = function (nav) {
+        switch (nav) {
+            case 'serverPerformance':
+                $state.go('op-console.monitor-server-performance');
+                break;
+        }
+    };
 
     //logout
     $scope.isLogingOut = false;
