@@ -12,7 +12,7 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
     function ($httpProvider, $stateProvider, $urlRouterProvider, $authProvider) {
 
         //auth URL
-        var authProviderUrl = 'http://userservice.app.veery.cloud/';
+        var authProviderUrl = 'http://192.168.5.182:3638/'; //'http://userservice.app.veery.cloud/';
         $authProvider.loginUrl = authProviderUrl + 'auth/login';
         $authProvider.signupUrl = authProviderUrl + 'auth/signup';
 

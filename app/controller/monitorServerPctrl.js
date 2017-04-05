@@ -3,7 +3,7 @@
  */
 
 
-opConsoleApp.controller('monitorServerPctrl', function ($scope, dashboardServices) {
+opConsoleApp.controller('monitorServerPctrl', function ($scope, dashboardServices, $timeout) {
 
 
     //get server performance
@@ -12,15 +12,33 @@ opConsoleApp.controller('monitorServerPctrl', function ($scope, dashboardService
     var getServerPerformance = function () {
         dashboardServices.getServerPerformance().then(function (res) {
             console.log(res);
+            var nowDate = new Date();
+            nowDate = moment.utc(nowDate).format();
             $scope.monitorPerObj = res.Result.map(function (item) {
                 item.IdleCpu = parseInt(item.IdleCpu);
                 item.cpuProcess = 100 - item.IdleCpu;
-                item.UpTimeMSec = moment().utc(item.UpTimeMSec).format('hh:ss');
+                item.UpTimeMSec = moment().utc(item.UpTimeMSec).format('hh:mm:ss');
+                var diff = moment(nowDate).diff(moment(item.EventTime));
+                item.upTimeDiff = moment(diff).format("hh:mm:ss");
                 return item;
             });
         });
     };
-    getServerPerformance();
+
+
+    //get real time performance
+
+    var getServerPerformanceRealTime = function () {
+        getServerPerformance();
+        serverPerformance = $timeout(getServerPerformanceRealTime, 5000);
+    };
+    var serverPerformance = $timeout(getServerPerformanceRealTime, 5000);
+
+    $scope.$on("$destroy", function () {
+        if (getServerPerformanceRealTime) {
+            $timeout.cancel(getServerPerformanceRealTime);
+        }
+    });
 
 
     //widget option

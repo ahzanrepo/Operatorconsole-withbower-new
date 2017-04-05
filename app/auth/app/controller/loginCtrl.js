@@ -11,6 +11,7 @@ opConsoleApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http
         userName: null,
         password: null,
         clientID: $base64.encode(config.client_Id_secret),
+        console: 'OPERATOR_CONSOLE'
     };
     var showPNotifyMsg = function (title, type, content) {
         new PNotify({
