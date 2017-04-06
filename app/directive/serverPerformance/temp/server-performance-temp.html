@@ -1,3 +1,12 @@
+<!--<div ng-if="currentcurrentServerItem.isLoading"-->
+<!--class="loading-current-view">-->
+<!--&lt;!&ndash;  loader  &ndash;&gt;-->
+<!--<svg class="circular">-->
+<!--<circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"></circle>-->
+<!--</svg>-->
+<!--<div class="loader-section"></div>-->
+<!--</div>-->
+
 <div ng-if="currentcurrentServerItem.ServiceStatus==false"
      class="server-offline-widget animated fadeIn">
     <div class="offline-header">
@@ -42,13 +51,13 @@
         <li>
             <div class="server-status-wrp">
                 <div class="server-status  blink_me"
-                     ng-class="currentServerItem.ServiceStatus==true?'online':'offline'"></div>
+                     ng-class="currentServerItem.serverStatus==true?'online':'offline'"></div>
                 <div class="status-txt"
-                     ng-if="currentServerItem.ServiceStatus==true">
+                     ng-if="currentServerItem.serverStatus==true">
                     online
                 </div>
                 <div class="status-txt"
-                     ng-if="currentServerItem.ServiceStatus==false">
+                     ng-if="currentServerItem.serverStatus==false">
                     offline
                 </div>
             </div>

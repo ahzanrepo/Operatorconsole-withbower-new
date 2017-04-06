@@ -15,28 +15,26 @@ opConsoleApp.directive("serverPerformanceDirective", function (dashboardServices
         templateUrl: 'app/directive/serverPerformance/temp/server-performance-temp.html',
         link: function (scope, element, attributes) {
 
-            //scope.serverItem = null;
             var getServerPerformance = function () {
                 dashboardServices.getCurrentServerPerformance(scope.serverItem)
                     .then(function (res) {
+                        scope.serverItem.isLoading = false;
                         var nowDate = new Date();
                         nowDate = moment.utc(nowDate).format();
-                        // scope.currentServerItem =
                         var mapSeverDetails = function (item) {
+                            // item.isLoading = false;
                             item.IdleCpu = parseInt(item.IdleCpu);
                             item.cpuProcess = 100 - item.IdleCpu;
                             item.UpTimeMSec = moment.utc(parseInt(item.UpTimeMSec)).format('HH:mm:ss');
                             var diff = moment(nowDate).diff(moment(item.EventTime));
-                            //item.upTimeDiff = moment(diff).format("hh:mm:ss");
-                            item.ServiceStatus = true;
                             item.EventTime = moment(item.EventTime).format('hh:mm:ss');
-
+                            item.serverStatus = true;
                             if (diff > 1000 * 60) {
-                                item.ServiceStatus = false;
+                                item.serverStatus = false;
                             }
-                            return item;
+                            scope.currentServerItem = item;
                         };
-                        scope.currentServerItem = mapSeverDetails(res.Result);
+                        mapSeverDetails(res.Result);
                     });
 
             };
