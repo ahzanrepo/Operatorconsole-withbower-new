@@ -6,7 +6,9 @@
 
 opConsoleApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http,
                                                loginService,
-                                               config, $base64, $auth) {
+                                               config, $base64, $auth, ngNotify) {
+
+
     var para = {
         userName: null,
         password: null,
@@ -75,12 +77,22 @@ opConsoleApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http
                 $scope.isLogin = false;
                 $scope.loginFrm.$invalid = false;
                 if (error.status == 449) {
-                    showPNotifyMsg('Error', 'error', 'Activate your account before login...');
+                    ngNotify.set('Activate your account before login...', {
+                        position: 'top',
+                        sticky: true,
+                        duration: 3000,
+                        type: 'error'
+                    });
                     return;
                 }
                 $('#usersName').addClass('shake');
                 $('#pwd').addClass('shake');
-                showPNotifyMsg('Error', 'error', 'Please check login details...');
+                ngNotify.set('Please check login details...', {
+                    position: 'top',
+                    sticky: true,
+                    duration: 3000,
+                    type: 'error'
+                });
             });
 
     };

@@ -11,15 +11,20 @@ opConsoleApp.controller('monitorServerPctrl', function ($scope, dashboardService
     $scope.monitorPerObj = null;
     var getServerPerformance = function () {
         dashboardServices.getServerPerformance().then(function (res) {
-            console.log(res);
             var nowDate = new Date();
             nowDate = moment.utc(nowDate).format();
             $scope.monitorPerObj = res.Result.map(function (item) {
                 item.IdleCpu = parseInt(item.IdleCpu);
                 item.cpuProcess = 100 - item.IdleCpu;
-                item.UpTimeMSec = moment().utc(item.UpTimeMSec).format('hh:mm:ss');
+                item.UpTimeMSec = moment.utc(parseInt(item.UpTimeMSec)).format('HH:mm:ss');
                 var diff = moment(nowDate).diff(moment(item.EventTime));
-                item.upTimeDiff = moment(diff).format("hh:mm:ss");
+                //item.upTimeDiff = moment(diff).format("hh:mm:ss");
+                item.ServiceStatus = true;
+                item.EventTime = moment(item.EventTime).format('hh:mm:ss');
+
+                if (diff > 1000 * 60) {
+                    item.ServiceStatus = false;
+                }
                 return item;
             });
         });
@@ -30,15 +35,16 @@ opConsoleApp.controller('monitorServerPctrl', function ($scope, dashboardService
 
     var getServerPerformanceRealTime = function () {
         getServerPerformance();
-        serverPerformance = $timeout(getServerPerformanceRealTime, 5000);
+        //serverPerformance = $timeout(getServerPerformanceRealTime, 5000);
     };
-    var serverPerformance = $timeout(getServerPerformanceRealTime, 5000);
+    getServerPerformanceRealTime();
+    //var serverPerformance = $timeout(getServerPerformanceRealTime, 5000);
 
-    $scope.$on("$destroy", function () {
-        if (getServerPerformanceRealTime) {
-            $timeout.cancel(getServerPerformanceRealTime);
-        }
-    });
+    // $scope.$on("$destroy", function () {
+    //     if (getServerPerformanceRealTime) {
+    //         $timeout.cancel(getServerPerformanceRealTime);
+    //     }
+    // });
 
 
     //widget option

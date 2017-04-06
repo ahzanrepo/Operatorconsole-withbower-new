@@ -3,7 +3,7 @@
 /*HTML element */
 body {
     color: #47505f;
-    background: #EBEEED;
+    background: #f5f5f7;
     font-family: "roboto-light", sans-serif;
     font-size: 13px;
     font-weight: 400;
@@ -13,7 +13,7 @@ body {
 
 /* theme modification */
 body .container.body .right_col {
-    background: #EBEEED;
+    background: #f5f5f7;
 }
 
 .nav_menu {
@@ -201,6 +201,62 @@ body .container.body .right_col {
     position: relative;
 }
 
+.server-offline-widget {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.94);
+    z-index: 1000;
+}
+
+.server-offline-txt {
+    width: 100%;
+    overflow: hidden;
+    padding-top: 0px;
+    background: rgb(255, 201, 25);
+}
+
+.offline-header {
+    font-family: "roboto-bold", sans-serif;
+    text-align: center;
+    font-size: 18px;
+    padding-top: 45px;
+}
+
+.offline-icon {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 50%;
+    background: rgba(255, 201, 25, 0.18);
+    text-align: center;
+    margin: 40px auto;
+    padding-top: 15px;
+    border: 10px solid rgba(255, 201, 25, 0.11);
+}
+
+.offline-icon > i {
+    color: #ffc919;
+    font-size: 85px;
+    text-align: center;
+}
+
+.server-offline-txt > h2 {
+    text-align: left;
+}
+
+.error-msg-text > h2 {
+    font-family: "roboto-bold", sans-serif;
+    text-align: center;
+}
+
+.error-msg-text > h5 {
+    text-align: center;
+}
+
 .x_title h2 {
     font-size: 15px;
 
@@ -252,9 +308,9 @@ body .container.body .right_col {
     color: #20BF55;
     width: 100%;
     min-height: 40px;
-    background: #ebeeed;
-    border-radius: 20px;
-    margin-top: 15px;
+    background: #f9f9f9;
+    /* border-radius: 20px; */
+    margin-top: 20px;
 }
 
 .session-widget {
@@ -290,6 +346,10 @@ body .container.body .right_col {
     color: #a4a4a4;
 }
 
+.session-cpu.sm > .count {
+    font-size: 15px;
+}
+
 .session-cpu > .session-name {
     width: 100%;
     min-height: 10px;
@@ -299,12 +359,27 @@ body .container.body .right_col {
     color: #a09a9a;
 }
 
+.session-cpu.sm > .session-name {
+    /*font-size: 15px;*/
+    color: #e1e2e2;
+}
+
+.widget-sm-footer {
+    text-align: center;
+    width: 100%;
+    min-height: 68px;
+    border-top: 2px solid #f9f9f9;
+    border-bottom: 2px solid #f9f9f9;
+    overflow: hidden;
+    position: relative;
+}
+
 .widget-row {
     width: 100%;
     min-height: 25px;
     overflow: hidden;
     position: relative;
-    margin-top: 45px;
+    margin-top: 25px;
 }
 
 .widget-row > .lg-header {
@@ -340,6 +415,10 @@ body .container.body .right_col {
     background: #3ed783;
 }
 
+.offline {
+    background: #d7141e;
+}
+
 .status-txt {
     font-family: "roboto-light", sans-serif;
     display: inline-block;
@@ -355,4 +434,10 @@ body .container.body .right_col {
     50% {
         opacity: 0;
     }
+}
+
+/* notification UI */
+.ngn-message {
+    font-family: "roboto-bold", sans-serif;
+    font-size: 15px;
 }

@@ -34,6 +34,8 @@
     <!-- themify fonts -->
     <link href="assets/fonts/themify/themify-icons.css" rel="stylesheet"/>
 
+    <!-- notification JS plug -->
+    <link href="bower_components/ng-notify/dist/ng-notify.min.css" rel="stylesheet"/>
 
     <!-- customer css -->
     <link rel="stylesheet" href="assets/css/op-console1.css"/>
@@ -94,6 +96,10 @@
 
 <script type="text/javascript" src="bower_components/moment/moment.js"></script>
 
+<!-- #### don't use jquery lib
+   notification JS plug -->
+<script type="text/javascript" src="bower_components/ng-notify/dist/ng-notify.min.js"></script>
+
 <!-- components -->
 <script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <!--Easy pie chart -->
@@ -114,9 +120,7 @@
 <script type="text/javascript" src="app.js"></script>
 
 
-<!-- services -->
-
-
+<!-- ####services#### -->
 <!--auth services-->
 <script type="text/javascript" src="app/auth/app/services/oAuthServices.js"></script>
 <script type="text/javascript" src="app/services/authService.js"></script>
@@ -124,6 +128,9 @@
 <!-- user profile -->
 <script type="text/javascript" src="app/services/user/userProfileServices.js"></script>
 <script type="text/javascript" src="app/services/dashboardServices.js"></script>
+
+<!--####directive####-->
+<script type="text/javascript" src="app/directive/serverPerformance/serverPerformanceDirective.js"></script>
 
 
 <!-- controller -->

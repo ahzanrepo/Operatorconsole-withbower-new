@@ -4,7 +4,7 @@
 
 var opConsoleApp = angular.module('opConsoleApp', ['ngRoute', 'ui.bootstrap',
     'ui.router', 'angular-jwt', 'satellizer',
-    'LocalStorageModule', 'base64', 'easypiechart']);
+    'LocalStorageModule', 'base64', 'easypiechart', 'ngNotify']);
 
 
 //app router
@@ -12,7 +12,7 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
     function ($httpProvider, $stateProvider, $urlRouterProvider, $authProvider) {
 
         //auth URL
-        var authProviderUrl = 'http://192.168.5.182:3638/'; //'http://userservice.app.veery.cloud/';
+        var authProviderUrl = 'http://userservice.app.veery.cloud/';
         $authProvider.loginUrl = authProviderUrl + 'auth/login';
         $authProvider.signupUrl = authProviderUrl + 'auth/signup';
 
@@ -43,6 +43,7 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             }
         })
     }], function () {
+
 });
 
 
