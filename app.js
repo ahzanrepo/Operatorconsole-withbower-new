@@ -41,11 +41,24 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             data: {
                 requireLogin: true
             }
+        }).state('op-console.all-company-information', {
+            url: "/all-company-information",
+            templateUrl: "app/views/template/all-company-information.html",
+            data: {
+                requireLogin: true
+            }
         }).state('sign-in', {
             url: "/sign-in",
             templateUrl: "app/auth/app/views/sign-in.html",
             data: {
                 requireLogin: false
+            }
+        }).state('op-console.package', {
+            url: "/package",
+            templateUrl: "app/views/template/package/package.html",
+            controller: "packageController",
+            data: {
+                requireLogin: true
             }
         })
     }], function () {

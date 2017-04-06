@@ -441,3 +441,12 @@ body .container.body .right_col {
     font-family: "roboto-bold", sans-serif;
     font-size: 15px;
 }
+
+/*company information */
+.table-header-desc {
+    width: 100%;
+    min-height: 50px;
+    background: #fff;
+    overflow: hidden;
+    position: relative;
+}

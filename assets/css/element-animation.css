@@ -1,0 +1,78 @@
+
+.loading-current-view {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+    text-align: center;
+    background: #ffffff;
+    padding-top: 121px;
+}
+
+.circular {
+    /*animation: rotate 2s linear infinite;*/
+    height: auto;
+    position: relative;
+    width: 100px;
+}
+
+.path {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    stroke: #B6463A;
+    animation: dash 1.5s ease-in-out infinite,
+    color 6s ease-in-out infinite;
+    stroke-linecap: round;
+}
+
+@keyframes rotate {
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes dash {
+    0% {
+        stroke-dasharray: 1, 200;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -35;
+    }
+    100% {
+        stroke-dasharray: 89, 200;
+        stroke-dashoffset: -124;
+    }
+}
+
+@keyframes color {
+    100%, 0% {
+        stroke: #3ed783;
+    }
+    40% {
+        stroke: #3ed783;
+    }
+    66% {
+        stroke: #3ed783;
+    }
+    80%, 90% {
+        stroke: #3ed783;
+    }
+}
+
+#content {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+content > img {
+    height: 250px;
+    transition: 300ms ease-in-out;
+}
+

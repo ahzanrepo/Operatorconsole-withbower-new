@@ -19,33 +19,19 @@ opConsoleApp.controller('monitorServerPctrl', function ($scope, dashboardService
                 item.UpTimeMSec = moment.utc(parseInt(item.UpTimeMSec)).format('HH:mm:ss');
                 var diff = moment(nowDate).diff(moment(item.EventTime));
                 //item.upTimeDiff = moment(diff).format("hh:mm:ss");
-                item.ServiceStatus = true;
+                item.serverStatus = true;
+                item.isLoading = true;
                 item.EventTime = moment(item.EventTime).format('hh:mm:ss');
-
                 if (diff > 1000 * 60) {
-                    item.ServiceStatus = false;
+                    item.serverStatus = false;
                 }
                 return item;
             });
         });
     };
 
-
     //get real time performance
-
-    var getServerPerformanceRealTime = function () {
-        getServerPerformance();
-        //serverPerformance = $timeout(getServerPerformanceRealTime, 5000);
-    };
-    getServerPerformanceRealTime();
-    //var serverPerformance = $timeout(getServerPerformanceRealTime, 5000);
-
-    // $scope.$on("$destroy", function () {
-    //     if (getServerPerformanceRealTime) {
-    //         $timeout.cancel(getServerPerformanceRealTime);
-    //     }
-    // });
-
+    getServerPerformance();
 
     //widget option
     $scope.pieoption = {
