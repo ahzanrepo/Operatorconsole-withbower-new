@@ -30,22 +30,8 @@ opConsoleApp.controller('monitorServerPctrl', function ($scope, dashboardService
         });
     };
 
-
     //get real time performance
-
-    var getServerPerformanceRealTime = function () {
-        getServerPerformance();
-        //serverPerformance = $timeout(getServerPerformanceRealTime, 5000);
-    };
-    getServerPerformanceRealTime();
-    //var serverPerformance = $timeout(getServerPerformanceRealTime, 5000);
-
-    // $scope.$on("$destroy", function () {
-    //     if (getServerPerformanceRealTime) {
-    //         $timeout.cancel(getServerPerformanceRealTime);
-    //     }
-    // });
-
+    getServerPerformance();
 
     //widget option
     $scope.pieoption = {

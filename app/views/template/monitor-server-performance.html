@@ -16,6 +16,13 @@
 
         <div class="col-lg-6 col-md-6 col-xs-6" ng-repeat="serverPer in monitorPerObj track by $index">
             <div class="x_panel server-per-widget">
+                <div class="loading-current-view">
+                    <!--  loader  -->
+                    <svg class="circular">
+                        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="8"
+                    </svg>
+                    <div class="loader-section"></div>
+                </div>
                 <server-performance-directive
                         server-item="serverPer"
                         pieoption="pieoption"
