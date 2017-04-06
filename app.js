@@ -47,6 +47,13 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             data: {
                 requireLogin: false
             }
+        }).state('op-console.package', {
+            url: "/package",
+            templateUrl: "app/views/template/package/package.html",
+            controller: "packageController",
+            data: {
+                requireLogin: true
+            }
         })
     }], function () {
 

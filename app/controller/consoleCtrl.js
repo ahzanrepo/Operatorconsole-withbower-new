@@ -36,6 +36,9 @@ opConsoleApp.controller('consoleCtrl', function ($scope,
             case 'companyInfo':
                 $state.go('op-console.all-company-information');
                 break;
+            case 'package':
+                $state.go('op-console.package');
+                break;
         }
     };
 
