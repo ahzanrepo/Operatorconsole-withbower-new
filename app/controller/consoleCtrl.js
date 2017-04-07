@@ -33,6 +33,9 @@ opConsoleApp.controller('consoleCtrl', function ($scope,
             case 'serverPerformance':
                 $state.go('op-console.monitor-server-performance');
                 break;
+            case 'codecManagement':
+                $state.go('op-console.codec-management');
+                break;
             case 'companyInfo':
                 $state.go('op-console.all-company-information');
                 break;

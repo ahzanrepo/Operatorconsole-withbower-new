@@ -24,6 +24,11 @@
     src: url(Roboto/Roboto-Bold.ttf);
 }
 
+@font-face {
+    font-family: roboto-Thin;
+    src: url(Roboto/Roboto-Thin.ttf);
+}
+
 
 
 

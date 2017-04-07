@@ -16,8 +16,81 @@
     <div class="row">
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <div class="table-header-desc">
-
+                <div class="tbl-desc-top">
+                    <ul class="pull-left">
+                        <li ng-if="!isLoadingCompany">
+                            {{companyObj.length}} Company
+                        </li>
+                        <li ng-if="isLoadingCompany">
+                            <i class=" fa fa-circle-o-notch fa-spin"></i>
+                        </li>
+                    </ul>
+                    <ul class="pull-right">
+                        <li>
+                            <div class="table-search">
+                                <input type="text"
+                                       placeholder="search company here.."
+                                       class="form-control">
+                            </div>
+                        </li>
+                        <li>
+                            <button class="btn btn-green">
+                                REFRESH
+                            </button>
+                        </li>
+                    </ul>
+                </div>
             </div>
+
+            <div class="tbl-header">
+                <div class="col-lg-3 col-xs-3">
+                    <div class="table-header-txt">
+                        Company Id
+                    </div>
+                </div>
+                <div class="col-lg-6 col-xs-6">
+                    <div class="table-header-txt tbl-header-left-boarder">
+                        Company Name
+                    </div>
+                </div>
+                <div class="col-lg-3 col-xs-3">
+                    <div class="table-header-txt tbl-header-left-boarder">
+                        Company Status
+                    </div>
+                </div>
+            </div>
+
+            <div ng-if="isLoadingCompany"
+                 class="loading-current-view" style="background: transparent;">
+                <!--  loader  -->
+                <svg class="circular">
+                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"></circle>
+                </svg>
+                <div class="loader-section"></div>
+            </div>
+
+            <div class="table-body">
+                <!--- data loading -->
+                <div class="table-row animated fadeIn" ng-repeat="company in companyObj ">
+                    <div class="col-lg-3 col-xs-3">
+                        <div class="table-body-row">
+                            {{company.companyId}}
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-xs-6">
+                        <div class="table-body-row">
+                            {{company.companyName}}
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-xs-4">
+                        <div class="table-body-row">
+                            {{company.companyStatus}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>

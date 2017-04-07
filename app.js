@@ -35,6 +35,12 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             data: {
                 requireLogin: true
             }
+        }).state('op-console.codec-management', {
+            url: "/codec-management",
+            templateUrl: "app/views/codec-management/codec-management.html",
+            data: {
+                requireLogin: true
+            }
         }).state('op-console.all-company-information', {
             url: "/all-company-information",
             templateUrl: "app/views/template/all-company-information.html",
