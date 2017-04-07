@@ -450,3 +450,24 @@ body .container.body .right_col {
     overflow: hidden;
     position: relative;
 }
+
+/*package management app*/
+.table-scroll-space-limit {
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.table-header-p-space {
+    background: powderblue;
+}
+.table-row-p-space {
+    background: #dcd9de;
+}
+.table-height-p-space {
+    width: 100%;
+    min-height: 50px;
+    overflow: hidden;
+    position: relative;
+}
