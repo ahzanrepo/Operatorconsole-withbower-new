@@ -3,8 +3,8 @@
  */
 
 var opConsoleApp = angular.module('opConsoleApp', ['ngRoute', 'ui.bootstrap',
-    'ui.router', 'angular-jwt', 'satellizer',
-    'LocalStorageModule', 'base64', 'easypiechart', 'ngNotify', 'as.sortable']);
+    'ui.router', 'angular-jwt', 'angular.filter', 'satellizer',
+    'LocalStorageModule', 'base64', 'easypiechart', 'ngNotify', 'checklist-model', 'as.sortable']);
 
 
 //app router
