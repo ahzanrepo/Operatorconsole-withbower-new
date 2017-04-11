@@ -13,5 +13,53 @@
 
     <div class="clearfix"></div>
 
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 x_panel">
+
+            <div class="x-title">
+                <h2>New Codec Preference</h2>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="x-content">
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <label>Context 1</label>
+                            <select class="form-control" ng-options="item.Context as item.Context for item in contextList" ng-model="context1">
+                            </select>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                            <label>Context 2</label>
+                            <select class="form-control" ng-options="item.Context as item.Context for item in contextList" ng-model="context2">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <ul data-as-sortable="rr" data-ng-model="sortableList">
+                            <li ng-repeat="item in sortableList" data-as-sortable-item>
+                                <div data-as-sortable-item-handle>
+                                    index: {{$index}} | id: {{item.id}} | title: {{item.title}}
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                        <ul data-as-sortable="rr" data-ng-model="sortableList2">
+                            <li ng-repeat="item in sortableList2" data-as-sortable-item>
+                                <div data-as-sortable-item-handle>
+                                    index: {{$index}} | id: {{item.id}} | title: {{item.title}}
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
 
 </div>
