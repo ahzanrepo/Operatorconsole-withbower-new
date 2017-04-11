@@ -2,24 +2,13 @@
  * Created by dinusha on 4/6/2017.
  */
 
-opConsoleApp.controller('codecManagementCtrl', function ($scope, ngNotify, sipUserService) {
+opConsoleApp.controller('codecManagementCtrl', function ($scope, ngNotify, sipUserService, userProfileServices) {
 
     $scope.contextList = [{Context: 'public'}];
     $scope.context1 = 'public';
     $scope.context2 = 'public';
 
-    Array.prototype.move = function (old_index, new_index) {
-        if (new_index >= this.length) {
-            var k = new_index - this.length;
-            while ((k--) + 1) {
-                this.push(undefined);
-            }
-        }
-        this.splice(new_index, 0, this.splice(old_index, 1)[0]);
-        return this; // for testing purposes
-    };
-
-    $scope.sortableList = [
+    /*$scope.sortableList = [
         {
             id : "id-000",
             title : "item 000"
@@ -49,7 +38,72 @@ opConsoleApp.controller('codecManagementCtrl', function ($scope, ngNotify, sipUs
             title : "item 002"
         }
 
-    ];
+    ];*/
+
+    $scope.availableCodecs = [];
+    $scope.currentCodecs = [];
+
+    $scope.collapsedStyle = 'fa fa-chevron-down';
+
+    $scope.onClickCollapsed = function ()
+    {
+        if($scope.collapsedStyle === 'fa fa-chevron-down')
+        {
+            $scope.collapsedStyle = 'fa fa-chevron-up';
+        }
+        else
+        {
+            $scope.collapsedStyle = 'fa fa-chevron-down';
+        }
+    };
+
+    var loadAvailableCodecs = function()
+    {
+        $scope.availableCodecs = [];
+        userProfileServices.getOrganization().then(function(orgRes)
+        {
+            if(orgRes && orgRes.IsSuccess)
+            {
+                if(orgRes.Result && orgRes.Result.codecAccessLimits)
+                {
+                    $scope.availableCodecs.push.apply($scope.availableCodecs, orgRes.Result.codecAccessLimits);
+                }
+            }
+            else
+            {
+                //error
+                if(orgRes.Exception)
+                {
+                    ngNotify.set(contextRes.Exception.Message, {
+                        position: 'top',
+                        sticky: true,
+                        duration: 3000,
+                        type: 'error'
+                    });
+                }
+                else
+                {
+                    ngNotify.set('Error occurred while loading organization codecs', {
+                        position: 'top',
+                        sticky: true,
+                        duration: 3000,
+                        type: 'error'
+                    });
+                }
+
+            }
+
+        }).catch(function(err)
+        {
+            ngNotify.set('Error occurred while loading organization codecs', {
+                position: 'top',
+                sticky: true,
+                duration: 3000,
+                type: 'error'
+            });
+
+        })
+    }
 
 
 
@@ -88,7 +142,7 @@ opConsoleApp.controller('codecManagementCtrl', function ($scope, ngNotify, sipUs
 
         }).catch(function(err)
         {
-            ngNotify.set('Error occurred while loading contexts', {
+            ngNotify.set('Error occurred while loading organization codecs', {
                 position: 'top',
                 sticky: true,
                 duration: 3000,
@@ -99,6 +153,8 @@ opConsoleApp.controller('codecManagementCtrl', function ($scope, ngNotify, sipUs
     };
 
     loadContexts();
+
+    loadAvailableCodecs();
 
 
 });
