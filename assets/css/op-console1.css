@@ -535,3 +535,9 @@ body .container.body .right_col {
     overflow: hidden;
     position: relative;
 }
+.remove-package {
+    color: red;
+}
+.edit-package {
+    color: blue;
+}

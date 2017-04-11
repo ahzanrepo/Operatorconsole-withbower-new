@@ -11,50 +11,51 @@
         </div>
     </div>
 
+    <div class="row">
+
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="col-md-2 col-sm-2 col-xs-12 pull-right">
+                <button type="button" class="btn btn-primary" ng-click="onClickCollapsed()">{{collapsedButton}}</button>
+            </div>
+        </div>
+
+    </div>
 
     <div class="clearfix"></div>
-    <div class="row">
+    <div class="row" ng-hide="isCollapsed">
+        <div class="ln_solid"></div>
         <div class="col-lg-12 col-sm-12 col-xs-12">
 
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>Create New Package</h2>
-
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li><a><i ng-click="onClickCollapsed()" ng-class="collapsedStyle"></i></a>
-                        </li>
-                    </ul>
+                    <h2>{{packageTitle}} Package</h2>
 
                     <div class="clearfix"></div>
                 </div>
-                <div class="x_content" uib-collapse="isCollapsed">
+                <div class="x_content">
                     <br>
 
-                    <div id="pMainForm" class="form-horizontal form-label-left input_mask">
+                    <form id="pMainForm" class="form-horizontal form-label-left input_mask">
 
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Package Name</label>
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
-                                <input type="text" class="form-control" placeholder="Package Name">
+                                <input type="text" class="form-control" ng-model="packageObj.packageName" placeholder="Package Name">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Description </label>
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
-                                <textarea class="form-control" rows="3" placeholder="Description" data-gramm="true"
-                                          data-txt_gramm_id="fd0da5ad-3145-4bcd-d2ef-66132ce9c640"
-                                          data-gramm_id="fd0da5ad-3145-4bcd-d2ef-66132ce9c640" spellcheck="false"
-                                          data-gramm_editor="true"
-                                          style="z-index: auto; position: relative; line-height: 20px; font-size: 14px; transition: none; background: transparent !important;"></textarea>
+                                <textarea class="form-control" rows="3" ng-model="packageObj.description" placeholder="Description"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Package Type</label>
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
-                                <select class="form-control">
+                                <select class="form-control" ng-model="packageObj.packageType">
                                     <option disabled selected>Choose Package Type</option>
                                     <option value="BASIC">Basic</option>
                                     <option value="PREMIUM">Premium</option>
@@ -65,10 +66,12 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Navigation Type</label>
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
-                                <select class="form-control">
+                                <select class="form-control" ng-model="packageObj.navigationType">
                                     <option disabled selected>Choose Navigation Type</option>
-                                    <option value="CALLCENTER">Call Center</option>
-                                    <option value="PABX">Pabx</option>
+                                    <option ng-if="packageObj.packageType === 'BASIC'" value="BASIC">Basic</option>
+                                    <option ng-if="packageObj.packageType !== 'BASIC'" value="CALLCENTER">Call Center
+                                    </option>
+                                    <option ng-if="packageObj.packageType !== 'BASIC'" value="PABX">Pabx</option>
                                 </select>
                             </div>
                         </div>
@@ -76,7 +79,7 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Billing Type</label>
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
-                                <select class="form-control">
+                                <select class="form-control" ng-model="packageObj.billingType">
                                     <option disabled selected>Choose Billing Type</option>
                                     <option value="recurring">Recurring</option>
                                     <option value="onetime">One Time</option>
@@ -88,10 +91,10 @@
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" id="inlineCheckboxCall" value="CALL"> Call
+                                    <input type="checkbox" checklist-model="packageObj.veeryTask" id="inlineCheckboxCall" value="CALL"> Call
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" id="inlineCheckboxChat" value="CHAT"> Chat
+                                    <input type="checkbox" checklist-model="packageObj.veeryTask" id="inlineCheckboxChat" value="CHAT"> Chat
                                 </label>
                             </div>
                         </div>
@@ -100,11 +103,11 @@
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" id="inlineCheckboxS" value="SUPERVISOR_CONSOLE"> Supervisor
+                                    <input type="checkbox" checklist-model="packageObj.consoles" id="inlineCheckboxS" value="SUPERVISOR_CONSOLE"> Supervisor
                                     Console
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" id="inlineCheckboxA" value="AGENT_CONSOLE"> Agent Console
+                                    <input type="checkbox" checklist-model="packageObj.consoles" id="inlineCheckboxA" value="AGENT_CONSOLE"> Agent Console
                                 </label>
                             </div>
                         </div>
@@ -114,15 +117,15 @@
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                     <input type="number" class="form-control" min="0"
-                                           ng-pattern="/^(?:100|[1-9]?[0-9])$/" placeholder="Admin Access">
+                                           ng-pattern="/^(?:100|[1-9]?[0-9])$/" ng-model="packageObj.consoleAccessLimit[0].accessLimit" placeholder="Admin Access">
                                 </div>
                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                     <input type="number" class="form-control" min="0"
-                                           ng-pattern="/^(?:100|[1-9]?[0-9])$/" placeholder="Supervisor Access">
+                                           ng-pattern="/^(?:100|[1-9]?[0-9])$/" ng-model="packageObj.consoleAccessLimit[1].accessLimit" placeholder="Supervisor Access">
                                 </div>
                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                     <input type="number" class="form-control" min="0"
-                                           ng-pattern="/^(?:100|[1-9]?[0-9])$/" placeholder="Agent Access">
+                                           ng-pattern="/^(?:100|[1-9]?[0-9])$/" ng-model="packageObj.consoleAccessLimit[2].accessLimit" placeholder="Agent Access">
                                 </div>
                             </div>
                         </div>
@@ -175,13 +178,16 @@
                                                 <div class="col-md-9 col-sm-9 col-xs-12">
                                                     <input type="number" class="form-control" min="0"
                                                            ng-pattern="/^(?:100|[1-9]?[0-9])$/"
-                                                           placeholder="Space Limit" ng-model="tempSpaceLimit.spaceLimit">
+                                                           placeholder="Space Limit"
+                                                           ng-model="tempSpaceLimit.spaceLimit">
                                                 </div>
                                             </div>
                                             <div class="ln_solid"></div>
                                             <div class="form-group">
                                                 <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-9">
-                                                    <button type="submit" class="btn btn-success" ng-click="addSpaceLimit()">Add</button>
+                                                    <button type="submit" class="btn btn-success"
+                                                            ng-click="addSpaceLimit()">Add
+                                                    </button>
                                                 </div>
                                             </div>
 
@@ -208,7 +214,8 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-12 col-sm-12 col-xs-12 table-row-p-space" ng-repeat="sLimit in packageObj.spaceLimit">
+                                <div class="col-md-12 col-sm-12 col-xs-12 table-row-p-space"
+                                     ng-repeat="sLimit in packageObj.spaceLimit">
                                     <div class="col-md-4 col-sm-4 col-xs-12">
                                         {{sLimit.spaceType}}
                                     </div>
@@ -230,7 +237,7 @@
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <input type="number" class="form-control has-feedback-left" min="0"
-                                       ng-pattern="/^(?:100|[1-9]?[0-9])$/" placeholder="Setup Fee">
+                                       ng-pattern="/^(?:100|[1-9]?[0-9])$/" ng-model="packageObj.setupFee" placeholder="Setup Fee">
                                 <span class="fa fa-usd form-control-feedback left" aria-hidden="true"></span>
                             </div>
                         </div>
@@ -239,22 +246,21 @@
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <input type="number" class="form-control has-feedback-left" min="0"
-                                       ng-pattern="/^(?:100|[1-9]?[0-9])$/" placeholder="Price">
+                                       ng-pattern="/^(?:100|[1-9]?[0-9])$/" ng-model="packageObj.price" placeholder="Price">
                                 <span class="fa fa-usd form-control-feedback left" aria-hidden="true"></span>
                             </div>
                         </div>
                         <div class="clearfix"></div>
                         <div class="ln_solid"></div>
                         <div class="form-group">
-                            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-5">
-                                <button type="button" class="btn btn-primary">Cancel</button>
-                                <button class="btn btn-primary" type="reset">Reset</button>
-                                <button type="submit" class="btn btn-success">Create</button>
+                            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                <button type="button" class="btn btn-primary" ng-click="cancelForm()">Cancel</button>
+                                <button class="btn btn-primary" type="reset" ng-click="resetForm()">Reset</button>
+                                <button type="submit" class="btn btn-success" ng-click="savePackage()">Save</button>
                             </div>
                         </div>
 
-                        </form>
-                    </div>
+                    </form>
                 </div>
 
             </div>
@@ -262,55 +268,63 @@
     </div>
 
     <div class="clearfix"></div>
-    <div class="row" ng-if="isCollapsed">
+    <div class="row" ng-show="isCollapsed">
+
+        <div class="ln_solid"></div>
+        <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right top_search">
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="searchCriteria" placeholder="Search for...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+            </div>
+        </div>
         <div class="col-lg-12 col-sm-12 col-xs-12">
 
-            <div class="col-md-3 col-sm-3 col-xs-12 widget widget_tally_box" ng-repeat="package in packageDetails">
+            <div class="col-md-3 col-sm-3 col-xs-12 widget_tally_box"
+                 ng-repeat="package in packageDetails | filterBy: ['packageName']: searchCriteria">
                 <div class="x_panel fixed_height_390 widget-package-manager">
                     <div class="x_title">
-                        <h2>Tally Design</h2>
+                        <h2>{{package.navigationType}} - {{package.packageType}}</h2>
                         <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            <li><a class="collapse-link" ng-click="editPackageData(package)"><i class="fa fa-edit edit-package"></i></a>
+                            </li>
+                            <li><a class="collapse-link"><i class="fa fa-trash-o remove-package"></i></a>
                             </li>
                         </ul>
                         <div class="clearfix"></div>
                     </div>
-                    <div class="x_content" style="display: block;">
+                    <div class="x_content">
 
-                        <div style="text-align: center; overflow: hidden; margin: 10px 5px 0;"><iframe class="chartjs-hidden-iframe" style="width: 100%; display: block; border: 0px; height: 0px; margin: 0px; position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px;"></iframe>
-                            <canvas id="canvas_line1" height="130" width="196" style="width: 196px; height: 130px;"></canvas>
-                        </div>
-
-                        <div style="text-align: center; margin-bottom: 15px;">
-                            <div class="btn-group" role="group" aria-label="First group">
-                                <button type="button" class="btn btn-default btn-sm">Day</button>
-                                <button type="button" class="btn btn-default btn-sm">Month</button>
-                                <button type="button" class="btn btn-default btn-sm">Year</button>
-                            </div>
-                        </div>
-
-                        <div>
-                            <ul class="list-inline widget_tally">
+                        <div class="flex">
+                            <ul class="list-inline widget_profile_box">
                                 <li>
-                                    <p>
-                                        <span class="month">12 December 2014 </span>
-                                        <span class="count">+12%</span>
-                                    </p>
+                                    <h2><b>{{package.price}}</b></h2>
+                                    <span>Monthly</span>
                                 </li>
                                 <li>
-                                    <p>
-                                        <span class="month">29 December 2014 </span>
-                                        <span class="count">+12%</span>
-                                    </p>
+                                    <img ng-src="assets/img/ui-icon-1/dollar.svg" class="img-circle profile_img">
                                 </li>
                                 <li>
-                                    <p>
-                                        <span class="month">16 January 2015 </span>
-                                        <span class="count">+12%</span>
-                                    </p>
+                                    <h2><b>{{package.setupFee}}</b></h2>
+                                    <span>Setup</span>
                                 </li>
                             </ul>
                         </div>
+
+                        <h2 class="name"><b>{{package.packageName}}</b></h2>
+
+                        <div class="flex">
+                            <ul class="list-inline count2">
+                                <li ng-repeat="consoleAccess in package.consoleAccessLimit">
+                                    <h3>{{consoleAccess.accessLimit}}</h3>
+                                    <span>{{consoleAccess.accessType.toUpperCase()}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <p>
+                            {{package.description}}
+                        </p>
                     </div>
                 </div>
             </div>
