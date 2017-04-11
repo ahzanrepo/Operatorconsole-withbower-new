@@ -4,7 +4,7 @@
 
 var opConsoleApp = angular.module('opConsoleApp', ['ngRoute', 'ui.bootstrap',
     'ui.router', 'angular-jwt', 'satellizer',
-    'LocalStorageModule', 'base64', 'easypiechart', 'ngNotify']);
+    'LocalStorageModule', 'base64', 'easypiechart', 'ngNotify', 'as.sortable']);
 
 
 //app router
@@ -69,7 +69,8 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
 //app base URL
 var baseUrls = {
     'userServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
-    'monitorServerUrl': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/'
+    'monitorServerUrl': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
+    'sipUserEndpointService': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/'
 };
 
 opConsoleApp.constant('baseUrls', baseUrls);
