@@ -195,7 +195,7 @@
                 $scope.packageTitle = 'Create New';
             }
             $scope.isCollapsed = !$scope.isCollapsed;
-            $scope.collapsedButton = $scope.isCollapsed? 'New Package': 'Back To Main Page';
+            $scope.collapsedButton = $scope.isCollapsed? 'New Package': 'Back';
         };
 
         $scope.onClickSubCollapsed = function () {

@@ -1,0 +1,506 @@
+<div>
+
+    <!--page title -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-title">
+                <div class="title_left">
+                    <h3>Unit Management</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="col-md-2 col-sm-2 col-xs-12 pull-right">
+                <button type="button" class="btn btn-primary" ng-click="onClickCollapsed()">{{collapsedButton}}</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="row" ng-hide="isCollapsed">
+        <div class="ln_solid"></div>
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>{{unitTitle}} Unit</h2>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <br>
+
+                    <form id="pMainForm" class="form-horizontal form-label-left input_mask">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Unit Name</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" class="form-control" ng-model="unitObj.unitName" placeholder="Package Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Description</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <textarea class="form-control" rows="3" ng-model="unitObj.description" placeholder="Description"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Unit Type</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <select class="form-control" ng-model="unitObj.unitType" ng-change="resetSubForm()">
+                                    <option disabled selected>Choose Unit Type</option>
+                                    <option value="accessLimit">Access Limit</option>
+                                    <option value="spaceLimit">Space Limit</option>
+                                    <option value="codec">Codec</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="unitObj.unitType === 'accessLimit'">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+
+                                <div class="x_panel">
+                                    <div class="x_content">
+
+                                        <div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Access
+                                                    Type</label>
+
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    <select class="form-control" ng-model="unitObj.unitData.consoleAccessLimit.accessType">
+                                                        <option disabled selected>Choose Access Type</option>
+                                                        <option value="admin">Admin Access</option>
+                                                        <option value="supervisor">Supervisor Access</option>
+                                                        <option value="agent">Agent Access</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="unitObj.unitType === 'spaceLimit'">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+
+                                <div class="x_panel">
+                                    <div class="x_content">
+
+                                        <div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Space
+                                                    Type</label>
+
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    <select class="form-control" ng-model="tempSpaceLimit.spaceType">
+                                                        <option disabled selected>Choose Space Type</option>
+                                                        <option value="VoiceClip">Voice Clip</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Space
+                                                    Unit</label>
+
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    <select class="form-control" ng-model="tempSpaceLimit.spaceUnit">
+                                                        <option disabled selected>Choose Space Unit</option>
+                                                        <option value="GB">GB</option>
+                                                        <option value="MB">MB</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Space
+                                                    Limit</label>
+
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    <input type="number" class="form-control" min="0"
+                                                           ng-pattern="/^(?:100|[1-9]?[0-9])$/"
+                                                           placeholder="Space Limit"
+                                                           ng-model="tempSpaceLimit.spaceLimit">
+                                                </div>
+                                            </div>
+                                            <div class="ln_solid"></div>
+                                            <div class="form-group">
+                                                <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-9">
+                                                    <button type="submit" class="btn btn-success"
+                                                            ng-click="addSpaceLimit()">Add
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" ng-if="unitObj.unitType === 'codec'">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+
+                                <div class="x_panel">
+                                    <div class="x_content">
+
+                                        <div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Space
+                                                    Type</label>
+
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    <select class="form-control" ng-model="tempCodecLimit.codec">
+                                                        <option disabled selected>Choose Codec</option>
+                                                        <option value="G729">G729</option>
+                                                        <option value="G711">G711</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="ln_solid"></div>
+                                            <div class="form-group">
+                                                <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-9">
+                                                    <button type="submit" class="btn btn-success"
+                                                            ng-click="addCodecLimit()">Add
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group table-height-p-space" ng-if="unitObj.unitType === 'spaceLimit' && unitObj.unitData.spaceLimit.length > 0">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <div class="col-md-12 col-sm-12 col-xs-12 table-header-p-space">
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        Space Type
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        Space Limit
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        Space Unit
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-xs-12">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 table-row-p-space"
+                                     ng-repeat="sLimit in unitObj.unitData.spaceLimit">
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        {{sLimit.spaceType}}
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        {{sLimit.spaceLimit}}
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        {{sLimit.spaceUnit}}
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-xs-12">
+                                        <a><i ng-click="removeSpaceLimit($index)" class="fa fa-times"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group table-height-p-space" ng-if="unitObj.unitType === 'codec' && unitObj.unitData.codecLimit.length > 0">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <div class="col-md-12 col-sm-12 col-xs-12 table-header-p-space">
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        Codec
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-xs-12">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 table-row-p-space"
+                                     ng-repeat="cLimit in unitObj.unitData.codecLimit">
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        {{cLimit.codec}}
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-xs-12">
+                                        <a><i ng-click="removeCodecLimit($index)" class="fa fa-times"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Billing Type</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <select class="form-control" ng-model="unitObj.billingType">
+                                    <option disabled selected>Choose Billing Type</option>
+                                    <option value="recurring">Recurring</option>
+                                    <option value="onetime">One Time</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Setup Fee</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="number" class="form-control has-feedback-left" min="0"
+                                       ng-pattern="/^(?:100|[1-9]?[0-9])$/" ng-model="unitObj.setupFee" placeholder="Setup Fee">
+                                <span class="fa fa-usd form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Price</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="number" class="form-control has-feedback-left" min="0"
+                                       ng-pattern="/^(?:100|[1-9]?[0-9])$/" ng-model="unitObj.unitprice" placeholder="Price">
+                                <span class="fa fa-usd form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                <button type="button" class="btn btn-primary" ng-click="cancelForm()">Cancel</button>
+                                <button class="btn btn-primary" type="reset" ng-click="resetForm()">Reset</button>
+                                <button type="submit" class="btn btn-success" ng-click="saveUnit()">Save</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="row" ng-show="isCollapsed">
+
+        <div class="ln_solid"></div>
+
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Access Units</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a ng-click="onClickUnitViewCollapsed('access')"><i ng-class="unitAccessViewStyle"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content" style="display: block;">
+                    <div  uib-collapse="unitAccessViewCollapsed">
+                        <div class="col-md-3 col-sm-3 col-xs-12 widget_tally_box"
+                             ng-repeat="agentUnit in agentUnitDetails">
+                            <div class="x_panel fixed_height_390 widget-package-manager">
+                                <div class="x_title">
+                                    <h2>Access Limit</h2>
+                                    <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link" ng-click="editUnitData(agentUnit)"><i class="fa fa-edit edit-package"></i></a>
+                                        </li>
+                                        <li><a class="collapse-link"><i class="fa fa-trash-o remove-package"></i></a>
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+
+                                    <div class="flex">
+                                        <ul class="list-inline widget_profile_box">
+                                            <li>
+                                                <h2><b>{{agentUnit.unitprice}}</b></h2>
+                                                <span>{{agentUnit.billingType}}</span>
+                                            </li>
+                                            <li>
+                                                <img ng-src="assets/img/ui-icon-1/dollar.svg" class="img-circle profile_img">
+                                            </li>
+                                            <li>
+                                                <h2><b>{{agentUnit.setupFee}}</b></h2>
+                                                <span>Setup</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <h2 class="name"><b>{{agentUnit.unitName}}</b></h2>
+
+                                    <div class="flex">
+                                        <ul class="list-inline count2">
+                                            <li>
+                                                <h3>{{agentUnit.unitData.consoleAccessLimit.accessType}}</h3>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <p>
+                                        {{agentUnit.description}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Space Units</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a ng-click="onClickUnitViewCollapsed('space')"><i ng-class="unitSpaceViewStyle"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content" style="display: block;">
+                    <div  uib-collapse="unitSpaceViewCollapsed">
+                        <div class="col-md-3 col-sm-3 col-xs-12 widget_tally_box"
+                             ng-repeat="spaceUnit in spaceUnitDetails">
+                            <div class="x_panel fixed_height_390 widget-package-manager">
+                                <div class="x_title">
+                                    <h2>Space Limit</h2>
+                                    <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link" ng-click="editUnitData(spaceUnit)"><i class="fa fa-edit edit-package"></i></a>
+                                        </li>
+                                        <li><a class="collapse-link"><i class="fa fa-trash-o remove-package"></i></a>
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+
+                                    <div class="flex">
+                                        <ul class="list-inline widget_profile_box">
+                                            <li>
+                                                <h2><b>{{spaceUnit.unitprice}}</b></h2>
+                                                <span>{{spaceUnit.billingType}}</span>
+                                            </li>
+                                            <li>
+                                                <img ng-src="assets/img/ui-icon-1/dollar.svg" class="img-circle profile_img">
+                                            </li>
+                                            <li>
+                                                <h2><b>{{spaceUnit.setupFee}}</b></h2>
+                                                <span>Setup</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <h2 class="name"><b>{{spaceUnit.unitName}}</b></h2>
+
+                                    <div class="flex">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="col-md-12 col-sm-12 col-xs-12 table-header-p-space">
+                                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                                    Space Type
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                                    Space Limit
+                                                </div>
+                                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                                    Space Unit
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 col-sm-12 col-xs-12 table-row-p-space"
+                                                 ng-repeat="sLimit in spaceUnit.unitData.spaceLimit">
+                                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                                    {{sLimit.spaceType}}
+                                                </div>
+                                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                                    {{sLimit.spaceLimit}}
+                                                </div>
+                                                <div class="col-md-3 col-sm-3 col-xs-12">
+                                                    {{sLimit.spaceUnit}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="ln_solid"></div>
+                                    <p>
+                                        {{spaceUnit.description}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>Codec Units</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                        <li><a ng-click="onClickUnitViewCollapsed('codec')"><i ng-class="unitCodecViewStyle"></i></a>
+                        </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content" style="display: block;">
+                    <div  uib-collapse="unitCodecViewCollapsed">
+                        <div class="col-md-3 col-sm-3 col-xs-12 widget_tally_box"
+                             ng-repeat="codecUnit in codecUnitDetails">
+                            <div class="x_panel fixed_height_390 widget-package-manager">
+                                <div class="x_title">
+                                    <h2>Codec Limit</h2>
+                                    <ul class="nav navbar-right panel_toolbox">
+                                        <li><a class="collapse-link" ng-click="editUnitData(codecUnit)"><i class="fa fa-edit edit-package"></i></a>
+                                        </li>
+                                        <li><a class="collapse-link"><i class="fa fa-trash-o remove-package"></i></a>
+                                        </li>
+                                    </ul>
+                                    <div class="clearfix"></div>
+                                </div>
+                                <div class="x_content">
+
+                                    <div class="flex">
+                                        <ul class="list-inline widget_profile_box">
+                                            <li>
+                                                <h2><b>{{codecUnit.unitprice}}</b></h2>
+                                                <span>{{codecUnit.billingType}}</span>
+                                            </li>
+                                            <li>
+                                                <img ng-src="assets/img/ui-icon-1/dollar.svg" class="img-circle profile_img">
+                                            </li>
+                                            <li>
+                                                <h2><b>{{codecUnit.setupFee}}</b></h2>
+                                                <span>Setup</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <h2 class="name"><b>{{codecUnit.unitName}}</b></h2>
+
+                                    <div class="flex">
+                                        <ul class="list-inline count2">
+                                            <li ng-repeat="codecAccess in codecUnit.unitData.codecLimit">
+                                                <h3>{{codecAccess.codec}}</h3>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <p>
+                                        {{codecUnit.description}}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

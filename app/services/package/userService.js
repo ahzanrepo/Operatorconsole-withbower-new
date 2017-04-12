@@ -6,6 +6,7 @@
 
     opConsoleApp.factory('userService', function ($http, baseUrls) {
 
+        //---------------------------------Package management----------------------------------
         var getAllPackages = function () {
             return $http({
                 method: 'GET',
@@ -44,11 +45,56 @@
             });
         };
 
+        //---------------------------------Unit management----------------------------------
+
+        var getAllUnits = function () {
+            return $http({
+                method: 'GET',
+                url: baseUrls.userServiceBaseUrl + 'PackageUnits'
+            }).then(function (resp) {
+                return resp.data;
+            });
+        };
+
+        var createNewUnit = function (veeryUnit) {
+            return $http({
+                method: 'POST',
+                url: baseUrls.userServiceBaseUrl + 'PackageUnit',
+                data: veeryUnit
+            }).then(function (resp) {
+                return resp.data;
+            });
+        };
+
+        var updateUnit = function (veeryUnit) {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.userServiceBaseUrl + 'PackageUnit/'+veeryUnit.unitName,
+                data: veeryUnit
+            }).then(function (resp) {
+                return resp.data;
+            });
+        };
+
+        var removeUnit = function (veeryUnitName) {
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.userServiceBaseUrl + 'PackageUnit/'+veeryUnitName
+            }).then(function (resp) {
+                return resp.data;
+            });
+        };
+
+
         return{
             GetAllPackages: getAllPackages,
             CreateNewPackage: createNewPackage,
             UpdatePackage: updatePackage,
-            RemovePackage: removePackage
+            RemovePackage: removePackage,
+            GetAllUnits: getAllUnits,
+            CreateNewUnit: createNewUnit,
+            UpdateUnit: updateUnit,
+            RemoveUnit: removeUnit
         }
     });
 }());
