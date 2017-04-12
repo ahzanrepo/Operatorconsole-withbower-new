@@ -42,6 +42,9 @@ opConsoleApp.controller('consoleCtrl', function ($scope,
             case 'package':
                 $state.go('op-console.package');
                 break;
+            case 'unit':
+                $state.go('op-console.unit');
+                break;
         }
     };
 
