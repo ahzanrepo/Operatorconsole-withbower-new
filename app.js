@@ -70,7 +70,7 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
 var baseUrls = {
     'userServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'monitorServerUrl': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
-    'sipUserEndpointService': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/'
+    'sipUserEndpointService': 'http://localhost:8086/DVP/API/1.0.0.0/SipUser/'
 };
 
 opConsoleApp.constant('baseUrls', baseUrls);
