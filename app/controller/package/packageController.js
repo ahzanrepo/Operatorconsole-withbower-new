@@ -180,7 +180,7 @@
         $scope.notify = function (message, type) {
             ngNotify.set(message, {
                 position: 'top',
-                sticky: true,
+                sticky: false,
                 duration: 3000,
                 type: type
             });
