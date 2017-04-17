@@ -154,6 +154,15 @@
             })
         };
 
+        var getOrganization = function () {
+            return $http({
+                method: 'GET',
+                url: baseUrls.userServiceBaseUrl + 'Organisation'
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+
 
         return {
             getProfileByName: getProfileByName,
@@ -170,7 +179,8 @@
             addMemberToGroup: addMemberToGroup,
             getMyProfile: getMyProfile,
             updateMyProfile: updateMyProfile,
-            getMyRatings: getMyRatings
+            getMyRatings: getMyRatings,
+            getOrganization: getOrganization
 
         };
     };

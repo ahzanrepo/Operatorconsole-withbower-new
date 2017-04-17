@@ -3,8 +3,8 @@
  */
 
 var opConsoleApp = angular.module('opConsoleApp', ['ngRoute', 'ui.bootstrap',
-    'ui.router', 'angular-jwt', 'satellizer',
-    'LocalStorageModule', 'base64', 'easypiechart', 'ngNotify']);
+    'ui.router', 'angular-jwt', 'angular.filter', 'satellizer',
+    'LocalStorageModule', 'base64', 'easypiechart', 'ngNotify', 'checklist-model', 'as.sortable']);
 
 
 //app router
@@ -66,6 +66,13 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             data: {
                 requireLogin: true
             }
+        }).state('op-console.unit', {
+            url: "/unit",
+            templateUrl: "app/views/template/package/unit.html",
+            controller: "unitController",
+            data: {
+                requireLogin: true
+            }
         })
     }], function () {
 
@@ -75,7 +82,8 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
 //app base URL
 var baseUrls = {
     'userServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
-    'monitorServerUrl': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/'
+    'monitorServerUrl': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
+    'sipUserEndpointService': 'http://localhost:8086/DVP/API/1.0.0.0/SipUser/'
 };
 
 opConsoleApp.constant('baseUrls', baseUrls);

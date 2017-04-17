@@ -38,11 +38,17 @@
     <!-- notification JS plug -->
     <link href="bower_components/ng-notify/dist/ng-notify.min.css" rel="stylesheet"/>
 
+
+    <!-- ng-sortable -->
+    <link rel="stylesheet" type="text/css" href="bower_components/ng-sortable/dist/ng-sortable.min.css">
+    <link rel="stylesheet" type="text/css" href="bower_components/ng-sortable/dist/ng-sortable.style.min.css">
+
     <!-- customer css -->
     <link rel="stylesheet" href="assets/css/op-console1.css"/>
     <link rel="stylesheet" href="assets/css/element-animation.css"/>
     <link rel="stylesheet" href="assets/css/sign-in.css"/>
     <link rel="stylesheet" href="assets/css/animate.css"/>
+
 
 </head>
 <body class="nav-md">
@@ -76,6 +82,8 @@
 <script src="assets/vendors/pnotify/dist/pnotify.confirm.js"></script>
 
 
+
+
 <!-- animation -->
 
 <!-- script area  -->
@@ -95,8 +103,12 @@
 <script type="text/javascript" src="bower_components/angular-aria/angular-aria.min.js"></script>
 <script type="text/javascript" src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script type="text/javascript" src="bower_components/angular-animate/angular-animate.min.js"></script>
+<script type="text/javascript" src="bower_components/angular-filter/dist/angular-filter.min.js"></script>
 
 <script type="text/javascript" src="bower_components/moment/moment.js"></script>
+
+<!-- Lodash -->
+<script src="bower_components/lodash/dist/lodash.min.js"></script>
 
 <!-- #### don't use jquery lib
    notification JS plug -->
@@ -116,6 +128,11 @@
 
 <!-- base 64 -->
 <script type="text/javascript" src="bower_components/angular-base64/angular-base64.js"></script>
+
+<script type="text/javascript" src="bower_components/ng-sortable/dist/ng-sortable.min.js"></script>
+<!-- check-list -->
+<script type="text/javascript" src="bower_components/checklist-model/checklist-model.js"></script>
+
 
 
 <!-- main file app.js -->
@@ -140,15 +157,27 @@
 <!-- controller -->
 <script type="text/javascript" src="app/controller/consoleCtrl.js"></script>
 <script type="text/javascript" src="app/controller/monitorServerPctrl.js"></script>
+<<<<<<< HEAD
 <script type="text/javascript" src="app/controller/codecManagementCtrl.js"></script>
 <script type="text/javascript" src="app/controller/company/companyInfoCtrl.js"></script>
 <script type="text/javascript" src="app/controller/company/companySummaryCtrl.js"></script>
+=======
+<script type="text/javascript" src="app/controller/companyInfoCtrl.js"></script>
+>>>>>>> 9248a8c59aaffe54e206ffab729ab7df298329b7
 
 <!-- auth -->
 <script type="text/javascript" src="app/auth/app/controller/loginCtrl.js"></script>
 
 <!-- package -->
 <script type="text/javascript" src="app/controller/package/packageController.js"></script>
+<script type="text/javascript" src="app/services/package/userService.js"></script>
+
+<!-- codec management -->
+<script type="text/javascript" src="app/services/sip-user/sipUserService.js"></script>
+<script type="text/javascript" src="app/controller/codec-management/codecManagementCtrl.js"></script>
+
+<!-- unit -->
+<script type="text/javascript" src="app/controller/package/unitController.js"></script>
 
 </body>
 </html>

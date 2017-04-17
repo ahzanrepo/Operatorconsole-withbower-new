@@ -1,0 +1,334 @@
+<div>
+
+    <!--page title -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-title">
+                <div class="title_left">
+                    <h3>Package Management</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+            <div class="col-md-2 col-sm-2 col-xs-12 pull-right">
+                <button type="button" class="btn btn-primary" ng-click="onClickCollapsed()">{{collapsedButton}}</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="row" ng-hide="isCollapsed">
+        <div class="ln_solid"></div>
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>{{packageTitle}} Package</h2>
+
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+                    <br>
+
+                    <form id="pMainForm" class="form-horizontal form-label-left input_mask">
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Package Name</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="text" class="form-control" ng-model="packageObj.packageName" placeholder="Package Name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Description </label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <textarea class="form-control" rows="3" ng-model="packageObj.description" placeholder="Description"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Package Type</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <select class="form-control" ng-model="packageObj.packageType">
+                                    <option disabled selected>Choose Package Type</option>
+                                    <option value="BASIC">Basic</option>
+                                    <option value="PREMIUM">Premium</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Navigation Type</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <select class="form-control" ng-model="packageObj.navigationType">
+                                    <option disabled selected>Choose Navigation Type</option>
+                                    <option ng-if="packageObj.packageType === 'BASIC'" value="BASIC">Basic</option>
+                                    <option ng-if="packageObj.packageType !== 'BASIC'" value="CALLCENTER">Call Center
+                                    </option>
+                                    <option ng-if="packageObj.packageType !== 'BASIC'" value="PABX">Pabx</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Billing Type</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <select class="form-control" ng-model="packageObj.billingType">
+                                    <option disabled selected>Choose Billing Type</option>
+                                    <option value="recurring">Recurring</option>
+                                    <option value="onetime">One Time</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Veery Task</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" checklist-model="packageObj.veeryTask" id="inlineCheckboxCall" value="CALL"> Call
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" checklist-model="packageObj.veeryTask" id="inlineCheckboxChat" value="CHAT"> Chat
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Veery Console</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" checklist-model="packageObj.consoles" id="inlineCheckboxS" value="SUPERVISOR_CONSOLE"> Supervisor
+                                    Console
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" checklist-model="packageObj.consoles" id="inlineCheckboxA" value="AGENT_CONSOLE"> Agent Console
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Console Access Limits</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <input type="number" class="form-control" min="0"
+                                           ng-pattern="/^(?:100|[1-9]?[0-9])$/" ng-model="packageObj.consoleAccessLimit[0].accessLimit" placeholder="Admin Access">
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <input type="number" class="form-control" min="0"
+                                           ng-pattern="/^(?:100|[1-9]?[0-9])$/" ng-model="packageObj.consoleAccessLimit[1].accessLimit" placeholder="Supervisor Access">
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <input type="number" class="form-control" min="0"
+                                           ng-pattern="/^(?:100|[1-9]?[0-9])$/" ng-model="packageObj.consoleAccessLimit[2].accessLimit" placeholder="Agent Access">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Space Limits</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <button type="button" class="btn btn-round btn-info" ng-click="onClickSubCollapsed()">
+                                    {{subCollapsButton}}
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group" uib-collapse="isSubCollapsed">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+
+                                <div class="x_panel">
+                                    <div class="x_content">
+
+                                        <div>
+
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Space
+                                                    Type</label>
+
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    <select class="form-control" ng-model="tempSpaceLimit.spaceType">
+                                                        <option disabled selected>Choose Space Type</option>
+                                                        <option value="VoiceClip">Voice Clip</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Space
+                                                    Unit</label>
+
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    <select class="form-control" ng-model="tempSpaceLimit.spaceUnit">
+                                                        <option disabled selected>Choose Space Unit</option>
+                                                        <option value="GB">GB</option>
+                                                        <option value="MB">MB</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="control-label col-md-3 col-sm-3 col-xs-12">Space
+                                                    Limit</label>
+
+                                                <div class="col-md-9 col-sm-9 col-xs-12">
+                                                    <input type="number" class="form-control" min="0"
+                                                           ng-pattern="/^(?:100|[1-9]?[0-9])$/"
+                                                           placeholder="Space Limit"
+                                                           ng-model="tempSpaceLimit.spaceLimit">
+                                                </div>
+                                            </div>
+                                            <div class="ln_solid"></div>
+                                            <div class="form-group">
+                                                <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-9">
+                                                    <button type="submit" class="btn btn-success"
+                                                            ng-click="addSpaceLimit()">Add
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group table-height-p-space" ng-if="packageObj.spaceLimit.length > 0">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12"></label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <div class="col-md-12 col-sm-12 col-xs-12 table-header-p-space">
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        Space Type
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        Space Limit
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        Space Unit
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-xs-12">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-sm-12 col-xs-12 table-row-p-space"
+                                     ng-repeat="sLimit in packageObj.spaceLimit">
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        {{sLimit.spaceType}}
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-12">
+                                        {{sLimit.spaceLimit}}
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-12">
+                                        {{sLimit.spaceUnit}}
+                                    </div>
+                                    <div class="col-md-1 col-sm-1 col-xs-12">
+                                        <a><i ng-click="removeSpaceLimit($index)" class="fa fa-times"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Setup Fee</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="number" class="form-control has-feedback-left" min="0"
+                                       ng-pattern="/^(?:100|[1-9]?[0-9])$/" ng-model="packageObj.setupFee" placeholder="Setup Fee">
+                                <span class="fa fa-usd form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12">Price</label>
+
+                            <div class="col-md-4 col-sm-4 col-xs-12">
+                                <input type="number" class="form-control has-feedback-left" min="0"
+                                       ng-pattern="/^(?:100|[1-9]?[0-9])$/" ng-model="packageObj.price" placeholder="Price">
+                                <span class="fa fa-usd form-control-feedback left" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="ln_solid"></div>
+                        <div class="form-group">
+                            <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+                                <button type="button" class="btn btn-primary" ng-click="cancelForm()">Cancel</button>
+                                <button class="btn btn-primary" type="reset" ng-click="resetForm()">Reset</button>
+                                <button type="submit" class="btn btn-success" ng-click="savePackage()">Save</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="row" ng-show="isCollapsed">
+
+        <div class="ln_solid"></div>
+        <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right top_search">
+            <div class="input-group">
+                <input type="text" class="form-control" ng-model="searchCriteria" placeholder="Search for...">
+                    <span class="input-group-btn">
+                      <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+            </div>
+        </div>
+        <div class="col-lg-12 col-sm-12 col-xs-12">
+
+            <div class="col-md-3 col-sm-3 col-xs-12 widget_tally_box"
+                 ng-repeat="package in packageDetails | filterBy: ['packageName']: searchCriteria">
+                <div class="x_panel fixed_height_390 widget-package-manager">
+                    <div class="x_title">
+                        <h2>{{package.navigationType}} - {{package.packageType}}</h2>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link" ng-click="editPackageData(package)"><i class="fa fa-edit edit-package"></i></a>
+                            </li>
+                            <li><a class="collapse-link"><i class="fa fa-trash-o remove-package"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+
+                        <div class="flex">
+                            <ul class="list-inline widget_profile_box">
+                                <li>
+                                    <h2><b>{{package.price}}</b></h2>
+                                    <span>Monthly</span>
+                                </li>
+                                <li>
+                                    <img ng-src="assets/img/ui-icon-1/dollar.svg" class="img-circle profile_img">
+                                </li>
+                                <li>
+                                    <h2><b>{{package.setupFee}}</b></h2>
+                                    <span>Setup</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <h2 class="name"><b>{{package.packageName}}</b></h2>
+
+                        <div class="flex">
+                            <ul class="list-inline count2">
+                                <li ng-repeat="consoleAccess in package.consoleAccessLimit">
+                                    <h3>{{consoleAccess.accessLimit}}</h3>
+                                    <span>{{consoleAccess.accessType.toUpperCase()}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <p>
+                            {{package.description}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
