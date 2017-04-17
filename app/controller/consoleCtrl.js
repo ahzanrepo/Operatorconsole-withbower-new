@@ -45,6 +45,9 @@ opConsoleApp.controller('consoleCtrl', function ($scope,
             case 'unit':
                 $state.go('op-console.unit');
                 break;
+            case 'createCompany':
+                $state.go('op-console.create-company');
+                break;
         }
     };
 

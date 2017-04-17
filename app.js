@@ -73,6 +73,13 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             data: {
                 requireLogin: true
             }
+        }).state('op-console.create-company', {
+            url: "/create-company",
+            templateUrl: "app/views/company/createCompany.html",
+            controller: "createCompanyController",
+            data: {
+                requireLogin: true
+            }
         })
     }], function () {
 

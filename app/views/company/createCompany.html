@@ -1,0 +1,106 @@
+<div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-title">
+                <div class="title_left">
+                    <h3>Create New Company</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="row">
+
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="x_panel">
+                <div class="x_title">
+                    <h2>New Company</h2>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="x_content">
+
+
+                    <div id="wizard" class="form_wizard wizard_horizontal">
+                        <ul class="wizard_steps anchor">
+                            <li>
+                                <a ng-class="wizard_1_Style" isdone="wizard_1_isDone" rel="1">
+                                    <span class="step_no">1</span>
+                            <span class="step_descr">
+                                              Create<br>
+                                              <small>Create New Company</small>
+                                          </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a ng-class="wizard_2_Style" isdone="wizard_2_isDone" rel="2">
+                                    <span class="step_no">2</span>
+                            <span class="step_descr">
+                                              Package<br>
+                                              <small>Assign or Upgrade Package</small>
+                                          </span>
+                                </a>
+                            </li>
+                        </ul>
+
+
+                        <div class="stepContainer" style="height: 281px;">
+                            <div id="step-1" class="content" ng-show="wizard_1_Style === 'selected'">
+                                <form class="form-horizontal form-label-left">
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CompanyName">Company
+                                            Name <span class="required">*</span>
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="text" id="CompanyName" ng-model="companyData.organisationName" required="required"
+                                                   class="form-control col-md-7 col-xs-12">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Email <span class="required">*</span>
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="text" id="last-name" ng-model="companyData.mail" required="required"
+                                                   class="form-control col-md-7 col-xs-12">
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                            <div id="step-2" class="content" ng-hide="wizard_1_Style === 'selected'">
+                                <form class="form-horizontal form-label-left">
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="packageList">Package Name <span class="required">*</span>
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <select class="form-control" id="packageList" ng-model="packageData.packageName" required="required">
+                                                <option disabled selected>Choose Package</option>
+                                                <option ng-repeat="package in packageDetails" value="package.packageName">{{package.packageName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                        <div class="actionBar">
+                            <button class="buttonFinish btn btn-default" ng-disabled="currentWizard === 1">Finish</button>
+                            <button class="buttonNext btn btn-success" ng-click="nextWizard()" ng-disabled="currentWizard === 2">Next</button>
+                            <button class="buttonPrevious btn btn-primary" ng-click="previousWizard()" ng-disabled="currentWizard === 1">Previous</button>
+                        </div>
+                    </div>
+                    <!-- End SmartWizard Content -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
