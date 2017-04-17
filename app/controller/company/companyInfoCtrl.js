@@ -2,8 +2,10 @@
  * Created by damith on 4/6/17.
  */
 
-opConsoleApp.controller('companyInfoCtrl', function ($scope, companyInfoServices) {
+opConsoleApp.controller('companyInfoCtrl', function ($scope, companyInfoServices, $state, $anchorScroll) {
 
+
+    $anchorScroll();
 
     $scope.companyObj = null;
     $scope.isLoadingCompany = false;
@@ -20,4 +22,12 @@ opConsoleApp.controller('companyInfoCtrl', function ($scope, companyInfoServices
         });
     };
     getAllCompanyInfo();
+
+
+    //go to view company summary
+    $scope.goToCompany = function (company) {
+        $state.go('op-console.company-summary', {
+            "id": company.companyId
+        });
+    };
 });

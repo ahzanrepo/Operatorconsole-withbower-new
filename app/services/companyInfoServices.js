@@ -18,8 +18,22 @@ opConsoleApp.factory('companyInfoServices', function ($http, baseUrls) {
             });
         };
 
+        var getCurrentCompanyById = function (param) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.userServiceBaseUrl + 'Tenant/Company/' + param.companyId
+            }).then(function (resp) {
+                return resp.data;
+
+            });
+        };
+
+        //company summary details
+
+
         return {
-            getAllCompanyDetails: getAllCompanyDetails
+            getAllCompanyDetails: getAllCompanyDetails,
+            getCurrentCompanyById: getCurrentCompanyById
         }
 
 

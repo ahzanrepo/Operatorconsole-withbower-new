@@ -71,7 +71,9 @@
 
             <div class="table-body">
                 <!--- data loading -->
-                <div class="table-row animated fadeIn" ng-repeat="company in companyObj ">
+                <div class="table-row animated fadeIn"
+                     ng-click="goToCompany(company)"
+                     ng-repeat="company in companyObj ">
                     <div class="col-lg-3 col-xs-3">
                         <div class="table-body-row">
                             {{company.companyId}}

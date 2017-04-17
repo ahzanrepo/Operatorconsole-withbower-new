@@ -43,7 +43,13 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             }
         }).state('op-console.all-company-information', {
             url: "/all-company-information",
-            templateUrl: "app/views/template/all-company-information.html",
+            templateUrl: "app/views/company/all-company-information.html",
+            data: {
+                requireLogin: true
+            }
+        }).state('op-console.company-summary', {
+            url: "/company-summary?id",
+            templateUrl: "app/views/company/company-summary.html",
             data: {
                 requireLogin: true
             }
@@ -97,6 +103,6 @@ opConsoleApp.run(function ($rootScope, loginService, $location, $state) {
     var decodeToken = loginService.getTokenDecode();
     if (!decodeToken) {
         $state.go('sign-in');
-        return
+        return;
     }
 });
