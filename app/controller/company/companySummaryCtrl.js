@@ -17,7 +17,6 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
             $scope.isLoadingAll = false;
             if (data.IsSuccess) {
                 $scope.companyObj = data.Result;
-                console.log($scope.companyObj);
             }
         }, function (err) {
             console.log(err);
@@ -31,6 +30,26 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
     } else {
 
     }
+
+
+    $scope.consoleAccessTabs = [];
+    var onLoadConsoleAccess = function (companyObj) {
+        $scope.consoleAccessTabs = companyObj.consoleAccessLimits.map(function (item) {
+            var _consoleTab = {};
+            _consoleTab.title = item.accessType + ' console';
+            return _consoleTab;
+        });
+    };
+
+    //go to summary inside page
+    $scope.goToCompanySummaryPage = function (page) {
+        switch (page) {
+            case 'consoleAccess':
+                onLoadConsoleAccess($scope.companyObj);
+                break;
+
+        }
+    };
 
 
 });
