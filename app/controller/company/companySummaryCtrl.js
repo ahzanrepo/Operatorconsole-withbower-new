@@ -16,6 +16,7 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
         companyInfoServices.getCurrentCompanyById(param).then(function (data) {
             $scope.isLoadingAll = false;
             if (data.IsSuccess) {
+                console.log($scope.companyObj);
                 $scope.companyObj = data.Result;
             }
         }, function (err) {
