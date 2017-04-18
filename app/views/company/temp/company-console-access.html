@@ -1,0 +1,9 @@
+<div class="compnay-console-access-wrp ">
+    <uib-tabset class="comp-green-tab" active="active">
+        <uib-tab index="$index + 1" ng-repeat="consoleTab in consoleAccessTabs"
+                 heading="{{consoleTab.title}}"
+                 disable="tab.disabled">
+            {{tab.content}}
+        </uib-tab>
+    </uib-tabset>
+</div>

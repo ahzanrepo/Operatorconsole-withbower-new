@@ -19,17 +19,50 @@
 
                 <div class="col-lg-4 col-md-4 col-xs-12">
                     <div class="row">
-
                         <div class="left-company-s-wrp">
                             <div class="company-details-wrp">
+                                <div class="company-status"
+                                     ng-if="companyObj.companyEnabled"
+                                     ng-class="companyObj.companyEnabled==true ?'active-company':'deactivate-company'">
+                                    ACTIVE
+                                </div>
+                                <div class="company-status"
+                                     ng-if="!companyObj.companyEnabled"
+                                     ng-class="companyObj.companyEnabled==true ?'active-company':'deactivate-company'">
+                                    DEACTIVATE
+                                </div>
                                 <div class="company-log-wrp">
                                     <div class="company-logo">
                                         {{ companyObj.companyName | limitTo:2 }}
                                     </div>
                                 </div>
                                 <h5>{{companyObj.companyName}}</h5>
+                                <h4> created at {{companyObj.created_at | date:'MM/dd/yyyy'}}</h4>
                             </div>
 
+                            <!-- company left menu -->
+                            <div class="company-left-menu">
+                                <div class="box-menu-wrp" ng-click="goToCompanySummaryPage('consoleAccess')">
+                                    <ul>
+                                        <li class="bold-text">Console Access</li>
+                                        <li class="pull-right">
+                                            <div class="count-round">
+                                                {{companyObj.consoleAccessLimits.length}}
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-8 col-md-8 col-xs-12">
+                    <div class="row">
+                        <div class="right-company-s-wrp">
+                            <div ng-include="'app/views/company/temp/company-console-access.html'">
+                            </div>
                         </div>
                     </div>
                 </div>
