@@ -38,7 +38,7 @@
                                     <span class="step_no">2</span>
                             <span class="step_descr">
                                               Package<br>
-                                              <small>Assign or Upgrade Package</small>
+                                              <small>Assign or Upgrade Package & Units</small>
                                           </span>
                                 </a>
                             </li>
@@ -47,7 +47,7 @@
 
                         <div class="stepContainer" style="height: 281px;">
                             <div id="step-1" class="content" ng-show="wizard_1_Style === 'selected'">
-                                <form class="form-horizontal form-label-left">
+                                <form class="form-horizontal form-label-left" novalidate>
 
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CompanyName">Company
@@ -55,17 +55,33 @@
                                         </label>
 
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="CompanyName" ng-model="companyData.organisationName" required="required"
+                                            <input type="text" id="CompanyName" ng-model="companyData.companyname" required="required"
                                                    class="form-control col-md-7 col-xs-12">
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Email <span class="required">*</span>
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="mail">Email <span class="required">*</span>
                                         </label>
 
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <input type="text" id="last-name" ng-model="companyData.mail" required="required"
+                                            <input type="email" id="mail" ng-model="companyData.mail" required="required"
                                                    class="form-control col-md-7 col-xs-12">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password">Password <span class="required">*</span>
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="password" id="password" ng-model="companyData.password" required="required" class="form-control col-md-7 col-xs-12">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="passwordConfirm">Confirm Password <span class="required">*</span>
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="password" id="passwordConfirm" ng-model="companyData.confirm" required="required" class="form-control col-md-7 col-xs-12">
                                         </div>
                                     </div>
 
@@ -75,15 +91,85 @@
                             <div id="step-2" class="content" ng-hide="wizard_1_Style === 'selected'">
                                 <form class="form-horizontal form-label-left">
 
+                                    <div class="form-group" ng-if="!searchBoxStaus">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="CompanyId">Search Company <span class="required">*</span>
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                                <input type="text" id="CompanyId" ng-model="companyData.companyId" required="required"
+                                                       class="form-control col-md-7 col-xs-12" placeholder="Company Id">
+                                            </div>
+                                            <div class="col-md-3 col-sm-3 col-xs-12">
+
+                                                <div class="col-md-10 col-sm-10 col-xs-12">
+                                                    <button class="buttonNext btn btn-success pull-right" ng-click="getCompanyDetail(companyData.companyId)">Search</button>
+                                                </div>
+                                                <div class="col-md-2 col-sm-2 col-xs-12">
+
+                                                    <i class="ti-check" ng-if="searchStatus === 'true'"></i>
+                                                    <i class="ti-close" ng-if="searchStatus === 'false'"></i>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="typeList">Type <span class="required">*</span>
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <select class="form-control" id="typeList" ng-model="packageData.assignType" required="required" ng-disabled="!companyDetail">
+                                                <option disabled selected>Choose Assign Type</option>
+                                                <option value="package">Package</option>
+                                                <option value="unit">Unit</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <div class="form-group">
                                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="packageList">Package Name <span class="required">*</span>
                                         </label>
 
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <select class="form-control" id="packageList" ng-model="packageData.packageName" required="required">
+                                            <select class="form-control" id="packageList" ng-model="packageData.packageName" required="required" ng-disabled="!companyDetail">
                                                 <option disabled selected>Choose Package</option>
-                                                <option ng-repeat="package in packageDetails" value="package.packageName">{{package.packageName}}</option>
+                                                <option ng-if="packageData.assignType === 'package'" ng-repeat="package in packageDetails" value="{{package.packageName}}">{{package.packageName}}</option>
+                                                <option ng-if="packageData.assignType === 'unit'" ng-repeat="package in companyDetail.packages" value="{{package}}">{{package}}</option>
                                             </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" ng-if="packageData.assignType === 'unit'">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="unitList">Unit Name <span class="required">*</span>
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <select class="form-control" id="unitList" ng-change="unitChange()" ng-model="packageData.unitIndex" required="required" ng-disabled="!companyDetail">
+                                                <option disabled selected>Choose Unit</option>
+                                                <option ng-repeat="unit in unitDetails" value="{{$index}}">{{unit.unitName}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group" ng-if="packageData.assignType === 'unit' && packageData.unit && packageData.unit.unitType !== 'spaceLimit'">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="topUpCount">TopUp Count <span class="required">*</span>
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <input type="number" class="form-control" min="1" id="topUpCount" required ng-disabled="!companyDetail"
+                                                   ng-pattern="/^(?:100|[1-9]?[0-9])$/" ng-model="packageData.topUpCount" value="1">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="control-label col-md-3 col-sm-3 col-xs-12">
+                                        </label>
+
+                                        <div class="col-md-6 col-sm-6 col-xs-12">
+                                            <button class="btn btn-primary pull-right" type="button" ng-click="updatePackage()">Update</button>
                                         </div>
                                     </div>
 
@@ -91,9 +177,10 @@
                             </div>
                         </div>
                         <div class="actionBar">
-                            <button class="buttonFinish btn btn-default" ng-disabled="currentWizard === 1">Finish</button>
+                            <button class="buttonFinish btn btn-default" ng-disabled="currentWizard === 1" ng-click="resetForm()">Finish</button>
                             <button class="buttonNext btn btn-success" ng-click="nextWizard()" ng-disabled="currentWizard === 2">Next</button>
                             <button class="buttonPrevious btn btn-primary" ng-click="previousWizard()" ng-disabled="currentWizard === 1">Previous</button>
+                            <button class="btn btn-primary" type="reset" ng-click="resetForm()">Reset</button>
                         </div>
                     </div>
                     <!-- End SmartWizard Content -->
