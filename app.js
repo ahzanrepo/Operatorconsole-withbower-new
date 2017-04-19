@@ -91,7 +91,8 @@ var baseUrls = {
     'userServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'monitorServerUrl': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
     'sipUserEndpointService': 'http://localhost:8086/DVP/API/1.0.0.0/SipUser/',
-    'userServiceAuthUrl': 'http://userservice.app.veery.cloud/'
+    'userServiceAuthUrl': 'http://userservice.app.veery.cloud/',
+    'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/'
 };
 
 opConsoleApp.constant('baseUrls', baseUrls);

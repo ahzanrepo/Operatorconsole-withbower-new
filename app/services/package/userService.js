@@ -45,6 +45,15 @@
             });
         };
 
+        var getAllSystemTask = function () {
+            return $http({
+                method: 'GET',
+                url: baseUrls.resourceServiceBaseUrl + 'System/Task'
+            }).then(function (resp) {
+                return resp.data;
+            });
+        };
+
         //---------------------------------Unit management----------------------------------
 
         var getAllUnits = function () {
@@ -146,7 +155,8 @@
             CreateNewCompany: createNewCompany,
             GetCompanyData: getCompanyData,
             AssignPackage: assignPackage,
-            AssignUnit: assignUnit
+            AssignUnit: assignUnit,
+            GetAllSystemTask: getAllSystemTask
         }
     });
 }());
