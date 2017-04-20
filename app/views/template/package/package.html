@@ -90,11 +90,8 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Veery Task</label>
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
-                                <label class="checkbox-inline">
-                                    <input type="checkbox" checklist-model="packageObj.veeryTask" id="inlineCheckboxCall" value="CALL"> Call
-                                </label>
-                                <label class="checkbox-inline">
-                                    <input type="checkbox" checklist-model="packageObj.veeryTask" id="inlineCheckboxChat" value="CHAT"> Chat
+                                <label class="checkbox-inline" ng-repeat="task in systemTask">
+                                    <input type="checkbox" checklist-model="packageObj.veeryTask" id="inlineCheckboxCall" value="{{task.TaskType}}"> {{task.TaskType}}
                                 </label>
                             </div>
                         </div>

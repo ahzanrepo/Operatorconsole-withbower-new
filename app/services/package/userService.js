@@ -45,6 +45,15 @@
             });
         };
 
+        var getAllSystemTask = function () {
+            return $http({
+                method: 'GET',
+                url: baseUrls.resourceServiceBaseUrl + 'System/Task'
+            }).then(function (resp) {
+                return resp.data;
+            });
+        };
+
         //---------------------------------Unit management----------------------------------
 
         var getAllUnits = function () {
@@ -86,6 +95,54 @@
         };
 
 
+        //---------------------------------Company management----------------------------------
+
+        var createNewCompany = function (company) {
+            return $http({
+                method: 'POST',
+                url: baseUrls.userServiceAuthUrl + 'auth/signup',
+                data: company
+            }).then(function (resp) {
+                return resp.data;
+            }).catch(function (ex) {
+                return undefined;
+            });
+        };
+
+        var getCompanyData = function (companyId) {
+            return $http({
+                method: 'GET',
+                url: baseUrls.userServiceBaseUrl + 'Tenant/Company/'+companyId
+            }).then(function (resp) {
+                return resp.data;
+            }).catch(function (ex) {
+                return undefined;
+            });
+        };
+
+        var assignPackage = function (companyId, packageName) {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.userServiceBaseUrl + 'Organisation/'+companyId+'/Package/'+packageName
+            }).then(function (resp) {
+                return resp.data;
+            }).catch(function (ex) {
+                return undefined;
+            });
+        };
+
+        var assignUnit = function (companyId, packageName, unitName, topUpCount) {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.userServiceBaseUrl + 'Organisation/'+companyId+'/Package/'+packageName+'/Unit/'+unitName+'/'+topUpCount
+            }).then(function (resp) {
+                return resp.data;
+            }).catch(function (ex) {
+                return undefined;
+            });
+        };
+
+
         return{
             GetAllPackages: getAllPackages,
             CreateNewPackage: createNewPackage,
@@ -94,7 +151,12 @@
             GetAllUnits: getAllUnits,
             CreateNewUnit: createNewUnit,
             UpdateUnit: updateUnit,
-            RemoveUnit: removeUnit
+            RemoveUnit: removeUnit,
+            CreateNewCompany: createNewCompany,
+            GetCompanyData: getCompanyData,
+            AssignPackage: assignPackage,
+            AssignUnit: assignUnit,
+            GetAllSystemTask: getAllSystemTask
         }
     });
 }());

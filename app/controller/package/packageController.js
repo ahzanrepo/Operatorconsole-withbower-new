@@ -13,6 +13,7 @@
         $scope.subCollapsButton = '+';
         $scope.tempSpaceLimit = {};
         $scope.packageDetails = [];
+        $scope.systemTask = [];
         $scope.searchCriteria = "";
         $scope.packageTitle = 'Create New';
 
@@ -408,6 +409,20 @@
                 });
             }catch(ex){
                 $scope.notify('Load Package Details Failed', 'error');
+            }
+        };
+
+        $scope.loadPackageDetails = function () {
+            try{
+                userService.GetAllSystemTask().then(function (response) {
+                    if(response && response.IsSuccess){
+                        $scope.systemTask = response.Result;
+                    }else{
+                        $scope.notify('Load Task Details Failed', 'error');
+                    }
+                });
+            }catch(ex){
+                $scope.notify('Load Task Details Failed', 'error');
             }
         };
 
