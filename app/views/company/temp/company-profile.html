@@ -1,0 +1,214 @@
+<div class="compnay-console-access-wrp animated fadeInLeft">
+    <div class="company-profile-wrp">
+        <div class="col-lg-6 col-md-12 col-xs-12">
+            <div class="company-profile-widget">
+
+                <div class="widget-row-company" style="background: #fdfdfd;">
+                    <div class="widget-image-company">
+                        <div class="col-lg-3">
+                            <div class="owner-img">
+                                <img src="assets/img/profileAvatar.png"
+                                     ng-src="{{ownerRef.avatar}}" width="60"/>
+                            </div>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="widget-header">
+                                <h5>Company Profile</h5>
+                            </div>
+                            <div class="widget-header">
+                                <small>Company : {{ownerRef.company}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget-row-company">
+                    <ul>
+                        <li class="text-left text-sm">
+                            First Name
+                        </li>
+                        <li class="text-left">
+                            {{ownerRef.firstname}}
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="widget-row-company">
+                    <ul>
+                        <li class="text-left text-sm">
+                            Last Name
+                        </li>
+                        <li class="text-left">
+                            {{ownerRef.lastname}}
+                        </li>
+                    </ul>
+                </div>
+                <div class="widget-row-company">
+                    <ul>
+                        <li class="text-left text-sm">
+                            Email
+                        </li>
+                        <li class="text-left">
+                            {{ownerRef.email.contact}}
+                        </li>
+                    </ul>
+                    <div class="contact-status" ng-if="ownerRef.email.verified">
+                        verified
+                        <i class="ti-check-box"></i>
+                    </div>
+                </div>
+
+                <div class="widget-row-company">
+                    <ul>
+                        <li class="text-left text-sm">
+                            Phone Number
+                        </li>
+                        <li class="text-left">
+                            {{ownerRef.phoneNumber.contact}}
+                        </li>
+                    </ul>
+                    <div class="contact-status" ng-if="ownerRef.phoneNumber.verified">
+                        verified
+                        <i class="ti-check-box"></i>
+                    </div>
+
+                </div>
+
+                <div class="widget-row-company">
+                    <ul>
+                        <li class="text-left text-sm">
+                            Veery Account
+                        </li>
+                        <li class="text-left">
+                            {{ownerRef.veeryaccount.contact}}
+                        </li>
+                    </ul>
+                    <div class="contact-status" ng-if="ownerRef.veeryaccount.verified">
+                        verified
+                        <i class="ti-check-box"></i>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="company-profile-widget">
+                <div class="widget-row-company" style="background: #fdfdfd;">
+                    <div class="widget-image-company">
+                        <div class="col-lg-12">
+                            <div class="widget-header">
+                                <h5>Company Location </h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="widget-row-company">
+                    <ul>
+                        <li class="text-left text-sm">
+                            Address
+                        </li>
+                        <li class="text-left">
+                            {{ownerRef.address.nummber}}
+                            {{ownerRef.address.street}}
+                            {{ownerRef.address.city}}
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="widget-row-company">
+                    <ul>
+                        <li class="text-left text-sm">
+                            Province
+                        </li>
+                        <li class="text-left">
+                            {{ownerRef.address.province}}
+                        </li>
+                    </ul>
+                </div>
+                <div class="widget-row-company">
+                    <ul>
+                        <li class="text-left text-sm">
+                            Country
+                        </li>
+                        <li class="text-left">
+                            {{ownerRef.address.country}} ,
+                            {{ownerRef.address.zipcode}}
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-lg-6 col-md-12 col-xs-12">
+            <div id="scopeWidget"
+
+                 class="company-profile-widget scope-widget">
+                <div class="widget-row-company" style="background: #fdfdfd;">
+                    <div class="widget-image-company">
+                        <div class="col-lg-12">
+                            <div class="widget-header">
+                                <h5>User Scopes </h5>
+                            </div>
+                            <div class="widget-search pull-right">
+                                <input type="text" class="form-control"
+                                       ng-model="searchScope"
+                                       placeholder="search scope">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="widgetScopeNotFound"
+                     ng-if="widgetScopeNotFound"
+                     class="widgetd-not-found">
+                    <div class="widget-img">
+                        <img src="assets/img/ui-icon-1/shield.svg" width="60">
+                    </div>
+                    <div class="widget-text">
+                        Scope not found
+                    </div>
+                </div>
+
+                <div slimscroll="{height: '340px',
+                        railVisible: true,
+                        color: '#777',
+                        size: '8px',
+                        distance: '15px',
+                        railColor: '#fff',
+            railBorderRadius: 10}">
+                    <div class="widget-row-company" ng-repeat="user in ownerRef.user_scopes | filter:searchScope">
+                        <ul>
+                            <li class="text-left text-sm">
+                                Scope
+                            </li>
+                            <li class="text-left">
+                                {{user.scope}}
+
+                            </li>
+                        </ul>
+                        <ul class="scope-access pull-right">
+                            <li class="text-sm read-access"
+                                ng-class="user.read==false?'access-denied':''">
+                                read
+                            </li>
+                            <li class="text-sm left-board write-access"
+                                ng-class="user.write==false?'access-denied':''">
+                                write
+                            </li>
+                            <li class="text-sm left-board delete-access"
+                                ng-class="user.delete==false?'access-denied':''">
+                                delete
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

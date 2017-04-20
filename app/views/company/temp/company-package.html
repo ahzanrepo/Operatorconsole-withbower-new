@@ -1,0 +1,73 @@
+<!--<div class="compnay-console-access-wrp animated fadeInLeft">-->
+<!--<div class="company-profile-wrp" ng-repeat="pack in packageDetails">-->
+<!--<div class="col-lg-4">-->
+<!--<div class="company-package-widget">-->
+<!--<div class="pack-name">-->
+<!--{{pack.veeryPackage.packageName}}-->
+<!--</div>-->
+
+<!--<div class="pack-img">-->
+<!--<h2>-->
+<!--{{pack.veeryPackage.packageType}}-->
+<!--</h2>-->
+<!--<img src="assets/img/ui-icon-2/coin.svg" width="70"/>-->
+<!--<h3>-->
+<!--${{pack.veeryPackage.price}}-->
+<!--</h3>-->
+<!--</div>-->
+
+<!--<div class="pack-buy">-->
+<!--<ul>-->
+<!--<li> {{pack.buyDate | date:'MMM,dd, yyyy'}}</li>-->
+<!--<li> {{pack.renewdate}}</li>-->
+<!--</ul>-->
+<!--</div>-->
+
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+<!--</div>-->
+
+<div class="compnay-console-access-wrp animated fadeInLeft">
+    <div class="company-profile-wrp">
+        <div class="col-md-4 col-sm-4 col-xs-6 widget_tally_box "
+             ng-repeat="package in packageDetails ">
+            <div class="x_panel fixed_height_390 widget-package-manager">
+                <div class="x_title">
+                    <h2>{{package.veeryPackage.navigationType}} - {{package.veeryPackage.packageType}}</h2>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="x_content">
+                    <div class="flex">
+                        <ul class="list-inline widget_profile_box">
+                            <li>
+                                <h2><b>{{package.veeryPackage.price}}</b></h2>
+                                <span>Monthly</span>
+                            </li>
+                            <li>
+                                <img ng-src="assets/img/ui-icon-1/dollar.svg" class="img-circle profile_img">
+                            </li>
+                            <li>
+                                <h2><b>{{package.veeryPackage.setupFee}}</b></h2>
+                                <span>Setup</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <h2 class="name"><b>{{package.veeryPackage.packageName}}</b></h2>
+
+                    <div class="flex">
+                        <ul class="list-inline count2">
+                            <li ng-repeat="consoleAccess in package.veeryPackage.consoleAccessLimit">
+                                <h3>{{consoleAccess.accessLimit}}</h3>
+                                <span>{{consoleAccess.accessType.toUpperCase()}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
