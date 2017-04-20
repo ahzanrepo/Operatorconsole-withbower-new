@@ -1,9 +1,58 @@
-<div class="compnay-console-access-wrp ">
+<div class="compnay-console-access-wrp animated fadeInLeft ">
     <uib-tabset class="comp-green-tab" active="active">
         <uib-tab index="$index + 1" ng-repeat="consoleTab in consoleAccessTabs"
-                 heading="{{consoleTab.title}}"
+                 heading="{{consoleTab.item.accessType}} Cosole"
                  disable="tab.disabled">
-            {{tab.content}}
+
+
+            <div class="tab-body-wrap">
+                <div class="col-lg-6">
+                    <div class="tab-sm-widget">
+                        <div class="lg-text">
+                            {{consoleTab.item.accessType}}
+
+                        </div>
+                        <div class="lg-text-header">
+                            Access Type
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="tab-sm-widget">
+                        <div class="lg-text">
+                            {{consoleTab.item.accessLimit}}
+
+                        </div>
+                        <div class="lg-text-header">
+                            Access Limit
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="tab-user-group">
+                        <div class="tab-img-wrp"
+                             ng-repeat="currentUser in consoleTab.item.currentAccess | limitTo:4">
+                            <img src="assets/img/profileAvatar.png" width="55">
+                        </div>
+                        <div class="tab-user-text">
+                            Current access users
+                        </div>
+                        <div class="tab-lg-count">
+                            {{consoleTab.item.currentAccess.length}}
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
         </uib-tab>
     </uib-tabset>
+
+
 </div>

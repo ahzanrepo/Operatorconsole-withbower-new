@@ -30,7 +30,8 @@
     <link href="assets/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet"/>
 
     <!-- Custom Theme Style -->
-    <link href="assets/build/css/custom.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/build/css/custom.css">
+    <!-- jquery UI -->
 
     <!-- themify fonts -->
     <link href="assets/fonts/themify/themify-icons.css" rel="stylesheet"/>
@@ -51,9 +52,8 @@
     <link rel="stylesheet" href="assets/css/element-animation.css"/>
     <link rel="stylesheet" href="assets/css/sign-in.css"/>
     <link rel="stylesheet" href="assets/css/animate.css"/>
-
-
 </head>
+
 <body class="nav-md">
 
 <!-- main view app -->
@@ -64,40 +64,39 @@
 
 <!-- vendor JS -->
 <!-- jQuery -->
-<script src="assets/vendors/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+
+
 <!-- Bootstrap -->
-<script src="assets/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
 
-
-<!-- FastClick -->
-<!--<script src="assets/vendors/fastclick/lib/fastclick.js"></script>-->
 
 <!-- jQuery custom content scroller -->
 <script src="assets/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
 
 <!-- Custom Theme Scripts -->
-<script src="assets/build/js/custom.js"></script>
+<script type="text/javascript" src="assets/build/js/custom.js"></script>
 
 <!-- PNotify -->
-<script src="assets/vendors/pnotify/dist/pnotify.js"></script>
-<script src="assets/vendors/pnotify/dist/pnotify.buttons.js"></script>
-<script src="assets/vendors/pnotify/dist/pnotify.nonblock.js"></script>
-<script src="assets/vendors/pnotify/dist/pnotify.confirm.js"></script>
+<script type="text/javascript" src="assets/vendors/pnotify/dist/pnotify.js"></script>
+<script type="text/javascript" src="assets/vendors/pnotify/dist/pnotify.buttons.js"></script>
+<script type="text/javascript" src="assets/vendors/pnotify/dist/pnotify.nonblock.js"></script>
+<script type="text/javascript" src="assets/vendors/pnotify/dist/pnotify.confirm.js"></script>
 
 <!-- smart wizard js plugin -->
-<script src="assets/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
+<script type="text/javascript" src="assets/vendors/jQuery-Smart-Wizard/js/jquery.smartWizard.js"></script>
 
 
 <!-- animation -->
 
-<!-- script area  -->
-<!--<script src="bower_components/jquery/dist/jquery.min.js" type="text/javascript"></script>-->
-<!--<script src="bower_components/jquery-ui/jquery-ui.min.js" type="text/javascript"></script>-->
-
 
 <!-- PLUGIN (with helper plugins included) -->
-<script type="text/javascript" src="bower_components/introloader/dist/jquery.introLoader.pack.min.js"></script>
+<!--<script type="text/javascript" src="bower_components/introloader/dist/jquery.introLoader.pack.min.js"></script>-->
 <script type="text/javascript" src="assets/js/utility.js"></script>
+
+
+<script type="text/javascript" src="bower_components/jquery-ui/jquery-ui.js"></script>
+<script type="text/javascript" src="bower_components/jquery-ui/ui/effect.js"></script>
 
 
 <!-- angular version -->
@@ -110,6 +109,17 @@
 <script type="text/javascript" src="bower_components/angular-filter/dist/angular-filter.min.js"></script>
 
 <script type="text/javascript" src="bower_components/moment/moment.js"></script>
+
+
+<!-- angular slimscroll -->
+<script type="text/javascript" src="bower_components/angular-slimscroll/angular-slimscroll.js"></script>
+
+<!-- jquery scroll -->
+<script type="text/javascript" src="bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script type="text/javascript" src="bower_components/slimScroll/jquery.slimscroll.js"></script>
+
+<!-- anuglar scroll -->
+
 
 <!-- Lodash -->
 <script src="bower_components/lodash/dist/lodash.min.js"></script>
@@ -138,7 +148,6 @@
 <script type="text/javascript" src="bower_components/checklist-model/checklist-model.js"></script>
 
 
-
 <!-- main file app.js -->
 <script type="text/javascript" src="app.js"></script>
 
@@ -161,10 +170,10 @@
 <!-- controller -->
 <script type="text/javascript" src="app/controller/consoleCtrl.js"></script>
 <script type="text/javascript" src="app/controller/monitorServerPctrl.js"></script>
-<script type="text/javascript" src="app/controller/codecManagementCtrl.js"></script>
+<script type="text/javascript" src="app/controller/codec-management/codecManagementCtrl.js"></script>
 <script type="text/javascript" src="app/controller/company/companyInfoCtrl.js"></script>
 <script type="text/javascript" src="app/controller/company/companySummaryCtrl.js"></script>
-<script type="text/javascript" src="app/controller/companyInfoCtrl.js"></script>
+<!--<script type="text/javascript" src="app/controller/companyInfoCtrl.js"></script>-->
 
 <!-- auth -->
 <script type="text/javascript" src="app/auth/app/controller/loginCtrl.js"></script>

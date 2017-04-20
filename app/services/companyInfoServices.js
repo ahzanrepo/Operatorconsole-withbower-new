@@ -28,12 +28,23 @@ opConsoleApp.factory('companyInfoServices', function ($http, baseUrls) {
             });
         };
 
+        var changeCompanyActivation = function (param) {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.userServiceBaseUrl + 'Organisation/' + param.companyId + '/Activate/' + param.state
+            }).then(function (resp) {
+                return resp.data;
+
+            });
+        };
+
         //company summary details
 
 
         return {
             getAllCompanyDetails: getAllCompanyDetails,
-            getCurrentCompanyById: getCurrentCompanyById
+            getCurrentCompanyById: getCurrentCompanyById,
+            changeCompanyActivation: changeCompanyActivation
         }
 
 

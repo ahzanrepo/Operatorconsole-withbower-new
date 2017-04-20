@@ -7,6 +7,13 @@
                 <div class="title_left">
                     <h3>Company Summary</h3>
                 </div>
+                <div class="title_right">
+                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                        <div class="input-group pull-right">
+                            <button class="btn btn-default btn-back" type="button">Back</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -42,7 +49,18 @@
 
                             <!-- company left menu -->
                             <div class="company-left-menu">
-                                <div class="box-menu-wrp" ng-click="goToCompanySummaryPage('consoleAccess')">
+
+                                <div class="box-menu-wrp"
+                                     ng-class="currentPage=='companyProfile'?'active':''"
+                                     ng-click="goToCompanySummaryPage('companyProfile')">
+                                    <ul>
+                                        <li class="bold-text">Company Profile</li>
+                                    </ul>
+                                </div>
+
+                                <div class="box-menu-wrp"
+                                     ng-class="currentPage=='consoleAccess'?'active':''"
+                                     ng-click="goToCompanySummaryPage('consoleAccess')">
                                     <ul>
                                         <li class="bold-text">Console Access</li>
                                         <li class="pull-right">
@@ -52,16 +70,73 @@
                                         </li>
                                     </ul>
                                 </div>
+
+                                <div class="box-menu-wrp"
+                                     ng-class="currentPage=='companyPackage'?'active':''"
+                                     ng-click="goToCompanySummaryPage('companyPackage')">
+                                    <ul>
+                                        <li class="bold-text">Package Details</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="left-menu-settings">
+                                <div class="menu-header">
+                                    Setting
+                                </div>
+
+                                <div class="setting-menu">
+                                    <ul>
+                                        <li ng-if="companyObj.companyEnabled==false"
+                                            class="menu-name">Activate Company
+                                        </li>
+
+                                        <li ng-if="companyObj.companyEnabled==true"
+                                            class="menu-name">Deactivate Company
+                                        </li>
+                                        <li class="pull-right">
+                                            <button ng-show="isChangeCompanySatate==false;"
+                                                    ng-click="changeCompanyActivation(false)"
+                                                    ng-if="companyObj.companyEnabled==true"
+                                                    class="btn btn-sm btn-deactivate">
+                                                Deactivate
+                                            </button>
+                                            <button ng-show="isChangeCompanySatate==false;"
+                                                    ng-click="changeCompanyActivation(true)"
+                                                    ng-if="companyObj.companyEnabled==false"
+                                                    class="btn btn-sm btn-activate">
+                                                Activate
+                                            </button>
+
+                                            <button disabled
+                                                    ng-show="isChangeCompanySatate==true;"
+                                                    class="btn btn-sm btn-activate">
+                                                Please wait...
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
 
                         </div>
                     </div>
+
+
                 </div>
 
                 <div class="col-lg-8 col-md-8 col-xs-12">
                     <div class="row">
-                        <div class="right-company-s-wrp">
+                        <div class="right-company-s-wrp" ng-if="currentPage=='consoleAccess'">
                             <div ng-include="'app/views/company/temp/company-console-access.html'">
+                            </div>
+                        </div>
+
+                        <div class="right-company-s-wrp" ng-if="currentPage=='companyProfile'">
+                            <div ng-include="'app/views/company/temp/company-profile.html'">
+                            </div>
+                        </div>
+                        <div class="right-company-s-wrp" ng-if="currentPage=='companyPackage'">
+                            <div ng-include="'app/views/company/temp/company-package.html'">
                             </div>
                         </div>
                     </div>
