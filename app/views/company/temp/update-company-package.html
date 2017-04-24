@@ -1,0 +1,139 @@
+<div class="full-width-modal animated fadeIn">
+    <div class="col-lg-4 col-lg-offset-4">
+        <div class="model-form-widget">
+            <div class="form-wrapper">
+                <div class="header">
+                    <div class="header-text">
+                        Assign or Upgrade Package & Units
+                    </div>
+                    <div class="header-icon">
+                        <ul class="pull-right">
+                            <li>
+                                <a ng-click="showAddMyPackage();"
+                                   href="javascript:void(0);">
+                                    <i class="ti-close"></i>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <form name="frmComapny" novalidate>
+                    <div class="form-group">
+                        <label for="companyId">Company Code</label>
+                        <input type="text"
+                               name="companyID"
+                               ng-model="packageData.companyId"
+                               class="form-control sign-txt"
+                               id="companyID"
+                               readonly
+                               required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Type</label>
+                        <div class="package-type">
+                            <ul>
+                                <li>
+                                    <a ng-class="packageData.assignType=='package'?'active':'de-active'"
+                                       href="javascript:void(0);"
+                                       ng-click="changePackageType('package');">
+                                        <i class="ti-check"></i>
+                                        Package
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);"
+                                       ng-class="packageData.assignType=='unit'?'active':'de-active'"
+                                       ng-click="changePackageType('unit');">
+                                        <i class="ti-check"></i>
+                                        Unit
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- unit details -->
+                    <div class="form-group" ng-if="packageData.assignType=='unit'">
+                        <label>Unit Name</label>
+                        <select class="form-control" id="unitList"
+                                ng-change="unitChange()"
+                                ng-model="packageData.unitIndex"
+                                required="required">
+                            <option disabled selected>Choose Unit</option>
+                            <option ng-repeat="unit in unitDetails"
+                                    value="{{$index}}">
+                                {{unit.unitName}}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Package Name</label>
+                        <div class="package-details-wrp">
+
+                            <!-- package details -->
+                            <div class="col-lg-3 animated fadeIn"
+                                 ng-if="packageData.assignType=='package'"
+                                 ng-repeat="package in packageObj">
+                                <div class="row">
+                                    <div class="new-package-wrp"
+                                         id="package{{$index}}"
+                                         ng-click="choosePackage(package,'package',$index);">
+                                        <img src="assets/img/ui-icon-2/coin.svg" width="30"/>
+                                        <div class="package-price">
+                                            ${{package.price}}
+                                        </div>
+                                        <div class="package-name">
+                                            {{package.packageName}}
+                                        </div>
+
+                                        <div class="check-this">
+                                            <i class="ti-check"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- unit details -->
+                            <div class="col-lg-3 animated fadeIn"
+                                 ng-if="packageData.assignType=='unit'"
+                                 ng-repeat="package in companyObj.packages">
+                                <div class="row">
+                                    <div class="new-package-wrp"
+                                         ng-click="choosePackage(package,'unit',$index);"
+                                         id="unit{{$index}}"
+                                         ng-class="package.selected==true?'selected':'none'">
+                                        <img src="assets/img/ui-icon-2/coin.svg" width="30"/>
+                                        <div class="package-name">
+                                            {{package}}
+                                        </div>
+                                        <div class="check-this">
+                                            <i class="ti-check"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <button ng-if="!isupdatePackage"
+                            type="button"
+                            ng-disabled="frmComapny.$invalid"
+                            ng-click="updatePackage()"
+                            class="btn btn-green btn-block">Update Package
+                    </button>
+                    <button ng-if="isupdatePackage"
+                            disabled
+                            type="button"
+                            class="btn btn-green">Please Wait...
+                    </button>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+</div>

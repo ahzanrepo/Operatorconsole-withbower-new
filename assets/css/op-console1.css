@@ -204,11 +204,35 @@ body .container.body .right_col {
     letter-spacing: 0.7px;
 }
 
+.btn-blue {
+    background: #64cffd !important;
+    color: #fff !important;
+}
+
 .btn-back:hover,
 .btn-back:focus {
     background-color: rgba(62, 215, 131, 0.5);
     border-color: transparent;
     color: #ffffff;
+}
+
+.btn-green-op {
+    background: rgba(62, 215, 131, 0.14) !important;
+    color: #3ed783 !important;
+}
+
+.page-title {
+    width: 100%;
+    min-height: 10px;
+    padding: 0px 15px 10px 0px;
+    margin-bottom: 15px;
+}
+
+.page-title .title_left {
+    border-bottom: 2px solid #f4f8f9;
+    padding-left: 15px;
+    padding-top: 10px;
+    padding-bottom: 11px;
 }
 
 .display-none {
@@ -501,24 +525,36 @@ body .container.body .right_col {
 .ngn-message {
     font-family: "roboto-bold", sans-serif;
     font-size: 15px;
+
 }
 
 /*company information */
 .table-header-desc {
-    width: 100%;
+    width: auto;
     min-height: 50px;
-    background: #f9fafb;
+    background: transparent;
     overflow: hidden;
     position: relative;
+    padding: 21px 22px 10px 10px;
     /*padding: 13px;*/
 }
 
 .tbl-header {
-    width: 100%;
-    height: 50px;
-    background: #fff;
+    width: auto;
+    height: 40px;
+    background: #f4f8f9;
     overflow: hidden;
     position: relative;
+    margin: 10px 10px 0px 10px;
+    border-radius: 5px;
+}
+
+.table-widget {
+    width: 100%;
+    min-height: 650px;
+    overflow: hidden;
+    position: relative;
+    background: #fff;
 }
 
 .tbl-desc-top {
@@ -530,6 +566,7 @@ body .container.body .right_col {
     min-height: 100px;
     overflow: hidden;
     position: relative;
+    padding: 0px 15px 10px 17px;
 }
 
 .tbl-desc-top > ul {
@@ -541,16 +578,17 @@ body .container.body .right_col {
 
 .tbl-desc-top > ul > li {
     font-family: "roboto-Thin", sans-serif;
-    font-size: 18px;
     display: inline-block;
-    padding-top: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
+    padding-top: 4px;
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
 .table-header-txt {
-    font-size: 15px;
-    line-height: 50px;
+    font-family: "roboto-medium", sans-serif;
+    font-size: 16px;
+    /* padding-top: 10px; */
+    line-height: 42px;
 }
 
 .tbl-header-left-boarder {
@@ -676,8 +714,8 @@ body .container.body .right_col {
     padding-right: 20px;
     padding-bottom: 15px;
     border-bottom: 1px solid #e6e9ed;
-    margin-left: 15px;
-    margin-right: 15px;
+    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .box-menu-wrp {
@@ -714,15 +752,15 @@ body .container.body .right_col {
 
 .count-round {
     font-family: "roboto-bold", sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     border-radius: 50%;
-    color: #8297a2;
-    width: 35px;
-    height: 35px;
+    color: #ffffff;
+    width: 30px;
+    height: 30px;
     text-align: center;
     /* border: 1px solid #b0bec5; */
     padding-top: 5px;
-    background: rgba(130, 151, 162, 0.23);
+    background: rgb(101, 229, 159);
 }
 
 /*package management app*/
@@ -754,6 +792,162 @@ body .container.body .right_col {
 
 .edit-package {
     color: blue;
+}
+
+/*update package */
+.add-package-wrapper {
+    width: 100%;
+    min-height: 200px;
+    overflow: hidden;
+    position: relative;
+    background: #ffffff;
+    z-index: 100;
+}
+
+.inside-form-wrp {
+    width: 100%;
+    min-height: 200px;
+    overflow: hidden;
+    position: relative;
+    background: #ffffff;
+    z-index: 100;
+    margin-top: 60px;
+    margin-left: 10px;
+    padding: 10px;
+}
+
+.inside-form-wrp > .header {
+
+}
+
+.inside-form-wrp > .body {
+    width: 400px;
+    min-height: 300px;
+    margin: 9% auto;
+}
+
+.inside-form-wrp > .header > .center-text {
+    font-size: 20px;
+    text-align: center;
+}
+
+.package-type > ul {
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+    min-height: 45px;
+    overflow: hidden;
+    position: relative;
+}
+
+.package-type > ul > li {
+    display: inline-block;
+    padding-top: 15px;
+}
+
+.package-type > ul > li > a {
+    /* min-width: 60px; */
+    /* min-height: 50px; */
+    /* overflow: hidden; */
+    /* position: relative; */
+    border: 2px solid #3ed783;
+    padding: 7px 15px 7px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.package-details-wrp {
+    width: 100%;
+    min-height: 150px;
+    overflow: hidden;
+    word-break: normal;
+}
+
+.new-package-wrp {
+    /* width: 100%; */
+    min-height: 150px;
+    background: rgba(207, 240, 158, 0.25);
+    text-align: center;
+    padding-top: 25px;
+    margin-bottom: 6px;
+    /* margin-left: 5px; */
+    margin-right: 5px;
+    cursor: pointer;
+    -webkit-transition: all 1s ease; /* Safari and Chrome */
+    -moz-transition: all 1s ease; /* Firefox */
+    -o-transition: all 1s ease; /* IE 9 */
+    -ms-transition: all 1s ease; /* Opera */
+    transition: all 1s ease;
+}
+
+.new-package-wrp.selected {
+    background: rgba(207, 240, 158, 0.8);
+}
+
+.new-package-wrp.selected > .check-this {
+    display: block;
+}
+
+.new-package-wrp > .check-this {
+    display: none;
+}
+
+.new-package-wrp.none {
+    background: rgba(207, 240, 158, 0.25);
+}
+
+.new-package-wrp:hover,
+.new-package-wrp:focus {
+    background: rgba(207, 240, 158, 1);
+    -webkit-transform: scale(1.1); /* Safari and Chrome */
+    -moz-transform: scale(1.1); /* Firefox */
+    -ms-transform: scale(1.1); /* IE 9 */
+    -o-transform: scale(1.1); /* Opera */
+    transform: scale(1.1);
+}
+
+.new-package-wrp > .package-name {
+    display: block;
+    min-height: 10px;
+    position: relative;
+    overflow: hidden;
+    padding: 10px;
+    font-size: 11px;
+}
+
+.package-price {
+    padding-top: 5px;
+    font-family: "roboto-bold", sans-serif;
+}
+
+.package-type > ul > li > a:hover {
+    background: #3ed783;
+    color: #ffffff;
+}
+
+.package-type > ul > li > a:hover {
+    background: #3ed783;
+    color: #ffffff;
+}
+
+.package-type > ul > li > a.de-active {
+    background: transparent;
+    border: 2px solid #3ed783;
+    color: #000000;
+}
+
+.package-type > ul > li > a.active {
+    background: #3ed783;
+    border: 2px solid #3ed783;
+    color: #fff;
+}
+
+.package-type > ul > li > a.active > i {
+    display: inline-block;
+}
+
+.package-type > ul > li > a > i {
+    display: none;
 }
 
 /*company right wrapper */
@@ -1038,7 +1232,7 @@ body .container.body .right_col {
 
 /* company package */
 .company-package-widget {
-    height: 500px;
+    height: 450px;
     overflow: hidden;
     position: relative;
     border: 0px solid #f4f8f9;
@@ -1068,7 +1262,9 @@ body .container.body .right_col {
     overflow: hidden;
     position: relative;
     text-align: center;
-    margin-top: 30px;
+    margin-top: 20px;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 .pack-img > h2 {
@@ -1092,6 +1288,11 @@ body .container.body .right_col {
 
 .pack-buy > ul > li {
     display: inline-block;
+    font-size: 15px;
+}
+
+.pack-buy > ul.count2 {
+    border: 1px solid #fff;
 }
 
 /*menu sub menu */
@@ -1130,4 +1331,123 @@ body .container.body .right_col {
 .setting-menu > ul > li.menu-name {
     font-family: "roboto-light", sans-serif;
     font-size: 16px;
+}
+
+/* company create new modal */
+.full-width-modal {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.96);
+    z-index: 100;
+}
+
+.model-form-widget {
+    width: 100%;
+    min-height: 530px;
+    background: #ffffff;
+    overflow: hidden;
+    position: relative;
+    margin-top: 70px;
+    -webkit-box-shadow: -1px 0px 20px -6px rgba(0, 0, 0, 0.4);
+    -moz-box-shadow: -1px 0px 20px -6px rgba(0, 0, 0, 0.4);
+    box-shadow: -1px 0px 20px -6px rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+}
+
+.form-wrapper {
+    width: 100%;
+    min-height: 300px;
+    overflow: hidden;
+    position: relative;
+    padding: 30px 40px 20px 41px;
+}
+
+.form-wrapper > .header {
+    width: 100%;
+    display: block;
+    min-height: 20px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #dad9d9;
+}
+
+.form-wrapper > .header > .header-text {
+    font-family: "roboto-bold", sans-serif;
+    font-size: 16px;
+    width: 50%;
+    text-align: left;
+    display: inline-block;
+
+}
+
+.form-wrapper > .header > .header-icon {
+    width: 45%;
+    text-align: right;
+    display: inline-block;
+}
+
+.header-icon > ul {
+    margin: 0px;
+    padding: 0px;
+    display: block;
+    list-style: none;
+}
+
+.header-icon > ul > li {
+    display: inline-block;
+}
+
+.blur-me {
+    -webkit-filter: blur(5px);
+    -moz-filter: blur(5px);
+    -o-filter: blur(5px);
+    -ms-filter: blur(5px);
+    filter: blur(5px);
+}
+
+/*validation */
+.validation-on {
+    color: #fd7e7e;
+}
+
+.validation-on > .form-control {
+    border: 1px solid #fd7e7e;
+    background: #fff;
+}
+
+.error-div {
+    background: #fd7e7e;
+}
+
+.error-div > i {
+    color: #fff;
+}
+
+.error-div > ul > li {
+    color: #fff;
+}
+
+.option-menu {
+    font-family: "roboto-bold", sans-serif;
+    font-size: 13px;
+    padding-top: 7px;
+    color: #4a91e3;
+}
+
+.option-menu:hover,
+.option-menu:focus {
+    color: #2f5487;
+}
+
+.check-this {
+    position: absolute;
+    top: 12px;
+    right: 20px;
+    color: #000;
+    font-size: 15px;
 }

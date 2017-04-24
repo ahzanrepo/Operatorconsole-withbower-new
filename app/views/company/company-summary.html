@@ -76,6 +76,12 @@
                                      ng-click="goToCompanySummaryPage('companyPackage')">
                                     <ul>
                                         <li class="bold-text">Package Details</li>
+                                        <li class="pull-right">
+                                            <div ng-click="showAddMyPackage()"
+                                                 class="option-menu">
+                                                Update Package
+                                            </div>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -171,4 +177,11 @@
             Company not found
         </h5>
     </div>
+
+
+    <!-- new model company create -->
+    <div ng-if="isUpdateNewPackage==true">
+        <div ng-include="'app/views/company/temp/update-company-package.html'"></div>
+    </div>
+    <!-- end -->
 </div>

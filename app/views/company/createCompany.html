@@ -121,7 +121,10 @@
                                         </label>
 
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <select class="form-control" id="typeList" ng-model="packageData.assignType" required="required" ng-disabled="!companyDetail">
+                                            <select class="form-control" id="typeList"
+                                                    ng-model="packageData.assignType"
+                                                    required="required"
+                                                    ng-disabled="!companyDetail">
                                                 <option disabled selected>Choose Assign Type</option>
                                                 <option value="package">Package</option>
                                                 <option value="unit">Unit</option>
@@ -147,7 +150,10 @@
                                         </label>
 
                                         <div class="col-md-6 col-sm-6 col-xs-12">
-                                            <select class="form-control" id="unitList" ng-change="unitChange()" ng-model="packageData.unitIndex" required="required" ng-disabled="!companyDetail">
+                                            <select class="form-control" id="unitList" ng-change="unitChange()"
+                                                    ng-model="packageData.unitIndex"
+                                                    required="required"
+                                                    ng-disabled="!companyDetail">
                                                 <option disabled selected>Choose Unit</option>
                                                 <option ng-repeat="unit in unitDetails" value="{{$index}}">{{unit.unitName}}</option>
                                             </select>

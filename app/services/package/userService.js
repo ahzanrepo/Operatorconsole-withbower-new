@@ -29,7 +29,7 @@
         var updatePackage = function (veeryPackage) {
             return $http({
                 method: 'PUT',
-                url: baseUrls.userServiceBaseUrl + 'Package/'+veeryPackage.packageName,
+                url: baseUrls.userServiceBaseUrl + 'Package/' + veeryPackage.packageName,
                 data: veeryPackage
             }).then(function (resp) {
                 return resp.data;
@@ -39,7 +39,7 @@
         var removePackage = function (veeryPackageName) {
             return $http({
                 method: 'DELETE',
-                url: baseUrls.userServiceBaseUrl + 'Package/'+veeryPackageName
+                url: baseUrls.userServiceBaseUrl + 'Package/' + veeryPackageName
             }).then(function (resp) {
                 return resp.data;
             });
@@ -78,7 +78,7 @@
         var updateUnit = function (veeryUnit) {
             return $http({
                 method: 'PUT',
-                url: baseUrls.userServiceBaseUrl + 'PackageUnit/'+veeryUnit.unitName,
+                url: baseUrls.userServiceBaseUrl + 'PackageUnit/' + veeryUnit.unitName,
                 data: veeryUnit
             }).then(function (resp) {
                 return resp.data;
@@ -88,7 +88,7 @@
         var removeUnit = function (veeryUnitName) {
             return $http({
                 method: 'DELETE',
-                url: baseUrls.userServiceBaseUrl + 'PackageUnit/'+veeryUnitName
+                url: baseUrls.userServiceBaseUrl + 'PackageUnit/' + veeryUnitName
             }).then(function (resp) {
                 return resp.data;
             });
@@ -112,7 +112,7 @@
         var getCompanyData = function (companyId) {
             return $http({
                 method: 'GET',
-                url: baseUrls.userServiceBaseUrl + 'Tenant/Company/'+companyId
+                url: baseUrls.userServiceBaseUrl + 'Tenant/Company/' + companyId
             }).then(function (resp) {
                 return resp.data;
             }).catch(function (ex) {
@@ -120,10 +120,10 @@
             });
         };
 
-        var assignPackage = function (companyId, packageName) {
+        var assignPackage = function (param) {
             return $http({
                 method: 'PUT',
-                url: baseUrls.userServiceBaseUrl + 'Organisation/'+companyId+'/Package/'+packageName
+                url: baseUrls.userServiceBaseUrl + 'Organisation/' + param.companyId + '/Package/' + param.packageName
             }).then(function (resp) {
                 return resp.data;
             }).catch(function (ex) {
@@ -131,10 +131,11 @@
             });
         };
 
-        var assignUnit = function (companyId, packageName, unitName, topUpCount) {
+        var assignUnit = function (param) {
             return $http({
                 method: 'PUT',
-                url: baseUrls.userServiceBaseUrl + 'Organisation/'+companyId+'/Package/'+packageName+'/Unit/'+unitName+'/'+topUpCount
+                url: baseUrls.userServiceBaseUrl + 'Organisation/' + param.companyId + '/Package/' +
+                param.packageName + '/Unit/' + param.unit.unitName + '/' + param.topUpCount
             }).then(function (resp) {
                 return resp.data;
             }).catch(function (ex) {
@@ -143,7 +144,7 @@
         };
 
 
-        return{
+        return {
             GetAllPackages: getAllPackages,
             CreateNewPackage: createNewPackage,
             UpdatePackage: updatePackage,

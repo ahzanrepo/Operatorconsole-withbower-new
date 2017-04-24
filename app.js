@@ -5,7 +5,7 @@
 var opConsoleApp = angular.module('opConsoleApp', ['ngRoute', 'ui.bootstrap',
     'ui.router', 'angular-jwt', 'angular.filter', 'satellizer',
     'LocalStorageModule', 'base64', 'easypiechart', 'ngNotify',
-    'checklist-model', 'as.sortable', 'ui.slimscroll']);
+    'checklist-model', 'as.sortable', 'ui.slimscroll', 'oitozero.ngSweetAlert']);
 
 
 //app router
@@ -122,5 +122,37 @@ opConsoleApp.run(function ($rootScope, loginService, $location, $state) {
     if (!decodeToken) {
         $state.go('sign-in');
         return;
+    }
+});
+
+
+//Password verification
+opConsoleApp.directive('passwordVerify', function () {
+    return {
+        restrict: 'A', // only activate on element attribute
+        require: 'ngModel', // get a hold of NgModelController
+        link: function (scope, elem, attrs, ngModel) {
+            if (!ngModel) return; // do nothing if no ng-model
+
+            // watch own value and re-validate on change
+            scope.$watch(attrs.ngModel, function () {
+                validate();
+            });
+
+            // observe the other value and re-validate on change
+            attrs.$observe('passwordVerify', function (val) {
+                validate();
+            });
+
+            var validate = function () {
+                // values
+                var val1 = ngModel.$viewValue;
+                var val2 = attrs.passwordVerify;
+                // set validity
+                var status = !val1 || !val2 || val1 === val2;
+                ngModel.$setValidity('passwordVerify', status);
+                // return val1
+            };
+        }
     }
 });

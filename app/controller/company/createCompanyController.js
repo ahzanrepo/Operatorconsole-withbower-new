@@ -164,7 +164,8 @@
         var assignUnit = function () {
             try{
                 var topUpCount = $scope.packageData.topUpCount? $scope.packageData.topUpCount: 0;
-                userService.AssignUnit($scope.companyDetail.id, $scope.packageData.packageName, $scope.packageData.unit.unitName, topUpCount).then(function (response) {
+                userService.AssignUnit($scope.companyDetail.id, $scope.packageData.packageName,
+                    $scope.packageData.unit.unitName, topUpCount).then(function (response) {
                     if(response && response.IsSuccess){
                         $scope.notify('Load Package Success', 'success');
                     }else{
