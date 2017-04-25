@@ -1,0 +1,203 @@
+<div ng-controller="trunkConfigurationCtrl">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-title">
+                <div class="title_left">
+                    <h3>Trunk Configuration</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 x_panel">
+            <button type="button" class="btn btn-primary" ng-click="onClickCollapsed()">{{collapsedButton}}</button>
+        </div>
+        <div ng-if="appState === 'TRUNKSAVE' || appState === 'TRUNKUPDATE'" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 x_panel">
+            <div class="x-title">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h2>{{status}} Trunk Configuration</h2>
+                    <div class="ln_solid"></div>
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+            <br>
+
+            <div class="x-content">
+
+                <div class="" role="tabpanel" data-example-id="togglable-tabs">
+                    <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#tab_content1" target="_self" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Basic Configurations</a>
+                        </li>
+                        <li role="presentation" class=""><a href="#tab_content2" role="tab" target="_self" id="profile-tab" data-toggle="tab" aria-expanded="false">Allowed IP Configuration</a>
+                        </li>
+                    </ul>
+                    <div id="myTabContent" class="tab-content">
+                        <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
+                            <div class="form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+                                        <label>Trunk Code</label>
+                                        <input type="text" class="form-control"
+                                               ng-model="currentTrunk.TrunkCode">
+                                    </div>
+
+                                    <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+                                        <label>Trunk Name</label>
+                                        <input type="text" class="form-control"
+                                               ng-model="currentTrunk.TrunkName">
+                                    </div>
+
+                                    <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+                                        <label>Gateway Ip</label>
+                                        <input type="text" class="form-control"
+                                               ng-model="currentTrunk.IpUrl">
+                                    </div>
+
+                                    <div class="clearfix"></div>
+
+                                    <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+                                        <label>Username</label>
+                                        <input type="text" class="form-control"
+                                               ng-model="currentTrunk.Username">
+                                    </div>
+
+                                    <div class="col-md-4 col-sm-4 col-xs-12 form-group">
+                                        <label>Password</label>
+                                        <input type="text" class="form-control"
+                                               ng-model="currentTrunk.Password">
+                                    </div>
+
+                                    <div class="col-md-3 col-sm-3 col-xs-12 form-group">
+                                        <label>Trunk Outgoing Number Translation</label>
+                                        <select class="select2_single form-control" tabindex="-1"
+                                                aria-hidden="true"
+                                                id="transTrunk"
+                                                name="transTrunk" ng-model="currentTrunk.TranslationId"
+                                                ng-model-options="{trackBy: '$value'}">
+                                            <option value="">
+                                            </option>
+                                            <option ng-repeat="trans in transList" value="{{trans.id}}">{{trans.TransName}}
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-1 col-sm-1 col-xs-12">
+                                        <div style="position: relative; top: 30px">
+                                            <label>Enable</label>
+                                            <input type="checkbox" ng-model="currentTrunk.Enable">
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <br>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                        <button type="submit" class="btn btn-success"
+                                                ng-click="addNewTrunk()">{{status}}
+                                        </button>
+                                    </div>
+                                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                                        <button ng-if="status === 'Save'" class="btn btn-primary"
+                                                ng-click="resetForm()">Reset
+                                        </button>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                            <div class="form-group">
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <label>Ip Range</label>
+                                        <input type="text" class="form-control"
+                                               ng-model="ipRangeData.IpAddress">
+                                    </div>
+
+                                    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" style="position: relative; top: 30px;">
+                                            <h2>/</h2>
+                                        </div>
+                                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                                            <label>Mask</label>
+                                            <input type="text" class="form-control" ng-model="ipRangeData.Mask">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-3 col-sm-3 col-xs-3 form-group has-feedback">
+                                        <button class="btn btn-success" style="position: relative; top: 24px;" ng-click="addIpAddress(trunk)">
+                                            Add Ip
+                                        </button>
+                                    </div>
+
+                                    <div class="clearfix"></div>
+                                    <br>
+
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <div class="form-group">
+                                            <label>Remove Current Ip Addresses</label>
+                                            <tags-input ng-model="currentTrunk.IpAddressList" placeholder="." display-property="DisplayValue" on-tag-removing="ipAddressDelete($tag)" on-tag-adding="tagAdding($tag)">
+                                            </tags-input>
+                                        </div>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+        <div ng-if="appState === 'TRUNKLIST'" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 x_panel">
+            <div class="x-title">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h2>Trunk List</h2>
+                    <div class="ln_solid"></div>
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+            <br>
+
+            <div class="x-content">
+                <div class="form-group">
+                    <div class="x_panel col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-repeat="item in trunkList">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <b>{{item.TrunkCode}}</b>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <b>{{item.TrunkName}}</b>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <b>{{item.IpUrl}}</b>
+                        </div>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link" ng-click="editTrunk(item)"><i class="fa fa-edit" style="color: black"></i></a>
+                            </li>
+                            <li><a class="collapse-link" ng-click="removeCodecPreference(item.id)"><i class="fa fa-phone" style="color: black"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

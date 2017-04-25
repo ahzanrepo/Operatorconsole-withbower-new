@@ -36,6 +36,9 @@ opConsoleApp.controller('consoleCtrl', function ($scope,
             case 'codecManagement':
                 $state.go('op-console.codec-management');
                 break;
+            case 'trunkConfiguration':
+                $state.go('op-console.trunk-configuration');
+                break;
             case 'companyInfo':
                 $state.go('op-console.all-company-information');
                 break;

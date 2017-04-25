@@ -5,7 +5,7 @@
 var opConsoleApp = angular.module('opConsoleApp', ['ngRoute', 'ui.bootstrap',
     'ui.router', 'angular-jwt', 'angular.filter', 'satellizer',
     'LocalStorageModule', 'base64', 'easypiechart', 'ngNotify',
-    'checklist-model', 'as.sortable', 'ui.slimscroll', 'oitozero.ngSweetAlert']);
+    'checklist-model', 'as.sortable', 'ui.slimscroll', 'oitozero.ngSweetAlert', 'ngTagsInput']);
 
 
 //app router
@@ -39,6 +39,12 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
         }).state('op-console.codec-management', {
             url: "/codec-management",
             templateUrl: "app/views/codec-management/codec-management.html",
+            data: {
+                requireLogin: true
+            }
+        }).state('op-console.trunk-configuration', {
+            url: "/trunk-configuration",
+            templateUrl: "app/views/trunk-configuration/trunk-configuration.html",
             data: {
                 requireLogin: true
             }
@@ -91,9 +97,11 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
 var baseUrls = {
     'userServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'monitorServerUrl': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
-    'sipUserEndpointService': 'http://localhost:8086/DVP/API/1.0.0.0/SipUser/',
+    'sipUserEndpointService': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
     'userServiceAuthUrl': 'http://userservice.app.veery.cloud/',
-    'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/'
+    'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
+    'phoneNumTrunkServiceBaseURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'ruleServiceBaseURL': 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/'
 };
 
 opConsoleApp.constant('baseUrls', baseUrls);
