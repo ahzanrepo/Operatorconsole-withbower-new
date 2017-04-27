@@ -101,7 +101,8 @@ var baseUrls = {
     'userServiceAuthUrl': 'http://userservice.app.veery.cloud/',
     'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
     'phoneNumTrunkServiceBaseURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
-    'ruleServiceBaseURL': 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/'
+    'ruleServiceBaseURL': 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'limitHandlerBaseURL': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/'
 };
 
 opConsoleApp.constant('baseUrls', baseUrls);

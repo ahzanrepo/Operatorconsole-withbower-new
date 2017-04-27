@@ -14,6 +14,7 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 x_panel">
             <button type="button" class="btn btn-primary" ng-click="onClickCollapsed()">{{collapsedButton}}</button>
+            <button type="button" ng-if="appState === 'PHONELIST'" class="btn btn-primary" ng-click="onClickAddNewNumber()">Add Number</button>
         </div>
         <div ng-if="appState === 'TRUNKSAVE' || appState === 'TRUNKUPDATE'" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 x_panel">
             <div class="x-title">
@@ -32,7 +33,8 @@
                     <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
                         <li role="presentation" class="active"><a href="#tab_content1" target="_self" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Basic Configurations</a>
                         </li>
-                        <li role="presentation" class=""><a href="#tab_content2" role="tab" target="_self" id="profile-tab" data-toggle="tab" aria-expanded="false">Allowed IP Configuration</a>
+                        <li role="presentation" class="">
+                            <a ng-if="appState === 'TRUNKUPDATE'" href="#tab_content2" role="tab" target="_self" id="profile-tab" data-toggle="tab" aria-expanded="false">Allowed IP Configuration</a>
                         </li>
                     </ul>
                     <div id="myTabContent" class="tab-content">
@@ -163,6 +165,99 @@
 
         </div>
 
+        <div ng-if="appState === 'PHONESAVE' || appState === 'PHONEUPDATE'" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 x_panel">
+            <div class="x-title">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h2>{{status}} Phone Number Configuration</h2>
+                    <div class="ln_solid"></div>
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+            <br>
+
+            <div class="x-content">
+
+                <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <label>Phone Number</label>
+                            <input type="text" ng-disabled="appState === 'PHONEUPDATE'" class="form-control"
+                                   ng-model="phnNum.PhoneNumber">
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <label>Number Type</label>
+                            <select class="select2_single form-control" tabindex="-1" aria-hidden="true"
+                                    placeholder="Role" name="role" ng-model="phnNum.ObjCategory">
+                                <option value="INBOUND">INBOUND</option>
+                                <option value="OUTBOUND">OUTBOUND</option>
+                                <option value="BOTH">BOTH</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 col-sm-3 col-xs-12">
+                            <label>Company</label>
+                            <select class="select2_single form-control" tabindex="-1"
+                                    aria-hidden="true"
+                                    id="company"
+                                    name="company" ng-model="phnNum.ClientCompany"
+                                    ng-model-options="{trackBy: '$value'}">
+                                <option ng-repeat="comp in companyList" value="{{comp.companyId}}">{{comp.companyName}}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-1 col-sm-1 col-xs-12">
+                            <div style="position: relative; top: 30px;">
+                                <label>Enable</label>
+                                <input type="checkbox" class="btn-success" ng-model="phnNum.Enable">
+                            </div>
+
+                        </div>
+
+                        <div class="clearfix"></div>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <label>Inbound Limit</label>
+                            <input type="text" class="form-control"
+                                   ng-model="phnNum.InboundLimit">
+                        </div>
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <label>Outbound Limit</label>
+                            <input type="text" class="form-control"
+                                   ng-model="phnNum.OutboundLimit">
+                        </div>
+
+                        <div class="col-md-4 col-sm-4 col-xs-12">
+                            <label>Both Limit</label>
+                            <input type="text" class="form-control"
+                                   ng-model="phnNum.BothLimit">
+                        </div>
+
+                    </div>
+                    <div class="clearfix"></div>
+                    <br>
+                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <button type="submit" class="btn btn-success"
+                                    ng-click="addPhoneNumber()">{{status}}
+                            </button>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
+                            <button ng-if="status === 'Save'" class="btn btn-primary"
+                                    ng-click="resetPhoneForm()">Reset
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
         <div ng-if="appState === 'TRUNKLIST'" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 x_panel">
             <div class="x-title">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -189,7 +284,7 @@
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link" ng-click="editTrunk(item)"><i class="fa fa-edit" style="color: black"></i></a>
                             </li>
-                            <li><a class="collapse-link" ng-click="removeCodecPreference(item.id)"><i class="fa fa-phone" style="color: black"></i></a>
+                            <li><a class="collapse-link" ng-click="showNumberList(item)"><i class="fa fa-phone" style="color: black"></i></a>
                             </li>
                         </ul>
                     </div>
@@ -198,6 +293,40 @@
 
             </div>
 
+        </div>
+
+        <div ng-if="appState === 'PHONELIST'" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 x_panel">
+            <div class="x-title">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <h2>Phone Number List</h2>
+                    <div class="ln_solid"></div>
+                </div>
+
+            </div>
+            <div class="clearfix"></div>
+            <br>
+
+            <div class="x-content">
+                <div class="form-group">
+                    <div class="x_panel col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-repeat="item in phoneNumberList">
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <b>{{item.PhoneNumber}}</b>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <b>Company : {{item.CompanyId}}</b>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <b>Tenant : {{item.TenantId}}</b>
+                        </div>
+                        <ul class="nav navbar-right panel_toolbox">
+                            <li><a class="collapse-link" ng-click="editPhone(item)"><i class="fa fa-edit" style="color: black"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
         </div>
     </div>
 </div>

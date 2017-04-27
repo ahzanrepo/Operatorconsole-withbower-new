@@ -2,13 +2,19 @@
  * Created by dinusha on 4/24/2017.
  */
 
-opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, sipUserService, ruleService, phnNumTrunkService, userProfileServices) {
+opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, sipUserService, ruleService, phnNumTrunkService, companyInfoServices, userProfileServices) {
 
     $scope.currentTrunk = {
         IpAddressList: []
     };
 
     $scope.ipRangeData = {};
+
+    $scope.phoneNumberList = [];
+
+    $scope.companyList = [];
+
+    $scope.phnNum = {};
 
     $scope.appState = 'TRUNKLIST';
 
@@ -19,10 +25,19 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
     $scope.collapsedButton = 'Create Trunk';
 
-    var resetForm = function()
+    $scope.resetForm = function()
     {
-        $scope.currentTrunk = {};
+        $scope.currentTrunk = {
+            IpAddressList: []
+        };
     };
+
+    $scope.resetPhoneForm = function()
+    {
+        $scope.phnNum = {};
+    };
+
+
 
     $scope.onClickCollapsed = function ()
     {
@@ -30,10 +45,22 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
         {
             $scope.appState = 'TRUNKSAVE';
             $scope.resetForm();
-            $scope.collapsedButton = 'Back';
+            $scope.collapsedButton = 'Back To Trunk List';
             $scope.status = 'Save';
         }
         else if($scope.appState === 'TRUNKSAVE' || $scope.appState === 'TRUNKUPDATE')
+        {
+            $scope.appState = 'TRUNKLIST';
+            $scope.collapsedButton = 'Create Trunk';
+            $scope.status = 'Save';
+        }
+        else if($scope.appState === 'PHONESAVE' || $scope.appState === 'PHONEUPDATE')
+        {
+            $scope.appState = 'PHONELIST';
+            $scope.collapsedButton = 'Back To Trunk List';
+            $scope.status = 'Save';
+        }
+        else if($scope.appState === 'PHONELIST')
         {
             $scope.appState = 'TRUNKLIST';
             $scope.collapsedButton = 'Create Trunk';
@@ -143,7 +170,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                     type: 'success'
                 });
 
-                resetForm();
+                $scope.resetForm();
 
                 loadTrunks();
             }
@@ -167,6 +194,44 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
         }, function (err) {
             var errMsg = "Error saving trunk";
+            if (err.statusText) {
+                errMsg = err.statusText;
+            }
+            ngNotify.set(errMsg, {
+                position: 'top',
+                sticky: false,
+                duration: 3000,
+                type: 'error'
+            });
+        });
+    };
+
+    var getLimits = function () {
+        phnNumTrunkService.getLimits().then(function (data)
+        {
+            if (data.IsSuccess)
+            {
+                $scope.limitList = data.Result;
+            }
+            else
+            {
+                var errMsg = data.CustomMessage;
+
+                if (data.Exception)
+                {
+                    errMsg = data.Exception.Message;
+                }
+                ngNotify.set(errMsg, {
+                    position: 'top',
+                    sticky: false,
+                    duration: 3000,
+                    type: 'error'
+                });
+
+            }
+
+        }, function (err) {
+            var errMsg = "Error occurred while loading limits";
             if (err.statusText) {
                 errMsg = err.statusText;
             }
@@ -227,6 +292,143 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
         });
     };
 
+    $scope.addPhoneNumber = function ()
+    {
+        $scope.phnNum.TrunkId = $scope.currentTrunk.id;
+
+        if($scope.appState === 'PHONEUPDATE')
+        {
+            phnNumTrunkService.updatePhoneNumberTenant($scope.phnNum).then(function (data) {
+                if (data.IsSuccess)
+                {
+                    ngNotify.set('Phone number updated successfully', {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'success'
+                    });
+                }
+                else
+                {
+                    var errMsg = "";
+                    if (data.Exception && data.Exception.Message) {
+                        errMsg = data.Exception.Message;
+                    }
+
+                    if (data.CustomMessage) {
+                        errMsg = data.CustomMessage;
+                    }
+                    ngNotify.set(errMsg, {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'error'
+                    });
+                }
+
+            }, function (err)
+            {
+                var errMsg = "Error updating phone number";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
+                ngNotify.set(errMsg, {
+                    position: 'top',
+                    sticky: false,
+                    duration: 3000,
+                    type: 'error'
+                });
+            });
+        }
+        else
+        {
+            phnNumTrunkService.addPhoneNumberTenant($scope.phnNum).then(function (data) {
+                if (data.IsSuccess)
+                {
+                    ngNotify.set('Phone number added successfully', {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'success'
+                    });
+                }
+                else
+                {
+                    var errMsg = "";
+                    if (data.Exception && data.Exception.Message) {
+                        errMsg = data.Exception.Message;
+                    }
+
+                    if (data.CustomMessage) {
+                        errMsg = data.CustomMessage;
+                    }
+                    ngNotify.set(errMsg, {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'error'
+                    });
+                }
+
+            }, function (err)
+            {
+                var errMsg = "Error adding phone number";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
+                ngNotify.set(errMsg, {
+                    position: 'top',
+                    sticky: false,
+                    duration: 3000,
+                    type: 'error'
+                });
+            });
+        }
+
+
+    };
+
+    var loadCompanyList = function()
+    {
+        companyInfoServices.getAllCompanyDetails().then(function(compListResp)
+        {
+            if (compListResp.IsSuccess)
+            {
+                if (compListResp.Result)
+                {
+                    $scope.companyList = compListResp.Result;
+                }
+            }
+            else
+            {
+                var errMsg = compListResp.CustomMessage;
+
+                if (compListResp.Exception) {
+                    errMsg = compListResp.Exception.Message;
+                }
+                ngNotify.set(errMsg, {
+                    position: 'top',
+                    sticky: false,
+                    duration: 3000,
+                    type: 'error'
+                });
+
+            }
+        }).catch(function(ex)
+        {
+            var errMsg = "Error loading company details";
+            if (ex.statusText) {
+                errMsg = ex.statusText;
+            }
+            ngNotify.set(errMsg, {
+                position: 'top',
+                sticky: false,
+                duration: 3000,
+                type: 'error'
+            });
+        })
+    }
+
 
     var loadIpAddresses = function (trunk) {
         $scope.currentTrunk.IpAddressList = [];
@@ -275,6 +477,34 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
 
 
+    $scope.editPhone = function(phn)
+    {
+        angular.copy(phn, $scope.phnNum);
+
+        if(phn.LimitInfoInbound)
+        {
+            $scope.phnNum.InboundLimit = phn.LimitInfoInbound.MaxCount;
+        }
+
+        if(phn.LimitInfoOutbound)
+        {
+            $scope.phnNum.OutboundLimit = phn.LimitInfoOutbound.MaxCount;
+        }
+
+        if(phn.LimitInfoBoth)
+        {
+            $scope.phnNum.BothLimit = phn.LimitInfoBoth.MaxCount;
+        }
+
+        $scope.phnNum.ClientCompany = phn.CompanyId.toString();
+
+        $scope.appState = 'PHONEUPDATE';
+
+        $scope.collapsedButton = 'Back To Trunk List';
+        $scope.status = 'Update';
+
+    };
+
 
     $scope.editTrunk = function(trunk)
     {
@@ -289,26 +519,47 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
         $scope.appState = 'TRUNKUPDATE';
 
-        $scope.collapsedButton = 'Back';
+        $scope.collapsedButton = 'Back To Trunk List';
         $scope.status = 'Update';
 
     };
 
-    var loadContexts = function()
+    $scope.onClickAddNewNumber = function()
     {
-        $scope.contextList = [{Context: 'public'}];
-        sipUserService.getContexts().then(function(contextRes)
+        $scope.appState = 'PHONESAVE';
+        $scope.collapsedButton = 'Back To Phone Number List';
+
+        $scope.resetPhoneForm();
+    };
+
+    $scope.showNumberList = function(trunk)
+    {
+        getLimits();
+        loadCompanyList();
+
+        angular.copy(trunk, $scope.currentTrunk);
+
+        if($scope.currentTrunk.TranslationId)
         {
-            if(contextRes && contextRes.IsSuccess)
+            $scope.currentTrunk.TranslationId = $scope.currentTrunk.TranslationId.toString();
+        }
+
+        phnNumTrunkService.getPhoneNumbersByTrunk(trunk.id).then(function(numberListResp)
+        {
+            if(numberListResp && numberListResp.IsSuccess)
             {
-                $scope.contextList.push.apply($scope.contextList, contextRes.Result);
+                $scope.phoneNumberList = numberListResp.Result;
+
+                $scope.appState = 'PHONELIST';
+
+                $scope.collapsedButton = 'Back To Trunk List';
             }
             else
             {
                 //error
-                if(contextRes.Exception)
+                if(numberListResp.Exception)
                 {
-                    ngNotify.set(contextRes.Exception.Message, {
+                    ngNotify.set(numberListResp.Exception.Message, {
                         position: 'top',
                         sticky: false,
                         duration: 3000,
@@ -317,7 +568,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                 }
                 else
                 {
-                    ngNotify.set('Error occurred while loading contexts', {
+                    ngNotify.set('Error occurred while loading trunk list', {
                         position: 'top',
                         sticky: false,
                         duration: 3000,
@@ -329,7 +580,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
         }).catch(function(err)
         {
-            ngNotify.set('Error occurred while loading organization codecs', {
+            ngNotify.set('Error occurred while loading trunk list', {
                 position: 'top',
                 sticky: false,
                 duration: 3000,
@@ -337,6 +588,9 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
             });
 
         })
+
+
+
     };
 
     var loadTrunks = function()

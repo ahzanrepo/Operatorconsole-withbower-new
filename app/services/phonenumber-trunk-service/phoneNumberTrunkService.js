@@ -40,6 +40,17 @@
             })
         };
 
+        var getPhoneNumbersByTrunk = function(trunkId)
+        {
+            return $http({
+                method: 'GET',
+                url: baseUrls.phoneNumTrunkServiceBaseURL + 'PhoneNumberTrunkApi/Trunk/' + trunkId + '/PhoneNumbers'
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         var getTrunk = function(trunkId)
         {
             return $http({
@@ -58,6 +69,34 @@
             return $http({
                 method: 'POST',
                 url: baseUrls.phoneNumTrunkServiceBaseURL + 'PhoneNumberTrunkApi/Trunk',
+                data : jsonStr
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
+        var addPhoneNumberTenant = function(phnNumInfo)
+        {
+            var jsonStr = JSON.stringify(phnNumInfo);
+
+            return $http({
+                method: 'POST',
+                url: baseUrls.phoneNumTrunkServiceBaseURL + 'PhoneNumberTrunkApi/TrunkNumberForTenant',
+                data : jsonStr
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
+        var updatePhoneNumberTenant = function(phnNumInfo)
+        {
+            var jsonStr = JSON.stringify(phnNumInfo);
+
+            return $http({
+                method: 'PUT',
+                url: baseUrls.phoneNumTrunkServiceBaseURL + 'PhoneNumberTrunkApi/UpdateNumberForTenant',
                 data : jsonStr
             }).then(function(resp)
             {
@@ -119,7 +158,7 @@
         {
             return $http({
                 method: 'GET',
-                url: baseUrls.limitHandlerUrl + 'LimitAPI/Limit/Info'
+                url: baseUrls.limitHandlerBaseURL + 'LimitAPI/Limit/Info'
             }).then(function(resp)
             {
                 return resp.data;
@@ -153,6 +192,8 @@
                 return resp.data;
             })
         };
+
+
 
         var updatePhoneNumber = function(phnNumInfo)
         {
@@ -236,7 +277,10 @@
             addNewTrunk: addNewTrunk,
             updateTrunk: updateTrunk,
             updatePhoneNumber: updatePhoneNumber,
-            removeTrunkNumber: removeTrunkNumber
+            removeTrunkNumber: removeTrunkNumber,
+            getPhoneNumbersByTrunk: getPhoneNumbersByTrunk,
+            addPhoneNumberTenant: addPhoneNumberTenant,
+            updatePhoneNumberTenant: updatePhoneNumberTenant
         };
 
 
