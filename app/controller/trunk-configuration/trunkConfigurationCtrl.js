@@ -159,7 +159,6 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
     $scope.addNewTrunk = function ()
     {
-        if($scope.appState === '')
         phnNumTrunkService.addNewTrunk($scope.currentTrunk).then(function (data)
         {
             if (data.IsSuccess) {
