@@ -18,6 +18,28 @@
             })
         };
 
+        var setCloudToTrunk = function(trunkId, cloudId)
+        {
+            return $http({
+                method: 'POST',
+                url: baseUrls.phoneNumTrunkServiceBaseURL + 'PhoneNumberTrunkApi/Trunk/' + trunkId + '/SetCloud/' + cloudId
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
+        var setProfileToTrunk = function(trunkId, profileId)
+        {
+            return $http({
+                method: 'POST',
+                url: baseUrls.phoneNumTrunkServiceBaseURL + 'PhoneNumberTrunkApi/Trunk/' + trunkId + '/SetSipProfile/' + profileId
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         var getTrunkIpAddresses = function(trunkId)
         {
             return $http({
@@ -280,7 +302,9 @@
             removeTrunkNumber: removeTrunkNumber,
             getPhoneNumbersByTrunk: getPhoneNumbersByTrunk,
             addPhoneNumberTenant: addPhoneNumberTenant,
-            updatePhoneNumberTenant: updatePhoneNumberTenant
+            updatePhoneNumberTenant: updatePhoneNumberTenant,
+            setCloudToTrunk: setCloudToTrunk,
+            setProfileToTrunk: setProfileToTrunk
         };
 
 

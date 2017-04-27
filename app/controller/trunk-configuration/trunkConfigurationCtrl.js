@@ -2,7 +2,7 @@
  * Created by dinusha on 4/24/2017.
  */
 
-opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, sipUserService, ruleService, phnNumTrunkService, companyInfoServices, userProfileServices) {
+opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, sipUserService, ruleService, clusterConfigurationService, phnNumTrunkService, companyInfoServices, userProfileServices) {
 
     $scope.currentTrunk = {
         IpAddressList: []
@@ -13,6 +13,13 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
     $scope.phoneNumberList = [];
 
     $scope.companyList = [];
+
+    $scope.cloudList = [];
+    $scope.profileList = [];
+
+    $scope.terminationInfo= {
+        TerminationType: 'CLOUD'
+    };
 
     $scope.phnNum = {};
 
@@ -36,8 +43,6 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
     {
         $scope.phnNum = {};
     };
-
-
 
     $scope.onClickCollapsed = function ()
     {
@@ -291,6 +296,110 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
         });
     };
 
+    $scope.setTerminationData = function () {
+
+        if($scope.terminationInfo.TerminationType === 'CLOUD')
+        {
+            phnNumTrunkService.setCloudToTrunk($scope.currentTrunk.id, $scope.terminationInfo.CloudId).then(function (data)
+            {
+                if (data.IsSuccess)
+                {
+                    ngNotify.set('Trunk terminated to cloud successfully', {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'success'
+                    });
+                }
+                else
+                {
+                    var errMsg = "";
+                    if (data.Exception && data.Exception.Message) {
+                        errMsg = data.Exception.Message;
+                    }
+
+                    if (data.CustomMessage) {
+                        errMsg = data.CustomMessage;
+                    }
+                    ngNotify.set(errMsg, {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'error'
+                    });
+                }
+
+            }, function (err)
+            {
+                var errMsg = "Error terminating trunk";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
+                ngNotify.set(errMsg, {
+                    position: 'top',
+                    sticky: false,
+                    duration: 3000,
+                    type: 'error'
+                });
+            });
+        }
+        else if($scope.terminationInfo.TerminationType === 'PROFILE')
+        {
+            phnNumTrunkService.setProfileToTrunk($scope.currentTrunk.id, $scope.terminationInfo.ProfileId).then(function (data)
+            {
+                if (data.IsSuccess)
+                {
+                    ngNotify.set('Trunk terminated to profile successfully', {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'success'
+                    });
+                }
+                else
+                {
+                    var errMsg = "";
+                    if (data.Exception && data.Exception.Message) {
+                        errMsg = data.Exception.Message;
+                    }
+
+                    if (data.CustomMessage) {
+                        errMsg = data.CustomMessage;
+                    }
+                    ngNotify.set(errMsg, {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'error'
+                    });
+                }
+
+            }, function (err)
+            {
+                var errMsg = "Error terminating trunk";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
+                ngNotify.set(errMsg, {
+                    position: 'top',
+                    sticky: false,
+                    duration: 3000,
+                    type: 'error'
+                });
+            });
+        }
+        else
+        {
+            ngNotify.set('Invalid termination type', {
+                position: 'top',
+                sticky: false,
+                duration: 3000,
+                type: 'error'
+            });
+        }
+
+    };
+
     $scope.addPhoneNumber = function ()
     {
         $scope.phnNum.TrunkId = $scope.currentTrunk.id;
@@ -426,7 +535,142 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                 type: 'error'
             });
         })
-    }
+    };
+
+    var loadCloudList = function()
+    {
+        clusterConfigurationService.getClusters().then(function(clusterListResp)
+        {
+            if (clusterListResp.IsSuccess)
+            {
+                if (clusterListResp.Result)
+                {
+                    $scope.cloudList = clusterListResp.Result;
+                }
+            }
+            else
+            {
+                var errMsg = clusterListResp.CustomMessage;
+
+                if (clusterListResp.Exception) {
+                    errMsg = clusterListResp.Exception.Message;
+                }
+                ngNotify.set(errMsg, {
+                    position: 'top',
+                    sticky: false,
+                    duration: 3000,
+                    type: 'error'
+                });
+
+            }
+        }).catch(function(ex)
+        {
+            var errMsg = "Error loading cluster details";
+            if (ex.statusText) {
+                errMsg = ex.statusText;
+            }
+            ngNotify.set(errMsg, {
+                position: 'top',
+                sticky: false,
+                duration: 3000,
+                type: 'error'
+            });
+        })
+    };
+
+    var loadProfileList = function()
+    {
+        clusterConfigurationService.getProfiles().then(function(profileListResp)
+        {
+            if (profileListResp.IsSuccess)
+            {
+                if (profileListResp.Result)
+                {
+                    $scope.profileList = _.filter(profileListResp.Result, function(prof)
+                    {
+                        return prof.ObjCategory === 'EXTERNAL';
+                    });
+                }
+            }
+            else
+            {
+                var errMsg = profileListResp.CustomMessage;
+
+                if (profileListResp.Exception) {
+                    errMsg = profileListResp.Exception.Message;
+                }
+                ngNotify.set(errMsg, {
+                    position: 'top',
+                    sticky: false,
+                    duration: 3000,
+                    type: 'error'
+                });
+
+            }
+        }).catch(function(ex)
+        {
+            var errMsg = "Error loading profile details";
+            if (ex.statusText) {
+                errMsg = ex.statusText;
+            }
+            ngNotify.set(errMsg, {
+                position: 'top',
+                sticky: false,
+                duration: 3000,
+                type: 'error'
+            });
+        })
+    };
+
+    loadCloudList();
+    loadProfileList();
+
+
+
+    var loadTrunk = function (trunk)
+    {
+        $scope.terminationInfo.CloudId = null;
+        $scope.terminationInfo.ProfileId = null;
+        phnNumTrunkService.getTrunk(trunk.id).then(function (data)
+        {
+            if (data.IsSuccess)
+            {
+                if (data.Result && data.Result.LoadBalancer && data.Result.LoadBalancer.Cloud)
+                {
+                    $scope.terminationInfo.CloudId = data.Result.LoadBalancer.Cloud.id.toString();
+                    $scope.terminationInfo.ProfileId = data.Result.ProfileId.toString();
+                }
+
+                //$scope.trunkList = data.Result;
+            }
+            else {
+                var errMsg = data.CustomMessage;
+
+                if (data.Exception) {
+                    errMsg = data.Exception.Message;
+                }
+                ngNotify.set(errMsg, {
+                    position: 'top',
+                    sticky: false,
+                    duration: 3000,
+                    type: 'error'
+                });
+
+            }
+
+        }, function (err) {
+            var errMsg = "Error occurred while loading trunk data";
+            if (err.statusText) {
+                errMsg = err.statusText;
+            }
+            ngNotify.set(errMsg, {
+                position: 'top',
+                sticky: false,
+                duration: 3000,
+                type: 'error'
+            });
+        });
+    };
 
 
     var loadIpAddresses = function (trunk) {
@@ -515,6 +759,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
         }
 
         loadIpAddresses(trunk);
+        loadTrunk(trunk);
 
         $scope.appState = 'TRUNKUPDATE';
 
@@ -599,6 +844,13 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
             if(trunkListResp && trunkListResp.IsSuccess)
             {
                 $scope.trunkList = trunkListResp.Result;
+
+                if(trunkListResp.Result.LoadBalancer && trunkListResp.Result.LoadBalancer.Cloud)
+                {
+                    $scope.trunkList.CloudId = trunkListResp.Result.LoadBalancer.Cloud.id
+                }
+
+
             }
             else
             {

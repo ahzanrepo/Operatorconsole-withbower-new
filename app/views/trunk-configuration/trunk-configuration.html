@@ -36,6 +36,9 @@
                         <li role="presentation" class="">
                             <a ng-if="appState === 'TRUNKUPDATE'" href="#tab_content2" role="tab" target="_self" id="ipaddress-tab" data-toggle="tab" aria-expanded="false">Allowed IP Configuration</a>
                         </li>
+                        <li role="presentation" class="">
+                            <a ng-if="appState === 'TRUNKUPDATE'" href="#tab_content3" role="tab" target="_self" id="termination-tab" data-toggle="tab" aria-expanded="false">Trunk Termination</a>
+                        </li>
                     </ul>
                     <div id="myTabContent" class="tab-content">
                         <div role="tabpanel" class="tab-pane fade active in" id="tab_content1" aria-labelledby="home-tab">
@@ -151,6 +154,53 @@
                                         </div>
 
                                     </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="termination-tab">
+                            <div class="form-group">
+
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                        <label>Termination Type</label>
+                                        <select class="select2_single form-control" tabindex="-1" aria-hidden="true"
+                                                name="role" ng-model="terminationInfo.TerminationType">
+                                            <option value="CLOUD">CLOUD</option>
+                                            <option value="PROFILE">PROFILE</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-12" ng-show="terminationInfo.TerminationType === 'CLOUD'">
+                                        <label>Cloud</label>
+                                        <select class="select2_single form-control" tabindex="-1"
+                                                aria-hidden="true"
+                                                id="cloud"
+                                                name="cloud" ng-model="terminationInfo.CloudId"
+                                                ng-model-options="{trackBy: '$value'}">
+                                            <option ng-repeat="cloud in cloudList" value="{{cloud.id}}">{{cloud.Name}}
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3 col-sm-3 col-xs-12" ng-show="terminationInfo.TerminationType === 'PROFILE'">
+                                        <label>Profile</label>
+                                        <select class="select2_single form-control" tabindex="-1"
+                                                aria-hidden="true"
+                                                id="profile"
+                                                name="profile" ng-model="terminationInfo.ProfileId"
+                                                ng-model-options="{trackBy: '$value'}">
+                                            <option ng-repeat="profile in profileList" value="{{profile.id}}">{{profile.ProfileName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3 col-xs-3 form-group has-feedback">
+                                        <button class="btn btn-success" style="position: relative; top: 24px;" ng-click="setTerminationData()">
+                                            Add Termination Point
+                                        </button>
+                                    </div>
+
 
 
                                 </div>
