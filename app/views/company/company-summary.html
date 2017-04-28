@@ -59,6 +59,14 @@
                                 </div>
 
                                 <div class="box-menu-wrp"
+                                     ng-class="currentPage=='companyProvision'?'active':''"
+                                     ng-click="goToCompanySummaryPage('companyProvision')">
+                                    <ul>
+                                        <li class="bold-text">Company Provision</li>
+                                    </ul>
+                                </div>
+
+                                <div class="box-menu-wrp"
                                      ng-class="currentPage=='consoleAccess'?'active':''"
                                      ng-click="goToCompanySummaryPage('consoleAccess')">
                                     <ul>
@@ -134,6 +142,11 @@
                     <div class="row">
                         <div class="right-company-s-wrp" ng-if="currentPage=='consoleAccess'">
                             <div ng-include="'app/views/company/temp/company-console-access.html'">
+                            </div>
+                        </div>
+
+                        <div class="right-company-s-wrp" ng-if="currentPage=='companyProvision'">
+                            <div ng-include="'app/views/company/temp/company-provision.html'">
                             </div>
                         </div>
 

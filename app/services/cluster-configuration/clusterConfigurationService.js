@@ -28,10 +28,50 @@
             })
         };
 
+        var saveNewEndUser = function(euData)
+        {
+            return $http({
+                method: 'POST',
+                url: baseUrls.clusterConfigurationBaseURL +"CloudConfiguration/CloudEndUserTenant",
+                data:euData
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        };
+
+        var updateEndUser = function(euData)
+        {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.clusterConfigurationBaseURL + "CloudConfiguration/CloudEndUserTenant/" + euData.id,
+                data:euData
+
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        };
+
+        var getCloudEndUser = function(clientCompany)
+        {
+            return $http({
+                method: 'GET',
+                url:baseUrls.clusterConfigurationBaseURL +"CloudConfiguration/CloudEndUsersTenant/" + clientCompany
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        };
+
 
         return {
             getClusters: getClusters,
-            getProfiles: getProfiles
+            getProfiles: getProfiles,
+            saveNewEndUser: saveNewEndUser,
+            updateEndUser: updateEndUser,
+            getCloudEndUser: getCloudEndUser
         };
 
 

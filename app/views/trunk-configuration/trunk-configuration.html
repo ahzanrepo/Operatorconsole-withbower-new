@@ -13,8 +13,8 @@
 
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 x_panel">
-            <button type="button" class="btn btn-primary" ng-click="onClickCollapsed()">{{collapsedButton}}</button>
-            <button type="button" ng-if="appState === 'PHONELIST'" class="btn btn-primary" ng-click="onClickAddNewNumber()">Add Number</button>
+            <button type="button" class="btn" ng-class="dynamicCss" ng-click="onClickCollapsed()">{{collapsedButton}}</button>
+            <button type="button" ng-if="appState === 'PHONELIST'" class="btn trunk-app-button-dynamic-execute" ng-click="onClickAddNewNumber()">Add Number</button>
         </div>
         <div ng-if="appState === 'TRUNKSAVE' || appState === 'TRUNKUPDATE'" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 x_panel">
             <div class="x-title">
@@ -45,13 +45,13 @@
                             <div class="form-group">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-                                        <label>Trunk Code</label>
-                                        <input type="text" class="form-control"
+                                        <label>Trunk Code *</label>
+                                        <input type="text" class="form-control" ng-disabled="appState === 'TRUNKUPDATE'"
                                                ng-model="currentTrunk.TrunkCode">
                                     </div>
 
                                     <div class="col-md-4 col-sm-4 col-xs-12 form-group">
-                                        <label>Trunk Name</label>
+                                        <label>Trunk Name *</label>
                                         <input type="text" class="form-control"
                                                ng-model="currentTrunk.TrunkName">
                                     </div>
@@ -102,7 +102,7 @@
                                 <br>
                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                                     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                                        <button type="submit" class="btn btn-success"
+                                        <button type="submit" ng-disabled="!currentTrunk.TrunkCode || !currentTrunk.TrunkName" class="btn btn-success"
                                                 ng-click="addNewTrunk()">{{status}}
                                         </button>
                                     </div>
@@ -218,7 +218,7 @@
         <div ng-if="appState === 'PHONESAVE' || appState === 'PHONEUPDATE'" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 x_panel">
             <div class="x-title">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h2>{{status}} Phone Number Configuration</h2>
+                    <h2>{{status}} Phone Number Configuration<b class="pull-right" style="border-radius: 4px; background-color: yellow; padding: 5px">TRUNK : {{currentTrunk.TrunkCode}}</b></h2>
                     <div class="ln_solid"></div>
                 </div>
 
@@ -231,13 +231,13 @@
                 <div class="form-group">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="col-md-4 col-sm-4 col-xs-12">
-                            <label>Phone Number</label>
+                            <label>Phone Number *</label>
                             <input type="text" ng-disabled="appState === 'PHONEUPDATE'" class="form-control"
                                    ng-model="phnNum.PhoneNumber">
                         </div>
 
                         <div class="col-md-4 col-sm-4 col-xs-12">
-                            <label>Number Type</label>
+                            <label>Number Type *</label>
                             <select class="select2_single form-control" tabindex="-1" aria-hidden="true"
                                     placeholder="Role" name="role" ng-model="phnNum.ObjCategory">
                                 <option value="INBOUND">INBOUND</option>
@@ -247,7 +247,7 @@
                         </div>
 
                         <div class="col-md-3 col-sm-3 col-xs-12">
-                            <label>Company</label>
+                            <label>Company *</label>
                             <select class="select2_single form-control" tabindex="-1"
                                     aria-hidden="true"
                                     id="company"
@@ -269,18 +269,18 @@
                         <div class="clearfix"></div>
                         <div class="col-md-4 col-sm-4 col-xs-12">
                             <label>Inbound Limit</label>
-                            <input type="text" class="form-control"
+                            <input type="number" class="form-control"
                                    ng-model="phnNum.InboundLimit">
                         </div>
                         <div class="col-md-4 col-sm-4 col-xs-12">
                             <label>Outbound Limit</label>
-                            <input type="text" class="form-control"
+                            <input type="number" class="form-control"
                                    ng-model="phnNum.OutboundLimit">
                         </div>
 
                         <div class="col-md-4 col-sm-4 col-xs-12">
                             <label>Both Limit</label>
-                            <input type="text" class="form-control"
+                            <input type="number" class="form-control"
                                    ng-model="phnNum.BothLimit">
                         </div>
 
@@ -289,7 +289,7 @@
                     <br>
                     <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                            <button type="submit" class="btn btn-success"
+                            <button type="submit" ng-disabled="!phnNum.PhoneNumber || !phnNum.ObjCategory || !phnNum.ClientCompany" class="btn btn-success"
                                     ng-click="addPhoneNumber()">{{status}}
                             </button>
                         </div>
@@ -312,16 +312,31 @@
             <div class="x-title">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h2>Trunk List</h2>
+
                     <div class="ln_solid"></div>
+
                 </div>
 
             </div>
             <div class="clearfix"></div>
             <br>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="searchCriteriaTrunk" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Go!</button>
+                            </span>
+                    </div>
+                </div>
+
+            </div>
 
             <div class="x-content">
                 <div class="form-group">
-                    <div class="x_panel col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-repeat="item in trunkList">
+                    <div class="x_panel col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-repeat="item in trunkList | filterBy: ['TrunkCode', 'TrunkName']: searchCriteriaTrunk">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <b>{{item.TrunkCode}}</b>
                         </div>
@@ -348,7 +363,7 @@
         <div ng-if="appState === 'PHONELIST'" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 x_panel">
             <div class="x-title">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h2>Phone Number List</h2>
+                    <h2>Phone Number List<b class="pull-right" style="border-radius: 4px; background-color: yellow; padding: 5px">TRUNK : {{currentTrunk.TrunkCode}}</b></h2>
                     <div class="ln_solid"></div>
                 </div>
 
@@ -356,9 +371,23 @@
             <div class="clearfix"></div>
             <br>
 
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-model="searchCriteriaPhone" placeholder="Search for...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button">Go!</button>
+                            </span>
+                    </div>
+                </div>
+
+            </div>
+
             <div class="x-content">
                 <div class="form-group">
-                    <div class="x_panel col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-repeat="item in phoneNumberList">
+                    <div class="x_panel col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-repeat="item in phoneNumberList | filterBy: ['PhoneNumber']: searchCriteriaPhone">
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <b>{{item.PhoneNumber}}</b>
                         </div>

@@ -31,6 +31,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
     $scope.trunkList = [];
 
     $scope.collapsedButton = 'Create Trunk';
+    $scope.dynamicCss = 'trunk-app-button-dynamic-execute';
 
     $scope.resetForm = function()
     {
@@ -51,24 +52,28 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
             $scope.appState = 'TRUNKSAVE';
             $scope.resetForm();
             $scope.collapsedButton = 'Back To Trunk List';
+            $scope.dynamicCss = 'trunk-app-button-dynamic-back';
             $scope.status = 'Save';
         }
         else if($scope.appState === 'TRUNKSAVE' || $scope.appState === 'TRUNKUPDATE')
         {
             $scope.appState = 'TRUNKLIST';
             $scope.collapsedButton = 'Create Trunk';
+            $scope.dynamicCss = 'trunk-app-button-dynamic-execute';
             $scope.status = 'Save';
         }
         else if($scope.appState === 'PHONESAVE' || $scope.appState === 'PHONEUPDATE')
         {
             $scope.appState = 'PHONELIST';
-            $scope.collapsedButton = 'Back To Trunk List';
+            $scope.collapsedButton = 'Back To Phone Number List';
+            $scope.dynamicCss = 'trunk-app-button-dynamic-back';
             $scope.status = 'Save';
         }
         else if($scope.appState === 'PHONELIST')
         {
             $scope.appState = 'TRUNKLIST';
             $scope.collapsedButton = 'Create Trunk';
+            $scope.dynamicCss = 'trunk-app-button-dynamic-execute';
             $scope.status = 'Save';
         }
     };
@@ -415,6 +420,8 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                         duration: 3000,
                         type: 'success'
                     });
+
+                    $scope.showNumberList($scope.currentTrunk);
                 }
                 else
                 {
@@ -459,6 +466,8 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                         duration: 3000,
                         type: 'success'
                     });
+
+                    $scope.showNumberList($scope.currentTrunk);
                 }
                 else
                 {
@@ -744,6 +753,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
         $scope.appState = 'PHONEUPDATE';
 
         $scope.collapsedButton = 'Back To Trunk List';
+        $scope.dynamicCss = 'trunk-app-button-dynamic-back';
         $scope.status = 'Update';
 
     };
@@ -764,6 +774,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
         $scope.appState = 'TRUNKUPDATE';
 
         $scope.collapsedButton = 'Back To Trunk List';
+        $scope.dynamicCss = 'trunk-app-button-dynamic-back';
         $scope.status = 'Update';
 
     };
@@ -772,6 +783,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
     {
         $scope.appState = 'PHONESAVE';
         $scope.collapsedButton = 'Back To Phone Number List';
+        $scope.dynamicCss = 'trunk-app-button-dynamic-back';
 
         $scope.resetPhoneForm();
     };
@@ -797,6 +809,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                 $scope.appState = 'PHONELIST';
 
                 $scope.collapsedButton = 'Back To Trunk List';
+                $scope.dynamicCss = 'trunk-app-button-dynamic-back';
             }
             else
             {

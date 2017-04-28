@@ -1451,3 +1451,11 @@ body .container.body .right_col {
     color: #000;
     font-size: 15px;
 }
+
+.trunk-app-button-dynamic-back {
+    background-color: #e1ab55;
+}
+
+.trunk-app-button-dynamic-execute {
+   background-color: #00c6e1;
+}
