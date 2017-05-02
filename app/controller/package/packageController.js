@@ -173,6 +173,21 @@
                             limit: -1
                         }
                     ]
+                },
+                {
+                    resourceName: "DVP-SIPUserEndpointService",
+                    scopes: [
+                        {
+                            scopeName: "sipuser",
+                            feature: "sipuser access",
+                            actions: [
+                                "read",
+                                "write",
+                                "delete"
+                            ],
+                            limit: 0
+                        }
+                    ]
                 }
             ]
         };
@@ -381,6 +396,21 @@
                                 limit: -1
                             }
                         ]
+                    },
+                    {
+                        resourceName: "DVP-SIPUserEndpointService",
+                        scopes: [
+                            {
+                                scopeName: "sipuser",
+                                feature: "sipuser access",
+                                actions: [
+                                    "read",
+                                    "write",
+                                    "delete"
+                                ],
+                                limit: 0
+                            }
+                        ]
                     }
                 ]
             };
@@ -430,6 +460,8 @@
 
         $scope.savePackage = function () {
             try {
+                $scope.packageObj.resources[2].scopes[0].limit = packageObj.consoleAccessLimit[0].accessLimit + packageObj.consoleAccessLimit[1].accessLimit + packageObj.consoleAccessLimit[2].accessLimit;
+
                 if ($scope.packageTitle === 'Update') {
                     userService.UpdatePackage($scope.packageObj).then(function (response) {
                         if (response && response.IsSuccess) {
