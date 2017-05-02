@@ -1171,6 +1171,33 @@ body .container.body .right_col {
     display: inline-block;
 }
 
+.widget-header-menu {
+    display: inline-block;
+    float: right;
+}
+
+.widget-header-menu > .menu {
+    width: 35px;
+    height: 35px;
+    background: rgba(207, 240, 158, 0.28);
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    padding-top: 7px;
+    /*cursor: pointer;*/
+}
+
+.widget-header-menu > .menu > i {
+    font-size: 20px;
+    color: #507c5c;
+}
+
+.widget-header-menu > .menu > i:hover,
+.widget-header-menu > .menu > i:focus {
+    color: #000;
+}
+
 .widget-search {
     display: inline-block;
 }

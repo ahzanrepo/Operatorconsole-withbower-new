@@ -1,26 +1,27 @@
 <div ng-controller="companySummaryCtrl">
 
     <!--page title -->
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="page-title">
-                <div class="title_left">
-                    <h3>Company Summary</h3>
-                </div>
-                <div class="title_right">
-                    <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
-                        <div class="input-group pull-right">
-                            <button class="btn btn-default btn-back" type="button">Back</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!--<div class="row">-->
+    <!--<div class="col-lg-12">-->
+    <!--<div class="page-title">-->
+    <!--<div class="title_left">-->
+    <!--<h3>Company Summary</h3>-->
+    <!--</div>-->
+    <!--<div class="title_right">-->
+    <!--<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">-->
+    <!--<div class="input-group pull-right">-->
+    <!--<button class="btn btn-default btn-back" type="button">Back</button>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
 
     <div class="clearfix"></div>
     <div ng-if="!isLoadingAll"
          class="row">
+
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <div class="company-wrapper animated fadeIn">
 
@@ -131,6 +132,26 @@
                 </div>
 
                 <div class="col-lg-8 col-md-8 col-xs-12">
+
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3>Company Summary</h3>
+                        </div>
+                        <div class="title_right">
+                            <div class="table-header-desc">
+                                <div class="tbl-desc-top">
+                                    <ul class="pull-right">
+                                        <li>
+                                            <button ng-click="backToPage()"
+                                                    class="btn btn-green btn-blue">
+                                                Back
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row">
                         <div class="right-company-s-wrp" ng-if="currentPage=='consoleAccess'">
                             <div ng-include="'app/views/company/temp/company-console-access.html'">
@@ -184,4 +205,9 @@
         <div ng-include="'app/views/company/temp/update-company-package.html'"></div>
     </div>
     <!-- end -->
+
+    <!-- edit company basic info -->
+    <div ng-if="isUpdateCompanyInfo==true">
+        <div ng-include="'app/views/company/temp/edit-basic-info.html'"></div>
+    </div>
 </div>

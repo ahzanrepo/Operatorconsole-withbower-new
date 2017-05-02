@@ -3,7 +3,7 @@
  */
 
 opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anchorScroll, companyInfoServices,
-                                                        ngNotify, userService) {
+                                                        ngNotify, userService,$state) {
     $anchorScroll();
 
     var param = {};
@@ -298,6 +298,11 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
         } else {
             assignPackage(_updatePackage);
         }
+    };
+
+
+    $scope.backToPage = function () {
+        $state.go('op-console.all-company-information');
     };
 
 });
