@@ -1089,7 +1089,7 @@ body .container.body .right_col {
 
 .company-profile-wrp {
     width: 100%;
-    min-height: 800px;
+    min-height: 725px;
     overflow: hidden;
     position: relative;
     margin-top: 20px;
@@ -1484,5 +1484,5 @@ body .container.body .right_col {
 }
 
 .trunk-app-button-dynamic-execute {
-   background-color: #00c6e1;
+    background-color: #00c6e1;
 }

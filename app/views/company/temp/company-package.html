@@ -1,6 +1,6 @@
 <div class="compnay-console-access-wrp animated fadeInLeft">
-    <div class="company-profile-wrp" ng-repeat="pack in packageDetails">
-        <div class="col-lg-6">
+    <div class="company-profile-wrp">
+        <div class="col-lg-6" ng-repeat="pack in packageDetails">
             <div class="company-package-widget">
                 <div class="pack-name">
                     {{pack.veeryPackage.packageName}}
@@ -29,7 +29,7 @@
                 <div class="pack-buy">
                     <ul>
                         <li> {{pack.buyDate | date:'MMM,dd, yyyy'}}</li>
-                        <li> {{pack.renewdate}}</li>
+                        <!--<li> (Renew date {{pack.renewdate}})</li>-->
                     </ul>
                 </div>
             </div>

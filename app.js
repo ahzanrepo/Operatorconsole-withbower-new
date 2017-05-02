@@ -111,9 +111,9 @@ opConsoleApp.constant('baseUrls', baseUrls);
 opConsoleApp.constant('config', {
     Auth_API: 'http://userservice.162.243.230.46.xip.io/',
     appVersion: 1.0,
-    client_Id_secret: 'ae849240-2c6d-11e6-b274-a9eec7dab26b:6145813102144258048'
+    client_Id_secret: 'ae849240-2c6d-11e6-b274-a9eec7dab26b:6145813102144258048',
+    clusterId: '2'
 });
-
 
 //authentication
 //Authentication
