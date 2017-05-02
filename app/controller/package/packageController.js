@@ -460,7 +460,11 @@
 
         $scope.savePackage = function () {
             try {
-                $scope.packageObj.resources[2].scopes[0].limit = packageObj.consoleAccessLimit[0].accessLimit + packageObj.consoleAccessLimit[1].accessLimit + packageObj.consoleAccessLimit[2].accessLimit;
+                var adminAccess = $scope.packageObj.consoleAccessLimit[0].accessLimit? $scope.packageObj.consoleAccessLimit[0].accessLimit : 0;
+                var supervisorAccess = $scope.packageObj.consoleAccessLimit[1].accessLimit? $scope.packageObj.consoleAccessLimit[1].accessLimit : 0;
+                var agentAccess = $scope.packageObj.consoleAccessLimit[2].accessLimit? $scope.packageObj.consoleAccessLimit[2].accessLimit : 0;
+
+                $scope.packageObj.resources[2].scopes[0].limit = adminAccess + supervisorAccess + agentAccess;
 
                 if ($scope.packageTitle === 'Update') {
                     userService.UpdatePackage($scope.packageObj).then(function (response) {
