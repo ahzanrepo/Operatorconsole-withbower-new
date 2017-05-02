@@ -41,14 +41,16 @@
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Package Name</label>
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
-                                <input type="text" class="form-control" ng-model="packageObj.packageName" placeholder="Package Name">
+                                <input type="text" class="form-control" ng-model="packageObj.packageName"
+                                       placeholder="Package Name">
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12">Description </label>
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
-                                <textarea class="form-control" rows="3" ng-model="packageObj.description" placeholder="Description"></textarea>
+                                <textarea class="form-control" rows="3" ng-model="packageObj.description"
+                                          placeholder="Description"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
@@ -91,7 +93,8 @@
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <label class="checkbox-inline" ng-repeat="task in systemTask">
-                                    <input type="checkbox" checklist-model="packageObj.veeryTask" id="inlineCheckboxCall" value="task.TaskType"> {{task.TaskType}}
+                                    <input type="checkbox" checklist-model="packageObj.veeryTask"
+                                           id="inlineCheckboxCall" value="task.TaskType"> {{task.TaskType}}
                                 </label>
                             </div>
                         </div>
@@ -100,11 +103,13 @@
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" checklist-model="packageObj.consoles" id="inlineCheckboxS" value="SUPERVISOR_CONSOLE"> Supervisor
+                                    <input type="checkbox" checklist-model="packageObj.consoles" id="inlineCheckboxS"
+                                           value="SUPERVISOR_CONSOLE"> Supervisor
                                     Console
                                 </label>
                                 <label class="checkbox-inline">
-                                    <input type="checkbox" checklist-model="packageObj.consoles" id="inlineCheckboxA" value="AGENT_CONSOLE"> Agent Console
+                                    <input type="checkbox" checklist-model="packageObj.consoles" id="inlineCheckboxA"
+                                           value="AGENT_CONSOLE"> Agent Console
                                 </label>
                             </div>
                         </div>
@@ -114,15 +119,21 @@
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                     <input type="number" class="form-control" min="0"
-                                           ng-pattern="/^(?:100|[1-9]?[0-9])$/" ng-model="packageObj.consoleAccessLimit[0].accessLimit" placeholder="Admin Access">
+                                           ng-pattern="/^(?:100|[1-9]?[0-9])$/"
+                                           ng-model="packageObj.consoleAccessLimit[0].accessLimit"
+                                           placeholder="Admin Access">
                                 </div>
                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                     <input type="number" class="form-control" min="0"
-                                           ng-pattern="/^(?:100|[1-9]?[0-9])$/" ng-model="packageObj.consoleAccessLimit[1].accessLimit" placeholder="Supervisor Access">
+                                           ng-pattern="/^(?:100|[1-9]?[0-9])$/"
+                                           ng-model="packageObj.consoleAccessLimit[1].accessLimit"
+                                           placeholder="Supervisor Access">
                                 </div>
                                 <div class="col-md-4 col-sm-4 col-xs-12">
                                     <input type="number" class="form-control" min="0"
-                                           ng-pattern="/^(?:100|[1-9]?[0-9])$/" ng-model="packageObj.consoleAccessLimit[2].accessLimit" placeholder="Agent Access">
+                                           ng-pattern="/^(?:100|[1-9]?[0-9])$/"
+                                           ng-model="packageObj.consoleAccessLimit[2].accessLimit"
+                                           placeholder="Agent Access">
                                 </div>
                             </div>
                         </div>
@@ -234,7 +245,8 @@
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <input type="number" class="form-control has-feedback-left" min="0"
-                                       ng-pattern="/^(?:100|[1-9]?[0-9])$/" ng-model="packageObj.setupFee" placeholder="Setup Fee">
+                                       ng-pattern="/^(?:100|[1-9]?[0-9])$/" ng-model="packageObj.setupFee"
+                                       placeholder="Setup Fee">
                                 <span class="fa fa-usd form-control-feedback left" aria-hidden="true"></span>
                             </div>
                         </div>
@@ -243,7 +255,8 @@
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <input type="number" class="form-control has-feedback-left" min="0"
-                                       ng-pattern="/^(?:100|[1-9]?[0-9])$/" ng-model="packageObj.price" placeholder="Price">
+                                       ng-pattern="/^(?:100|[1-9]?[0-9])$/" ng-model="packageObj.price"
+                                       placeholder="Price">
                                 <span class="fa fa-usd form-control-feedback left" aria-hidden="true"></span>
                             </div>
                         </div>
@@ -271,7 +284,7 @@
         <div class="col-md-3 col-sm-3 col-xs-12 form-group pull-right top_search">
             <div class="input-group">
                 <input type="text" class="form-control" ng-model="searchCriteria" placeholder="Search for...">
-                    <span class="input-group-btn">
+                <span class="input-group-btn">
                       <button class="btn btn-default" type="button">Go!</button>
                     </span>
             </div>
@@ -284,7 +297,8 @@
                     <div class="x_title">
                         <h2>{{package.navigationType}} - {{package.packageType}}</h2>
                         <ul class="nav navbar-right panel_toolbox">
-                            <li><a class="collapse-link" ng-click="editPackageData(package)"><i class="fa fa-edit edit-package"></i></a>
+                            <li><a class="collapse-link" ng-click="editPackageData(package)"><i
+                                    class="fa fa-edit edit-package"></i></a>
                             </li>
                             <li><a class="collapse-link"><i class="fa fa-trash-o remove-package"></i></a>
                             </li>

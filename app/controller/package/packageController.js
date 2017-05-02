@@ -190,30 +190,30 @@
 
         //-----------------Internal methods------------------------
         $scope.onClickCollapsed = function (type) {
-            if(type && type === 'Update') {
+            if (type && type === 'Update') {
                 $scope.packageTitle = 'Update';
-            }else{
+            } else {
                 $scope.packageTitle = 'Create New';
             }
             $scope.isCollapsed = !$scope.isCollapsed;
-            $scope.collapsedButton = $scope.isCollapsed? 'New Package': 'Back';
+            $scope.collapsedButton = $scope.isCollapsed ? 'New Package' : 'Back';
         };
 
         $scope.onClickSubCollapsed = function () {
             $scope.isSubCollapsed = !$scope.isSubCollapsed;
-            $scope.subCollapsButton = $scope.isSubCollapsed? '+': '-';
+            $scope.subCollapsButton = $scope.isSubCollapsed ? '+' : '-';
         };
 
         $scope.addSpaceLimit = function () {
-            if($scope.tempSpaceLimit && $scope.tempSpaceLimit.spaceType) {
+            if ($scope.tempSpaceLimit && $scope.tempSpaceLimit.spaceType) {
                 var isSpaceLimitExist = $scope.packageObj.spaceLimit.filter(function (sLimit) {
-                    if(sLimit.spaceType === $scope.tempSpaceLimit.spaceType){
+                    if (sLimit.spaceType === $scope.tempSpaceLimit.spaceType) {
                         return sLimit;
                     }
                 });
-                if(isSpaceLimitExist && isSpaceLimitExist.length > 0){
+                if (isSpaceLimitExist && isSpaceLimitExist.length > 0) {
                     $scope.notify('Space Limit Already Added', 'warn');
-                }else {
+                } else {
                     $scope.packageObj.spaceLimit.push($scope.tempSpaceLimit);
                     $scope.tempSpaceLimit = {};
                 }
@@ -399,36 +399,38 @@
 
         //-----------------External methods------------------------
         $scope.loadPackageDetails = function () {
-            try{
+            try {
                 userService.GetAllPackages().then(function (response) {
-                    if(response && response.IsSuccess){
+                    if (response && response.IsSuccess) {
                         $scope.packageDetails = response.Result;
-                    }else{
+                    } else {
                         $scope.notify('Load Package Details Failed', 'error');
                     }
                 });
-            }catch(ex){
+            } catch (ex) {
                 $scope.notify('Load Package Details Failed', 'error');
             }
         };
 
-        $scope.loadPackageDetails = function () {
-            try{
-                userService.GetAllSystemTask().then(function (response) {
-                    if(response && response.IsSuccess){
-                        $scope.systemTask = response.Result;
-                    }else{
-                        $scope.notify('Load Task Details Failed', 'error');
-                    }
-                });
-            }catch(ex){
-                $scope.notify('Load Task Details Failed', 'error');
-            }
-        };
+        // $scope.loadPackageDetails = function () {
+        //     try{
+        //         userService.GetAllSystemTask().then(function (response) {
+        //             if(response && response.IsSuccess){
+        //                 $scope.systemTask = response.Result;
+        //             }else{
+        //                 $scope.notify('Load Task Details Failed', 'error');
+        //             }
+        //         });
+        //     }catch(ex){
+        //         $scope.notify('Load Task Details Failed', 'error');
+        //     }
+        // };
+
+        $scope.loadPackageDetails();
 
         $scope.savePackage = function () {
-            try{
-                if($scope.packageTitle === 'Update'){
+            try {
+                if ($scope.packageTitle === 'Update') {
                     userService.UpdatePackage($scope.packageObj).then(function (response) {
                         if (response && response.IsSuccess) {
                             $scope.loadPackageDetails();
@@ -438,7 +440,7 @@
                             $scope.notify('Update Package Failed', 'error');
                         }
                     });
-                }else {
+                } else {
                     userService.CreateNewPackage($scope.packageObj).then(function (response) {
                         if (response && response.IsSuccess) {
                             $scope.packageDetails.push(response.Result);
@@ -449,30 +451,28 @@
                         }
                     });
                 }
-            }catch(ex){
+            } catch (ex) {
                 $scope.notify('Save Package Failed', 'error');
             }
         };
 
         $scope.removePackage = function (packageData) {
-            try{
+            try {
                 userService.RemovePackage(packageData.packageName).then(function (response) {
-                    if(response && response.IsSuccess){
+                    if (response && response.IsSuccess) {
                         $scope.packageDetails.splice($scope.packageDetails.indexOf(packageData), 1);
                         $scope.notify('Remove Package Details Success', 'success');
-                    }else{
+                    } else {
                         $scope.notify('Remove Package Details Failed', 'error');
                     }
                 });
-            }catch(ex){
+            } catch (ex) {
                 $scope.notify('Remove Package Details Failed', 'error');
             }
         };
 
 
 
-        $scope.loadPackageDetails();
-
     });
-    
+
 }());
