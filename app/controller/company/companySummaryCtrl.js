@@ -2,14 +2,14 @@
  * Created by damith on 4/7/17.
  */
 
-opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anchorScroll, companyInfoServices,
-                                                        ngNotify, userService,$state) {
+opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anchorScroll, companyInfoServices, clusterConfigurationService, ngNotify, userService) {
     $anchorScroll();
 
     var param = {};
     $scope.isDataNotFound = false;
     $scope.isLoadingAll = false;
     $scope.companyObj = null;
+    $scope.cloudEndUser = {};
 
     //update package save obj
     var _updatePackage = {};
@@ -94,12 +94,70 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
 
     };
 
+    var loadEndUser = function()
+    {
+        clusterConfigurationService.getCloudEndUser($scope.companyObj.id).then(function (response)
+        {
+            if(response.IsSuccess)
+            {
+                if (response.Result.length > 0)
+                {
+                    $scope.isNewEndUser = false;
+                    $scope.cloudEndUser = response.Result[0];
+
+                    $scope.cloudEndUser.SIPConnectivityProvision = $scope.cloudEndUser.SIPConnectivityProvision.toString();
+                }
+                else
+                {
+                    $scope.isNewEndUser = true;
+                }
+            }
+            else
+            {
+                var errMsg = "";
+                if (response.Exception && response.Exception.Message) {
+                    errMsg = response.Exception.Message;
+                }
+
+                if (response.CustomMessage) {
+                    errMsg = response.CustomMessage;
+                }
+                ngNotify.set(errMsg, {
+                    position: 'top',
+                    sticky: false,
+                    duration: 3000,
+                    type: 'error'
+                });
+            }
+
+
+        }).catch(function(ex)
+        {
+            $scope.isNewEndUser = null;
+
+            var errMsg = "Error loading provision data";
+            if (ex.statusText) {
+                errMsg = ex.statusText;
+            }
+            ngNotify.set(errMsg, {
+                position: 'top',
+                sticky: false,
+                duration: 3000,
+                type: 'error'
+            });
+
+        });
+    };
+
     //go to summary inside page
     $scope.goToCompanySummaryPage = function (page) {
         $scope.currentPage = page;
         switch (page) {
             case 'consoleAccess':
                 onLoadConsoleAccess($scope.companyObj);
+                break;
+            case 'companyProvision':
+                loadEndUser();
                 break;
             case 'companyProfile':
                 onLoadCompanyInfo($scope.companyObj);
@@ -109,6 +167,141 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 break;
 
         }
+    };
+
+    var getCluster = function()
+    {
+        $scope.cluster = null;
+        clusterConfigurationService.getClusters().then(function (response)
+        {
+            if (response.IsSuccess)
+            {
+                if (response.Result.length > 0)
+                {
+                    $scope.cluster = response.Result[0];
+                }
+
+            }
+
+        });
+    };
+
+
+
+    getCluster();
+
+    $scope.saveEndUser = function () {
+
+        if ($scope.isNewEndUser)
+        {
+            if($scope.cluster)
+            {
+                $scope.cloudEndUser.ClusterID = $scope.cluster.id;
+                $scope.cloudEndUser.ClientCompany = $scope.companyObj.id;
+
+                clusterConfigurationService.saveNewEndUser($scope.cloudEndUser).then(function (response)
+                {
+                    if (response.IsSuccess)
+                    {
+                        ngNotify.set('End user provisioning saved successfully', {
+                            position: 'top',
+                            sticky: false,
+                            duration: 3000,
+                            type: 'success'
+                        });
+                    }
+                    else
+                    {
+                        var errMsg = "";
+                        if (response.Exception && response.Exception.Message) {
+                            errMsg = response.Exception.Message;
+                        }
+
+                        if (response.CustomMessage) {
+                            errMsg = response.CustomMessage;
+                        }
+                        ngNotify.set(errMsg, {
+                            position: 'top',
+                            sticky: false,
+                            duration: 3000,
+                            type: 'error'
+                        });
+
+                    }
+                }).catch(function(ex)
+                {
+                    var errMsg = "Error adding company provision data";
+                    if (ex.statusText) {
+                        errMsg = ex.statusText;
+                    }
+                    ngNotify.set(errMsg, {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'error'
+                    });
+
+                });
+            }
+            else
+            {
+                ngNotify.set('Cluster not found', {
+                    position: 'top',
+                    sticky: false,
+                    duration: 3000,
+                    type: 'error'
+                });
+            }
+
+        }
+        else
+        {
+            $scope.cloudEndUser.ClientCompany = $scope.companyObj.id;
+            clusterConfigurationService.updateEndUser($scope.cloudEndUser).then(function (response)
+            {
+                if (response.IsSuccess)
+                {
+                    ngNotify.set('End user provisioning updated successfully', {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'success'
+                    });
+                }
+                else
+                {
+                    var errMsg = "";
+                    if (response.Exception && response.Exception.Message) {
+                        errMsg = response.Exception.Message;
+                    }
+
+                    if (response.CustomMessage) {
+                        errMsg = response.CustomMessage;
+                    }
+                    ngNotify.set(errMsg, {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'error'
+                    });
+
+                }
+            }).catch(function(ex)
+            {
+                var errMsg = "Error adding company provision data";
+                if (ex.statusText) {
+                    errMsg = ex.statusText;
+                }
+                ngNotify.set(errMsg, {
+                    position: 'top',
+                    sticky: false,
+                    duration: 3000,
+                    type: 'error'
+                });
+            });
+        }
+
+
     };
 
     //change company activation
@@ -298,11 +491,6 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
         } else {
             assignPackage(_updatePackage);
         }
-    };
-
-
-    $scope.backToPage = function () {
-        $state.go('op-console.all-company-information');
     };
 
 });
