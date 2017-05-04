@@ -5,23 +5,23 @@
 
     var sipUserService = function($http, baseUrls)
     {
-        var getContexts = function()
+        var getContexts = function(companyId)
         {
             return $http({
                 method: 'GET',
-                url: baseUrls.sipUserEndpointService + 'Context'
+                url: baseUrls.sipUserEndpointService + 'Contexts/ClientCompany/' + companyId
             }).then(function(resp)
             {
                 return resp.data;
             })
         };
 
-        var saveCodecPreferenses = function(codecInfo)
+        var saveCodecPreferenses = function(codecInfo, companyId)
         {
 
             return $http({
                 method: 'POST',
-                url: baseUrls.sipUserEndpointService + 'ContextCodecPreferences',
+                url: baseUrls.sipUserEndpointService + 'ContextCodecPreferences/ClientCompany/' + companyId,
                 data: codecInfo
             }).then(function(resp)
             {
@@ -29,12 +29,12 @@
             })
         };
 
-        var updateCodecPreferenses = function(context1, context2, codecInfo)
+        var updateCodecPreferenses = function(context1, context2, codecInfo, companyId)
         {
 
             return $http({
                 method: 'PUT',
-                url: baseUrls.sipUserEndpointService + 'ContextCodecPreferences/Context1/' + context1 + '/Context2/' + context2,
+                url: baseUrls.sipUserEndpointService + 'ContextCodecPreferences/Context1/' + context1 + '/Context2/' + context2 + '/ClientCompany/' + companyId,
                 data: codecInfo
             }).then(function(resp)
             {
@@ -42,23 +42,23 @@
             })
         };
 
-        var removeCodecPreferences = function(id)
+        var removeCodecPreferences = function(id, companyId)
         {
 
             return $http({
                 method: 'DELETE',
-                url: baseUrls.sipUserEndpointService + 'ContextCodecPreferences/' + id
+                url: baseUrls.sipUserEndpointService + 'ContextCodecPreferences/' + id + '/ClientCompany/' + companyId
             }).then(function(resp)
             {
                 return resp.data;
             })
         };
 
-        var getCodecPreferenses = function()
+        var getCodecPreferenses = function(companyId)
         {
             return $http({
                 method: 'GET',
-                url: baseUrls.sipUserEndpointService + 'ContextCodecPreferences'
+                url: baseUrls.sipUserEndpointService + 'ContextCodecPreferences/ClientCompany/' + companyId
             }).then(function(resp)
             {
                 return resp.data;
