@@ -442,21 +442,22 @@
             }
         };
 
-        // $scope.loadPackageDetails = function () {
-        //     try{
-        //         userService.GetAllSystemTask().then(function (response) {
-        //             if(response && response.IsSuccess){
-        //                 $scope.systemTask = response.Result;
-        //             }else{
-        //                 $scope.notify('Load Task Details Failed', 'error');
-        //             }
-        //         });
-        //     }catch(ex){
-        //         $scope.notify('Load Task Details Failed', 'error');
-        //     }
-        // };
+         $scope.loadTaskDetails = function () {
+             try{
+                 userService.GetAllSystemTask().then(function (response) {
+                     if(response && response.IsSuccess){
+                         $scope.systemTask = response.Result;
+                     }else{
+                         $scope.notify('Load Task Details Failed', 'error');
+                     }
+                 });
+             }catch(ex){
+                 $scope.notify('Load Task Details Failed', 'error');
+             }
+         };
 
         $scope.loadPackageDetails();
+        $scope.loadTaskDetails();
 
         $scope.savePackage = function () {
             try {

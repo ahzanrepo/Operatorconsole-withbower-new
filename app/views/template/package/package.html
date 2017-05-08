@@ -94,7 +94,7 @@
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <label class="checkbox-inline" ng-repeat="task in systemTask">
                                     <input type="checkbox" checklist-model="packageObj.veeryTask"
-                                           id="inlineCheckboxCall" value="task.TaskType"> {{task.TaskType}}
+                                           id="inlineCheckbox{{task.TaskType}}" checklist-value="task.TaskType"> {{task.TaskType}}
                                 </label>
                             </div>
                         </div>
