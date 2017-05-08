@@ -435,9 +435,11 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
         $scope.packageData.assignType = type;
     };
 
-    $scope.unitChange = function () {
+    $scope.unitChange = function (unit) {
         _updatePackage = {};
         _updatePackage.unit = $scope.unitDetails[$scope.packageData.unitIndex];
+
+        $scope.selectedUnitType = _updatePackage.unit.unitType;
     };
 
 
