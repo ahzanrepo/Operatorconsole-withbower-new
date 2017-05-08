@@ -2,7 +2,7 @@
  * Created by dinusha on 4/6/2017.
  */
 
-opConsoleApp.controller('codecManagementCtrl', function ($scope, ngNotify, sipUserService, userProfileServices) {
+opConsoleApp.controller('codecManagementCtrl', function ($scope, ngNotify, sipUserService, companyInfoServices, loginService, userProfileServices) {
 
     $scope.contextList = [{Context: 'public'}];
 
@@ -16,6 +16,8 @@ opConsoleApp.controller('codecManagementCtrl', function ($scope, ngNotify, sipUs
     $scope.tempArr = ['fff','fffff','ssdsds'];
 
     $scope.cachedAvailableCodecs = [];
+
+    $scope.companyList = [];
 
 
     $scope.availableCodecs = [];
@@ -39,7 +41,50 @@ opConsoleApp.controller('codecManagementCtrl', function ($scope, ngNotify, sipUs
         }
     };
 
-    var loadAvailableCodecs = function()
+    var loadCompanyList = function()
+    {
+        companyInfoServices.getAllCompanyDetails().then(function(compListResp)
+        {
+            if (compListResp.IsSuccess)
+            {
+                if (compListResp.Result)
+                {
+                    $scope.companyList = compListResp.Result;
+                }
+            }
+            else
+            {
+                var errMsg = compListResp.CustomMessage;
+
+                if (compListResp.Exception) {
+                    errMsg = compListResp.Exception.Message;
+                }
+                ngNotify.set(errMsg, {
+                    position: 'top',
+                    sticky: false,
+                    duration: 3000,
+                    type: 'error'
+                });
+
+            }
+        }).catch(function(ex)
+        {
+            var errMsg = "Error loading company details";
+            if (ex.statusText) {
+                errMsg = ex.statusText;
+            }
+            ngNotify.set(errMsg, {
+                position: 'top',
+                sticky: false,
+                duration: 3000,
+                type: 'error'
+            });
+        })
+    };
+
+    loadCompanyList();
+
+    var loadAvailableCodecs = function(companyId)
     {
         $scope.availableCodecs = [];
 
@@ -49,7 +94,7 @@ opConsoleApp.controller('codecManagementCtrl', function ($scope, ngNotify, sipUs
         }
         else
         {
-            userProfileServices.getOrganization().then(function(orgRes)
+            userProfileServices.getMyOrganization(companyId).then(function(orgRes)
             {
                 if(orgRes && orgRes.IsSuccess)
                 {
@@ -100,7 +145,7 @@ opConsoleApp.controller('codecManagementCtrl', function ($scope, ngNotify, sipUs
 
     $scope.removeCodecPreference = function(id)
     {
-        sipUserService.removeCodecPreferences(id).then(function(codecRemRes)
+        sipUserService.removeCodecPreferences(id, $scope.clientCompany).then(function(codecRemRes)
         {
             if(codecRemRes && codecRemRes.IsSuccess)
             {
@@ -111,7 +156,7 @@ opConsoleApp.controller('codecManagementCtrl', function ($scope, ngNotify, sipUs
                     type: 'success'
                 });
 
-                loadCodecPreferences();
+                loadCodecPreferences($scope.clientCompany);
             }
             else
             {
@@ -170,7 +215,7 @@ opConsoleApp.controller('codecManagementCtrl', function ($scope, ngNotify, sipUs
 
             if($scope.status === 'Update')
             {
-                sipUserService.updateCodecPreferenses($scope.context.context1, $scope.context.context2, codecInfo).then(function(codecUpdateRes)
+                sipUserService.updateCodecPreferenses($scope.context.context1, $scope.context.context2, codecInfo, $scope.clientCompany).then(function(codecUpdateRes)
                 {
                     if(codecUpdateRes && codecUpdateRes.IsSuccess)
                     {
@@ -181,7 +226,7 @@ opConsoleApp.controller('codecManagementCtrl', function ($scope, ngNotify, sipUs
                             type: 'success'
                         });
 
-                        loadCodecPreferences();
+                        loadCodecPreferences($scope.clientCompany);
                     }
                     else
                     {
@@ -221,7 +266,7 @@ opConsoleApp.controller('codecManagementCtrl', function ($scope, ngNotify, sipUs
             }
             else
             {
-                sipUserService.saveCodecPreferenses(codecInfo).then(function(codecSaveRes)
+                sipUserService.saveCodecPreferenses(codecInfo, $scope.clientCompany).then(function(codecSaveRes)
                 {
                     if(codecSaveRes && codecSaveRes.IsSuccess)
                     {
@@ -233,7 +278,7 @@ opConsoleApp.controller('codecManagementCtrl', function ($scope, ngNotify, sipUs
                         });
 
                         $scope.resetForm();
-                        loadCodecPreferences();
+                        loadCodecPreferences($scope.clientCompany);
                     }
                     else
                     {
@@ -289,7 +334,7 @@ opConsoleApp.controller('codecManagementCtrl', function ($scope, ngNotify, sipUs
         $scope.availableCodecs = [];
         $scope.currentCodecs = [];
 
-        loadAvailableCodecs();
+        loadAvailableCodecs($scope.clientCompany);
     };
 
     $scope.editCodecPreference = function(codecPref)
@@ -308,10 +353,10 @@ opConsoleApp.controller('codecManagementCtrl', function ($scope, ngNotify, sipUs
 
     };
 
-    var loadContexts = function()
+    var loadContexts = function(companyId)
     {
         $scope.contextList = [{Context: 'public'}];
-        sipUserService.getContexts().then(function(contextRes)
+        sipUserService.getContexts(companyId).then(function(contextRes)
         {
             if(contextRes && contextRes.IsSuccess)
             {
@@ -353,9 +398,9 @@ opConsoleApp.controller('codecManagementCtrl', function ($scope, ngNotify, sipUs
         })
     };
 
-    var loadCodecPreferences = function()
+    var loadCodecPreferences = function(companyId)
     {
-        sipUserService.getCodecPreferenses().then(function(codecPrefRes)
+        sipUserService.getCodecPreferenses(companyId).then(function(codecPrefRes)
         {
             if(codecPrefRes && codecPrefRes.IsSuccess)
             {
@@ -397,11 +442,18 @@ opConsoleApp.controller('codecManagementCtrl', function ($scope, ngNotify, sipUs
         })
     };
 
-    loadContexts();
+    $scope.onCompanySelect = function()
+    {
+        loadCodecPreferences($scope.clientCompany);
+        loadContexts($scope.clientCompany);
+        loadAvailableCodecs($scope.clientCompany);
+    };
 
-    loadAvailableCodecs();
 
-    loadCodecPreferences();
+
+
+
+
 
 
 });
