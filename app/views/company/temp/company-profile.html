@@ -15,11 +15,11 @@
                             <div class="widget-header">
                                 <h5>Company Profile</h5>
                             </div>
-                            <div class="widget-header-menu">
-                                <div class="menu">
-                                    <i class="ti-pencil"></i>
-                                </div>
-                            </div>
+                            <!--<div class="widget-header-menu">-->
+                                <!--<div class="menu" ng-click="showUpdatePanel();">-->
+                                    <!--<i class="ti-pencil"></i>-->
+                                <!--</div>-->
+                            <!--</div>-->
                         </div>
                     </div>
                 </div>
@@ -92,8 +92,33 @@
 
                 </div>
 
+                <!-- company edit widget -->
+                <div id="profileEditWidget" class="company-edit-widget hidden-widget display-none">
+                    <div class="widget-row-company" style="background: #fdfdfd;">
+                        <div class="widget-image-company ">
+                            <div class="col-lg-3">
+                                <div class="owner-img">
+                                    <img src="assets/img/profileAvatar.png"
+                                         ng-src="{{ownerRef.avatar}}" width="60"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-9">
+                                <div class="widget-header">
+                                    <h5>Update Profile</h5>
+                                </div>
+                                <div class="widget-header-menu">
+                                    <div class="menu" ng-click="hiddenEditPanel();">
+                                        <i class="ti-close"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
 
             </div>
+
 
             <div class="clearfix"></div>
 

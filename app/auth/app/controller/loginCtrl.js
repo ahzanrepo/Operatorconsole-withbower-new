@@ -99,7 +99,7 @@ opConsoleApp.controller('loginCtrl', function ($rootScope, $scope, $state, $http
 
     $scope.CheckLogin = function () {
         if ($auth.isAuthenticated()) {
-            $state.go('op-console');
+            $state.go('op-console.monitor-server-performance');
         }
     };
 

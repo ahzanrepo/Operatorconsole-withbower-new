@@ -32,7 +32,7 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             }
         }).state('op-console.monitor-server-performance', {
             url: "/monitor-server-performance",
-            templateUrl: "app/views/template/monitor-server-performance.html",
+            templateUrl: "app/views/monitor-server-performance.html",
             data: {
                 requireLogin: true
             }
@@ -68,14 +68,14 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             }
         }).state('op-console.package', {
             url: "/package",
-            templateUrl: "app/views/template/package/package.html",
+            templateUrl: "app/views/package/package.html",
             controller: "packageController",
             data: {
                 requireLogin: true
             }
         }).state('op-console.unit', {
             url: "/unit",
-            templateUrl: "app/views/template/package/unit.html",
+            templateUrl: "app/views/package/unit.html",
             controller: "unitController",
             data: {
                 requireLogin: true

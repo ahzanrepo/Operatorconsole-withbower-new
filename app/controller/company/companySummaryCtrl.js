@@ -473,4 +473,20 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
     $scope.backToPage = function () {
         $state.go('op-console.all-company-information');
     };
+
+
+    //update company profile
+    $scope.showUpdatePanel = function () {
+        var $edit_widget = $('#profileEditWidget');
+        if ($edit_widget) {
+            $edit_widget.removeClass('hidden-widget');
+        }
+    };
+
+    $scope.hiddenEditPanel = function () {
+        var $edit_widget = $('#profileEditWidget');
+        if ($edit_widget) {
+            $('#profileEditWidget').animate()
+        }
+    };
 });
