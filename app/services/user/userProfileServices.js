@@ -163,6 +163,17 @@
             })
         };
 
+        var getMyOrganization = function(companyId)
+        {
+
+            return $http({
+                method: 'GET',
+                url: baseUrls.userServiceBaseUrl + 'Tenant/Company/' + companyId
+            }).then(function (resp) {
+                return resp.data;
+            })
+        };
+
 
         return {
             getProfileByName: getProfileByName,
@@ -180,7 +191,8 @@
             getMyProfile: getMyProfile,
             updateMyProfile: updateMyProfile,
             getMyRatings: getMyRatings,
-            getOrganization: getOrganization
+            getOrganization: getOrganization,
+            getMyOrganization: getMyOrganization
 
         };
     };
