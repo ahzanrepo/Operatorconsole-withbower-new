@@ -2,7 +2,7 @@
  * Created by damith on 4/7/17.
  */
 
-opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anchorScroll, companyInfoServices, clusterConfigurationService, ngNotify, userService, $state) {
+opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anchorScroll, $q, companyInfoServices, clusterConfigurationService, phnNumTrunkService, ngNotify, userService, $state) {
     $anchorScroll();
 
     var param = {};
@@ -10,6 +10,11 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
     $scope.isLoadingAll = false;
     $scope.companyObj = null;
     $scope.cloudEndUser = {};
+    $scope.numberLimit = {
+        Inbound: {},
+        Outbound: {},
+        Both: {}
+    };
 
     //update package save obj
     var _updatePackage = {};
@@ -94,6 +99,149 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
 
     };
 
+    var loadNumberLimits = function () {
+        phnNumTrunkService.getLimitsByCategory('COMPANY_NUMBER_LIMIT', 'INBOUND', $scope.companyObj.id).then(function (response) {
+            if (response.IsSuccess) {
+                if (response.Result.length > 0)
+                {
+                    $scope.isNewInboundLimit = false;
+                    $scope.numberLimit.Inbound = response.Result[0];
+                }
+                else
+                {
+                    $scope.isNewInboundLimit = true;
+                }
+            }
+            else {
+                $scope.isNewInboundLimit = null;
+                var errMsg = "";
+                if (response.Exception && response.Exception.Message) {
+                    errMsg = response.Exception.Message;
+                }
+
+                if (response.CustomMessage) {
+                    errMsg = response.CustomMessage;
+                }
+                ngNotify.set(errMsg, {
+                    position: 'top',
+                    sticky: false,
+                    duration: 3000,
+                    type: 'error'
+                });
+            }
+
+
+        }).catch(function (ex) {
+            $scope.isNewInboundLimit = true;
+
+            var errMsg = "Error loading company inbound limit";
+            if (ex.statusText) {
+                errMsg = ex.statusText;
+            }
+            ngNotify.set(errMsg, {
+                position: 'top',
+                sticky: false,
+                duration: 3000,
+                type: 'error'
+            });
+
+        });
+
+        phnNumTrunkService.getLimitsByCategory('COMPANY_NUMBER_LIMIT', 'OUTBOUND', $scope.companyObj.id).then(function (response) {
+            if (response.IsSuccess) {
+                if (response.Result.length > 0)
+                {
+                    $scope.isNewOutboundLimit = false;
+                    $scope.numberLimit.Outbound = response.Result[0];
+                }
+                else
+                {
+                    $scope.isNewOutboundLimit = true;
+                }
+            }
+            else {
+                $scope.isNewOutboundLimit = null;
+                var errMsg = "";
+                if (response.Exception && response.Exception.Message) {
+                    errMsg = response.Exception.Message;
+                }
+
+                if (response.CustomMessage) {
+                    errMsg = response.CustomMessage;
+                }
+                ngNotify.set(errMsg, {
+                    position: 'top',
+                    sticky: false,
+                    duration: 3000,
+                    type: 'error'
+                });
+            }
+
+
+        }).catch(function (ex) {
+            $scope.isNewOutboundLimit = true;
+
+            var errMsg = "Error loading company inbound limit";
+            if (ex.statusText) {
+                errMsg = ex.statusText;
+            }
+            ngNotify.set(errMsg, {
+                position: 'top',
+                sticky: false,
+                duration: 3000,
+                type: 'error'
+            });
+
+        });
+
+        phnNumTrunkService.getLimitsByCategory('COMPANY_NUMBER_LIMIT', 'BOTH', $scope.companyObj.id).then(function (response) {
+            if (response.IsSuccess) {
+                if (response.Result.length > 0)
+                {
+                    $scope.isNewBothLimit = false;
+                    $scope.numberLimit.Both = response.Result[0];
+                }
+                else
+                {
+                    $scope.isNewBothLimit = true;
+                }
+            }
+            else {
+                $scope.isNewBothLimit = null;
+                var errMsg = "";
+                if (response.Exception && response.Exception.Message) {
+                    errMsg = response.Exception.Message;
+                }
+
+                if (response.CustomMessage) {
+                    errMsg = response.CustomMessage;
+                }
+                ngNotify.set(errMsg, {
+                    position: 'top',
+                    sticky: false,
+                    duration: 3000,
+                    type: 'error'
+                });
+            }
+
+
+        }).catch(function (ex) {
+            $scope.isNewBothLimit = true;
+
+            var errMsg = "Error loading company inbound limit";
+            if (ex.statusText) {
+                errMsg = ex.statusText;
+            }
+            ngNotify.set(errMsg, {
+                position: 'top',
+                sticky: false,
+                duration: 3000,
+                type: 'error'
+            });
+
+        });
+    };
+
     var loadEndUser = function () {
         clusterConfigurationService.getCloudEndUser($scope.companyObj.id).then(function (response) {
             if (response.IsSuccess) {
@@ -151,6 +299,7 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 break;
             case 'companyProvision':
                 loadEndUser();
+                loadNumberLimits();
                 break;
             case 'companyProfile':
                 onLoadCompanyInfo($scope.companyObj);
@@ -279,6 +428,215 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
 
 
     };
+
+    var saveInboundLimit = function()
+    {
+        var deferred = $q.defer();
+
+        if ($scope.isNewInboundLimit)
+        {
+            var inbLim = {
+                LimitDescription: 'Company ' + $scope.companyObj.id + ' Inbound Limit',
+                ObjClass: 'CALL',
+                ObjType: 'COMPANY_NUMBER_LIMIT',
+                ObjCategory: 'INBOUND',
+                MaxCount: $scope.numberLimit.Inbound.MaxCount,
+                Enable: true
+            };
+
+            phnNumTrunkService.addLimitByTenant(inbLim, $scope.companyObj.id).then(function (response)
+            {
+                if (response.IsSuccess)
+                {
+                    deferred.resolve(true);
+                }
+                else
+                {
+                    deferred.reject(null);
+                }
+            }).catch(function (ex) {
+                deferred.reject(null);
+            });
+
+        }
+        else
+        {
+            if($scope.numberLimit.Inbound && $scope.numberLimit.Inbound.LimitId)
+            {
+                phnNumTrunkService.updateMaxLimit($scope.numberLimit.Inbound.LimitId, $scope.numberLimit.Inbound.MaxCount, $scope.companyObj.id).then(function (response) {
+                    if (response.IsSuccess)
+                    {
+                        deferred.resolve(true);
+                    }
+                    else
+                    {
+                        deferred.reject(null);
+                    }
+                }).catch(function (ex)
+                {
+                    deferred.reject(null);
+                });
+            }
+            else
+            {
+                deferred.reject(null);
+            }
+
+        }
+    };
+
+    var saveOutboundLimit = function()
+    {
+        var deferred = $q.defer();
+
+        if ($scope.isNewOutboundLimit)
+        {
+            var outbLim = {
+                LimitDescription: 'Company ' + $scope.companyObj.id + ' Outbound Limit',
+                ObjClass: 'CALL',
+                ObjType: 'COMPANY_NUMBER_LIMIT',
+                ObjCategory: 'OUTBOUND',
+                MaxCount: $scope.numberLimit.Outbound.MaxCount,
+                Enable: true
+            };
+
+            phnNumTrunkService.addLimitByTenant(outbLim, $scope.companyObj.id).then(function (response)
+            {
+                if (response.IsSuccess)
+                {
+                    deferred.resolve(true);
+                }
+                else
+                {
+                    deferred.reject(null);
+                }
+            }).catch(function (ex) {
+                deferred.reject(null);
+            });
+
+        }
+        else
+        {
+            if($scope.numberLimit.Outbound && $scope.numberLimit.Outbound.LimitId)
+            {
+                phnNumTrunkService.updateMaxLimit($scope.numberLimit.Outbound.LimitId, $scope.numberLimit.Outbound.MaxCount, $scope.companyObj.id).then(function (response) {
+                    if (response.IsSuccess)
+                    {
+                        deferred.resolve(true);
+                    }
+                    else
+                    {
+                        deferred.reject(null);
+                    }
+                }).catch(function (ex)
+                {
+                    deferred.reject(null);
+                });
+            }
+            else
+            {
+                deferred.reject(null);
+            }
+
+        }
+    };
+
+    var saveBothLimit = function()
+    {
+        var deferred = $q.defer();
+
+        if ($scope.isNewBothLimit)
+        {
+            var bothLim = {
+                LimitDescription: 'Company ' + $scope.companyObj.id + ' Both Limit',
+                ObjClass: 'CALL',
+                ObjType: 'COMPANY_NUMBER_LIMIT',
+                ObjCategory: 'BOTH',
+                MaxCount: $scope.numberLimit.Both.MaxCount,
+                Enable: true
+            };
+
+            phnNumTrunkService.addLimitByTenant(bothLim, $scope.companyObj.id).then(function (response)
+            {
+                if (response.IsSuccess)
+                {
+                    deferred.resolve(true);
+                }
+                else
+                {
+                    deferred.reject(null);
+                }
+            }).catch(function (ex) {
+                deferred.reject(null);
+            });
+
+        }
+        else
+        {
+            if($scope.numberLimit.Both && $scope.numberLimit.Both.LimitId)
+            {
+                phnNumTrunkService.updateMaxLimit($scope.numberLimit.Both.LimitId, $scope.numberLimit.Both.MaxCount, $scope.companyObj.id).then(function (response) {
+                    if (response.IsSuccess)
+                    {
+                        deferred.resolve(true);
+                    }
+                    else
+                    {
+                        deferred.reject(null);
+                    }
+                }).catch(function (ex)
+                {
+                    deferred.reject(null);
+                });
+            }
+            else
+            {
+                deferred.reject(null);
+            }
+
+        }
+    };
+
+
+    $scope.saveCompanyLimits = function ()
+    {
+        var arr = [];
+        if($scope.numberLimit.Inbound.MaxCount)
+        {
+            arr.push(saveInboundLimit())
+        }
+        if($scope.numberLimit.Outbound.MaxCount)
+        {
+            arr.push(saveOutboundLimit())
+        }
+        if($scope.numberLimit.Both.MaxCount)
+        {
+            arr.push(saveBothLimit())
+        }
+
+        $q.all(arr).then(function(resolveData)
+        {
+            //form complete
+            ngNotify.set('Company number limits updated successfully', {
+                position: 'top',
+                sticky: false,
+                duration: 3000,
+                type: 'success'
+            });
+
+        }).catch(function(err)
+        {
+            ngNotify.set('Error occurred while setting company number limits', {
+                position: 'top',
+                sticky: false,
+                duration: 3000,
+                type: 'error'
+            });
+        });
+
+    };
+
+
 
     //change company activation
 

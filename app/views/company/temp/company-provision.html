@@ -38,6 +38,45 @@
 
             </div>
         </div>
+        <div class="col-lg-12 col-md-12 col-xs-12">
+            <div class="company-profile-widget">
+
+                <div class="widget-row-company" style="background: #fdfdfd;">
+                    <div class="widget-image-company">
+                        <div class="widget-header">
+                            <h5>Company Number Limits</h5>
+                        </div>
+                        <br><br><br>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <label>Number Limit Inbound</label>
+                            <input type="text" class="form-control"
+                                   ng-model="numberLimit.Inbound.MaxCount">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <label>Number Limit Outbound</label>
+                            <input type="text" class="form-control"
+                                   ng-model="numberLimit.Outbound.MaxCount">
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                            <label>Number Limit Both</label>
+                            <input type="text" class="form-control"
+                                   ng-model="numberLimit.Both.MaxCount">
+                        </div>
+                        <div class="clearfix"></div>
+                        <br>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <button class="btn btn-primary"
+                                    ng-click="saveCompanyLimits()">Save
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </div>
     </div>
 </div>
 
