@@ -96,7 +96,163 @@
                         consoleAccessLimit: {
                             accessLimit: 0
                         },
-                        resources: []
+                        resources: [
+                            {
+                                resourceName: "DVP-ARDSLiteService",
+                                scopes: [
+                                    {
+                                        scopeName: "ardsresource",
+                                        feature: "agent access",
+                                        actions: [
+                                            "read",
+                                            "write",
+                                            "delete"
+                                        ],
+                                        limit: -1
+                                    },
+                                    {
+                                        scopeName: "ardsrequest",
+                                        feature: "request access",
+                                        actions: [
+                                            "read",
+                                            "write",
+                                            "delete"
+                                        ],
+                                        limit: -1
+                                    },
+                                    {
+                                        scopeName: "requestmeta",
+                                        feature: "requestmeta access",
+                                        actions: [
+                                            "read",
+                                            "write",
+                                            "delete"
+                                        ],
+                                        limit: -1
+                                    },
+                                    {
+                                        scopeName: "queue",
+                                        feature: "queue access",
+                                        actions: [
+                                            "read",
+                                            "write",
+                                            "delete"
+                                        ],
+                                        limit: -1
+                                    },
+                                    {
+                                        scopeName: "requestserver",
+                                        feature: "requestserver access",
+                                        actions: [
+                                            "read",
+                                            "write",
+                                            "delete"
+                                        ],
+                                        limit: -1
+                                    }
+                                ]
+                            },
+                            {
+                                resourceName: "DVP-ResourceService",
+                                scopes: [
+                                    {
+                                        scopeName: "attribute",
+                                        feature: "attribute access",
+                                        actions: [
+                                            "read",
+                                            "write",
+                                            "delete"
+                                        ],
+                                        limit: -1
+                                    },
+                                    {
+                                        scopeName: "group",
+                                        feature: "group access",
+                                        actions: [
+                                            "read",
+                                            "write",
+                                            "delete"
+                                        ],
+                                        limit: -1
+                                    },
+                                    {
+                                        scopeName: "ardsresource",
+                                        feature: "ardsresource access",
+                                        actions: [
+                                            "read",
+                                            "write",
+                                            "delete"
+                                        ],
+                                        limit: -1
+                                    },
+                                    {
+                                        scopeName: "resourcetaskattribute",
+                                        feature: "resourcetaskattribute access",
+                                        actions: [
+                                            "read",
+                                            "write",
+                                            "delete"
+                                        ],
+                                        limit: -1
+                                    },
+                                    {
+                                        scopeName: "task",
+                                        feature: "task access",
+                                        actions: [
+                                            "read",
+                                            "write",
+                                            "delete"
+                                        ],
+                                        limit: -1
+                                    },
+                                    {
+                                        scopeName: "productivity",
+                                        feature: "productivity access",
+                                        actions: [
+                                            "read",
+                                            "write",
+                                            "delete"
+                                        ],
+                                        limit: -1
+                                    },
+                                    {
+                                        scopeName: "Shared",
+                                        feature: "Shared access",
+                                        actions: [
+                                            "read",
+                                            "write",
+                                            "delete"
+                                        ],
+                                        limit: -1
+                                    },
+                                    {
+                                        scopeName: "taskinfo",
+                                        feature: "taskinfo access",
+                                        actions: [
+                                            "read",
+                                            "write",
+                                            "delete"
+                                        ],
+                                        limit: -1
+                                    }
+                                ]
+                            },
+                            {
+                                resourceName: "DVP-SIPUserEndpointService",
+                                scopes: [
+                                    {
+                                        scopeName: "sipuser",
+                                        feature: "sipuser access",
+                                        actions: [
+                                            "read",
+                                            "write",
+                                            "delete"
+                                        ],
+                                        limit: 0
+                                    }
+                                ]
+                            }
+                        ]
                     };
 
                     break;

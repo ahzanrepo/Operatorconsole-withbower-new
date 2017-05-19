@@ -70,9 +70,9 @@
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <select class="form-control" ng-model="packageObj.navigationType">
                                     <option disabled selected>Choose Navigation Type</option>
-                                    <option ng-if="packageObj.packageType === 'BASIC'" value="BASIC">Basic</option>
-                                    <option ng-if="packageObj.packageType !== 'BASIC'" value="CALLCENTER">Call Center
-                                    </option>
+                                    <option value="BASIC">Basic</option>
+                                    <option ng-if="packageObj.packageType !== 'BASIC'" value="PREMIUM-01">Premium-01</option>
+                                    <option ng-if="packageObj.packageType !== 'BASIC'" value="PREMIUM-02">Premium-02</option>
                                     <option ng-if="packageObj.packageType !== 'BASIC'" value="PABX">Pabx</option>
                                 </select>
                             </div>
@@ -163,7 +163,8 @@
                                                 <div class="col-md-9 col-sm-9 col-xs-12">
                                                     <select class="form-control" ng-model="tempSpaceLimit.spaceType">
                                                         <option disabled selected>Choose Space Type</option>
-                                                        <option value="VoiceClip">Voice Clip</option>
+                                                        <option value="VoiceClip_CallCenter">Voice Clip(Call Center)</option>
+                                                        <option value="VoiceClip_Pabx">Voice Clip(Pabx)</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -174,8 +175,10 @@
                                                 <div class="col-md-9 col-sm-9 col-xs-12">
                                                     <select class="form-control" ng-model="tempSpaceLimit.spaceUnit">
                                                         <option disabled selected>Choose Space Unit</option>
+                                                        <option value="TB">TB</option>
                                                         <option value="GB">GB</option>
                                                         <option value="MB">MB</option>
+                                                        <option value="DAYS">DAYS</option>
                                                     </select>
                                                 </div>
                                             </div>
