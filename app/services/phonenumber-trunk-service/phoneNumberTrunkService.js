@@ -210,6 +210,17 @@
                 });
         };
 
+        var deleteLimit = function(limitId, clientCompany)
+        {
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.limitHandlerBaseURL + 'LimitAPI/Limit/' + limitId + '/ClientCompany/' + clientCompany
+            }).then(function (response)
+            {
+                return response.data;
+            });
+        };
+
         var getLimitsByCategory = function(type, category, clientCompany)
         {
             return $http({
@@ -341,7 +352,8 @@
             setProfileToTrunk: setProfileToTrunk,
             getLimitsByCategory: getLimitsByCategory,
             addLimitByTenant: addLimitByTenant,
-            updateMaxLimit: updateMaxLimit
+            updateMaxLimit: updateMaxLimit,
+            deleteLimit: deleteLimit
         };
 
 
