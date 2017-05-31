@@ -28,7 +28,7 @@
     "angular-sanitize": "1.5.8",
     "angular-local-storage": "^0.2.7",
     "bootstrap": "^3.3.7",
-    "moment": "^2.14.1",
+    "moment": "^2.18.1",
     "angular-moment": "^1.0.1",
     "introloader": "^1.7.1",
     "angular-slimscroll": "^1.1.5",

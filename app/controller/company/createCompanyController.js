@@ -52,6 +52,7 @@
                 if($scope.wizard_2_Style === 'disabled'){
                     if($scope.companyData.companyname && $scope.companyData.mail && $scope.companyData.password && $scope.companyData.confirm){
                         if($scope.companyData.password === $scope.companyData.confirm) {
+                            $scope.companyData.timeZone = {tz:moment.tz.guess(), utcOffset: ""};
                             userService.CreateNewCompany($scope.companyData).then(function (response) {
                                 if (response) {
 
