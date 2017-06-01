@@ -16,6 +16,8 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
         Both: {}
     };
 
+    $scope.disableSaveLimit = false;
+
     //update package save obj
     var _updatePackage = {};
 
@@ -99,9 +101,13 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
 
     };
 
-    var loadNumberLimits = function () {
+
+    var loadInbLimits = function()
+    {
+        var deferred = $q.defer();
         phnNumTrunkService.getLimitsByCategory('COMPANY_NUMBER_LIMIT', 'INBOUND', $scope.companyObj.id).then(function (response) {
-            if (response.IsSuccess) {
+            if (response.IsSuccess)
+            {
                 if (response.Result.length > 0)
                 {
                     $scope.isNewInboundLimit = false;
@@ -111,6 +117,7 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 {
                     $scope.isNewInboundLimit = true;
                 }
+                deferred.resolve();
             }
             else {
                 $scope.isNewInboundLimit = null;
@@ -128,6 +135,8 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                     duration: 3000,
                     type: 'error'
                 });
+
+                deferred.reject();
             }
 
 
@@ -145,8 +154,16 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 type: 'error'
             });
 
+            deferred.reject();
+
         });
 
+        return deferred.promise;
+    };
+
+    var loadOutbLimits = function()
+    {
+        var deferred = $q.defer();
         phnNumTrunkService.getLimitsByCategory('COMPANY_NUMBER_LIMIT', 'OUTBOUND', $scope.companyObj.id).then(function (response) {
             if (response.IsSuccess) {
                 if (response.Result.length > 0)
@@ -158,8 +175,10 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 {
                     $scope.isNewOutboundLimit = true;
                 }
+                deferred.resolve();
             }
-            else {
+            else
+            {
                 $scope.isNewOutboundLimit = null;
                 var errMsg = "";
                 if (response.Exception && response.Exception.Message) {
@@ -175,6 +194,8 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                     duration: 3000,
                     type: 'error'
                 });
+
+                deferred.reject();
             }
 
 
@@ -192,7 +213,18 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 type: 'error'
             });
 
+            deferred.reject();
+
         });
+
+        return deferred.promise;
+
+
+    }
+
+    var loadBothLimits = function()
+    {
+        var deferred = $q.defer();
 
         phnNumTrunkService.getLimitsByCategory('COMPANY_NUMBER_LIMIT', 'BOTH', $scope.companyObj.id).then(function (response) {
             if (response.IsSuccess) {
@@ -205,6 +237,8 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 {
                     $scope.isNewBothLimit = true;
                 }
+
+                deferred.resolve();
             }
             else {
                 $scope.isNewBothLimit = null;
@@ -222,6 +256,8 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                     duration: 3000,
                     type: 'error'
                 });
+
+                deferred.reject();
             }
 
 
@@ -239,7 +275,45 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 type: 'error'
             });
 
+            deferred.reject();
+
         });
+
+        return deferred.promise;
+    }
+
+    var loadNumberLimits = function () {
+        $scope.disableSaveLimit = true;
+
+        var arr = [];
+
+        arr.push(loadInbLimits());
+
+        arr.push(loadOutbLimits());
+
+        arr.push(loadBothLimits());
+
+        $q.all(arr).then(function(resolveData)
+        {
+            //form complete
+            $scope.disableSaveLimit = false;
+
+        }).catch(function(err)
+        {
+            ngNotify.set('Error occurred while loading company number limits', {
+                position: 'top',
+                sticky: false,
+                duration: 3000,
+                type: 'error'
+            });
+
+            $scope.disableSaveLimit = false;
+        });
+
+
+
+
+
     };
 
     var loadEndUser = function () {
@@ -456,7 +530,6 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 {
                     if (response.IsSuccess)
                     {
-                        $scope.isNewInboundLimit = false;
                         deferred.resolve(true);
                     }
                     else
@@ -522,7 +595,6 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 {
                     if (response.IsSuccess)
                     {
-                        $scope.isNewOutboundLimit = false;
                         deferred.resolve(true);
                     }
                     else
@@ -589,7 +661,6 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 {
                     if (response.IsSuccess)
                     {
-                        $scope.isNewOutboundLimit = false;
                         deferred.resolve(true);
                     }
                     else
@@ -658,6 +729,7 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
 
     $scope.saveCompanyLimits = function ()
     {
+        $scope.disableSaveLimit = true;
         if($scope.isNewInboundLimit === null || $scope.isNewOutboundLimit === null || $scope.isNewBothLimit === null)
         {
             ngNotify.set('Cannot save limits - please reload page and try again', {
@@ -666,6 +738,8 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 duration: 3000,
                 type: 'error'
             });
+
+            $scope.disableSaveLimit = false;
         }
         else
         {
@@ -701,6 +775,7 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
             $q.all(arr).then(function(resolveData)
             {
                 //form complete
+                loadNumberLimits();
                 ngNotify.set('Company number limits updated successfully', {
                     position: 'top',
                     sticky: false,
