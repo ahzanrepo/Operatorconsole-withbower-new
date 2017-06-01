@@ -342,6 +342,8 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                             duration: 3000,
                             type: 'success'
                         });
+
+                        $scope.isNewEndUser = false;
                     }
                     else {
                         var errMsg = "";
@@ -454,6 +456,7 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 {
                     if (response.IsSuccess)
                     {
+                        $scope.isNewInboundLimit = false;
                         deferred.resolve(true);
                     }
                     else
@@ -519,6 +522,7 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 {
                     if (response.IsSuccess)
                     {
+                        $scope.isNewOutboundLimit = false;
                         deferred.resolve(true);
                     }
                     else
@@ -585,6 +589,7 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 {
                     if (response.IsSuccess)
                     {
+                        $scope.isNewOutboundLimit = false;
                         deferred.resolve(true);
                     }
                     else
