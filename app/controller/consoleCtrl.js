@@ -3,19 +3,30 @@
  */
 
 'use strict';
-opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state,
+opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state,ngNotify,
                                                  userProfileServices,
                                                  loginService,
-                                                 subscribeServices) {
+                                                 subscribeServices,billingservice) {
 
-    $scope.showAlert = function (tittle, type, msg) {
-        new PNotify({
-            title: tittle,
-            text: msg,
+    $scope.showAlert  = function (title, type, content) {
+        ngNotify.set(content, {
+            position: 'top',
+            sticky: true,
+            duration: 3000,
+            type: type
+        });
+
+       /* new PNotify({
+            title: title,
+            text: content,
             type: type,
             styling: 'bootstrap3',
-            icon: false
-        });
+            animate: {
+                animate: true,
+                in_class: "bounceIn",
+                out_class: "bounceOut"
+            }
+        });*/
     };
 
     //get current login user
@@ -98,6 +109,9 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state,
                 $scope.notifications.push(data);
                 $scope.unredNotifications = $scope.notifications.length;
             });
+
+            var audio = new Audio("assets/sounds/notification-1.mp3");
+            audio.play();
         }
     };
 
@@ -157,7 +171,7 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state,
                  $('#regNotification').addClass('display-block').removeClass('display-none');*/
             } else {
                 $scope.isSocketRegistered = false;
-                $scope.showAlert("Registration failed", "error", "Disconnected from notifications, Please re-register")
+                $scope.showAlert("Registration failed", "error", "Disconnected from notifications, Please re-register");
             }
         });
     };
@@ -174,4 +188,22 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state,
         }
     };
     //-------------------- Notifications End------------------------ \\
+
+    $scope.vToken = "";
+    $scope.validateToken = function (token) {
+        billingservice.ValidateToken(token).then(function (response) {
+            if (response) {
+                $scope.showAlert("Validate Token", "success", "Successfully Activated.");
+                $scope.vToken = "";
+            }
+            else {
+                $scope.showAlert("Validate Token", "error", "Fail To Validate Token.");
+                console.log(response);
+            }
+
+        }, function (err) {
+            console.log(err);
+            $scope.showAlert("Validate Token", "error", "Fail To Validate Token.");
+        });
+    }
 });
