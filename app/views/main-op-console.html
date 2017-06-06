@@ -154,20 +154,73 @@
                         </div>
 
                         <ul class="nav navbar-nav navbar-right">
+                            <!-- profile setting -->
                             <li role="presentation" class="dropdown">
-                                <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown"
-                                   aria-expanded="false">
-                                    <i class="fa ti-bell"></i>
-                                    <!--<div class="badge badge-sm bg-green"></div>-->
-                                </a>
-                            </li>
-                            <li role="presentation" class="dropdown">
-                                <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown"
+                                <a href="javascript:void(0);" class="dropdown-toggle info-number" data-toggle="dropdown"
                                    aria-expanded="false">
                                     <i class="fa ti-settings"></i>
                                     <!--<span class="badge bg-green">6</span>-->
                                 </a>
                             </li>
+                            <!-- notification -->
+                            <li role="presentation" class="dropdown"
+                                uib-dropdown
+                                uib-dropdown-toggle>
+                                <a href="javascript:void(0);" class="dropdown-toggle info-number"
+                                   data-toggle="dropdown"
+                                   ng-click="checkAndRegister()"   aria-expanded="false">
+                                    <i class="fa ti-bell"></i>
+                                    <span class="badge bg-green">{{unredNotifications}}</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-usermenu pull-right"
+                                    uib-dropdown-menu
+                                    role="menu">
+                                    <li class="notification-header">
+                                        <a class="drop-header">Notification
+                                            center</a>
+                                        <span class="drop-sub-header">new ({{unredNotifications}})</span>
+                                    </li>
+                                    <li class="divider"></li>
+                                    <div class="console-notofication-wrapper">
+                                        <div class="notification-status" ng-show="unredNotifications==0">
+
+                                            <i class="animated   veery-font-1-alarm"> </i>
+                                            </br>
+                                            no new notification
+                                        </div>
+
+                                        <section slimscroll="{height: '300px',
+                                    railVisible: true,
+                                    color: '#B6B8B5',
+                                    size: '8px',
+                                    distance: '10px',
+                                    railColor: '#B6B8B5',
+                                    railBorderRadius: 10}">
+
+                                            <div class="notification-list" ng-repeat="notifi in notifications" ng-click="showNotificationMessage(notifi)">
+                                                <div class="notify-img-small">
+                                                    <img src="assets/img/avatar/profileAvatar.png"
+                                                         ng-src="{{notifi.avatar}}">
+                                                </div>
+                                                <div class="noti-detail">
+                                                    <div class="noti-detail">
+                                                        <h5>{{notifi.From}}</h5>
+                                                        <h4>{{notifi.Message | limitTo: 20}}{{notifi.Message.length>20
+                                                            ?'....':''}}</h4>
+
+                                                        <div>
+                                                            <time-ago from-time='{{notifi.resv_time}}'
+                                                                      format='MM/dd/yyyy'></time-ago>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+                                </ul>
+                            </li>
+
                         </ul>
                     </nav>
                 </div>
