@@ -91,7 +91,7 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state,ngNotif
     $scope.OnMessage = function (data) {
 
         if (data.From) {
-            data.avatar = "assets/img/avatar/profileAvatar.png";
+            data.avatar = "assets/img/profileAvatar.png";
             if($scope.users && $scope.users.length){
                 var sender = $filter('filter')($scope.users, {username: data.From})[0];
                 console.log("Sender ", sender);
@@ -160,7 +160,20 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state,ngNotif
         }
     });
 
+    $scope.MakeNotificationObject = function (data) {
+        var callbackObj = JSON.parse(data.Callback);
+
+        callbackObj.From = data.From;
+        callbackObj.TopicKey = callbackObj.Topic;
+        callbackObj.messageType = callbackObj.MessageType;
+        callbackObj.isPersistMessage = true;
+        callbackObj.PersistMessageID = data.id;
+        return callbackObj;
+
+    };
+
     $scope.isSocketRegistered = false;
+    var isPersistanceLoaded = false;
     $scope.veeryNotification = function () {
 
         subscribeServices.connectSubscribeServer(function (isConnected) {
@@ -169,6 +182,36 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state,ngNotif
                 $scope.isSocketRegistered = true;
                 /*$('#regNotificationLoading').addClass('display-none').removeClass('display-block');
                  $('#regNotification').addClass('display-block').removeClass('display-none');*/
+
+                // load notification message
+                if (!isPersistanceLoaded) {
+                    subscribeServices.GetPersistenceMessages().then(function (response) {
+
+                        if (response.data.IsSuccess) {
+                            isPersistanceLoaded = true;
+
+                            angular.forEach(response.data.Result, function (value) {
+
+                                var valObj = JSON.parse(value.Callback);
+
+                                if (valObj.eventName == "todo_reminder") {
+                                    //$scope.todoRemind($scope.MakeNotificationObject(value));
+                                }
+                                else {
+                                    $scope.OnMessage($scope.MakeNotificationObject(value));
+                                }
+
+
+                            });
+
+                        }
+
+
+                    }, function (err) {
+
+                    });
+                }
+
             } else {
                 $scope.isSocketRegistered = false;
                 $scope.showAlert("Registration failed", "error", "Disconnected from notifications, Please re-register");

@@ -105,7 +105,8 @@ var baseUrls = {
     'limitHandlerBaseURL': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
     'clusterConfigurationBaseURL': 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/',
     'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/',
-    'billingserviceURL': 'http://billingservice.app.veery.cloud/DVP/API/1.0.0.0/Billing/'
+    'billingserviceURL': 'http://billingservice.app.veery.cloud/DVP/API/1.0.0.0/Billing/',
+    'notification': 'http://notificationservice.app.veery.cloud'
 };
 
 opConsoleApp.constant('baseUrls', baseUrls);

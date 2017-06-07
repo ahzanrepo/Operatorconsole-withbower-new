@@ -3,7 +3,7 @@
  */
 
 
-opConsoleApp.factory('subscribeServices', function (baseUrls, loginService) {
+opConsoleApp.factory('subscribeServices', function ($http,baseUrls, loginService) {
 
 
     //local  variable
@@ -105,7 +105,8 @@ opConsoleApp.factory('subscribeServices', function (baseUrls, loginService) {
 
 
     //********  subscribe function ********//
-    var connect = function () {
+    var connect = function (callbck) {
+        connectionSubscribers = callbck;
         SE.init({
             serverUrl: baseUrls.ipMessageURL,
             callBackEvents: callBackEvents
@@ -175,6 +176,16 @@ opConsoleApp.factory('subscribeServices', function (baseUrls, loginService) {
         callSubscribers.push(func);
     };
 
+    var getPersistenceMessages = function () {
+
+        return $http({
+            method: 'GET',
+            url: baseUrls.notification + "/DVP/API/1.0.0.0/NotificationService/PersistenceMessages"
+        }).then(function (response) {
+            return response;
+        });
+    };
+
     return {
         Request: request,
         connectSubscribeServer: connect,
@@ -184,6 +195,7 @@ opConsoleApp.factory('subscribeServices', function (baseUrls, loginService) {
         SubscribeEvents: SubscribeEvents,
         SubscribeStatus: SubscribeStatus,
         SubscribeCallStatus: SubscribeCallStatus,
+        GetPersistenceMessages:getPersistenceMessages
     }
 
 
