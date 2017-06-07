@@ -16,7 +16,7 @@ opConsoleApp.factory("billingservice", function ($http, baseUrls, config) {
             data: postData
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
-                return response.data.Result;
+                return response.data.IsSuccess;
             } else {
                 return false;
             }
