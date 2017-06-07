@@ -7,18 +7,18 @@ opConsoleApp.factory("billingservice", function ($http, baseUrls, config) {
 
 
     var validateToken = function (token) {
-        var postData ={
-            "billToken":token
+        var postData = {
+            "billToken": token
         };
         return $http({
             method: 'POST',
             url: baseUrls.billingserviceURL + "validateToken",
             data: postData
         }).then(function (response) {
-            if (response.data && response.data.IsSuccess) {
-                return response.data.IsSuccess;
+            if (response && response.data) {
+                return response.data;
             } else {
-                return false;
+                return undefined;
             }
         })
     };

@@ -235,18 +235,16 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state,ngNotif
     $scope.vToken = "";
     $scope.validateToken = function (token) {
         billingservice.ValidateToken(token).then(function (response) {
-            if (response) {
-                $scope.showAlert("Validate Token", "success", "Successfully Activated.");
+            if (response && response.IsSuccess) {
+                $scope.showAlert("Validate Token", "success", response.CustomMessage);
                 $scope.vToken = "";
-            }
-            else {
-                $scope.showAlert("Validate Token", "error", "Fail To Validate Token.");
+            } else {
+                $scope.showAlert("Validate Token", "error", response.CustomMessage);
                 console.log(response);
             }
-
         }, function (err) {
             console.log(err);
-            $scope.showAlert("Validate Token", "error", "Fail To Validate Token.");
+            $scope.showAlert("Validate Token", "error", "Fail To Validate Token or Communication Error.");
         });
     }
 });
