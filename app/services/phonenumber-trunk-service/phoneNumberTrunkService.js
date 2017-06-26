@@ -187,6 +187,51 @@
             })
         };
 
+        var addLimitByTenant = function(limitInfo, clientCompany)
+        {
+            return $http({
+                method: 'POST',
+                url: baseUrls.limitHandlerBaseURL + 'LimitAPI/Limit/ClientCompany/' + clientCompany,
+                data: limitInfo
+            }).then(function(response)
+            {
+                return response.data;
+            });
+        };
+
+        var updateMaxLimit = function(limitId, maxLimit, clientCompany)
+        {
+            return $http({
+                method: 'PUT',
+                url: baseUrls.limitHandlerBaseURL + 'LimitAPI/Limit/' + limitId + '/Max/' + maxLimit + '/ClientCompany/' + clientCompany
+                }).then(function (response)
+                {
+                    return response.data;
+                });
+        };
+
+        var deleteLimit = function(limitId, clientCompany)
+        {
+            return $http({
+                method: 'DELETE',
+                url: baseUrls.limitHandlerBaseURL + 'LimitAPI/Limit/' + limitId + '/ClientCompany/' + clientCompany
+            }).then(function (response)
+            {
+                return response.data;
+            });
+        };
+
+        var getLimitsByCategory = function(type, category, clientCompany)
+        {
+            return $http({
+                method: 'GET',
+                url: baseUrls.limitHandlerBaseURL + 'LimitAPI/Limit/Info/Type/' + type + '/Category/' + category + '/ClientCompany/' + clientCompany
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         var savePhoneNumber = function(phnNumInfo)
         {
             if(!phnNumInfo.InboundLimitId)
@@ -304,7 +349,11 @@
             addPhoneNumberTenant: addPhoneNumberTenant,
             updatePhoneNumberTenant: updatePhoneNumberTenant,
             setCloudToTrunk: setCloudToTrunk,
-            setProfileToTrunk: setProfileToTrunk
+            setProfileToTrunk: setProfileToTrunk,
+            getLimitsByCategory: getLimitsByCategory,
+            addLimitByTenant: addLimitByTenant,
+            updateMaxLimit: updateMaxLimit,
+            deleteLimit: deleteLimit
         };
 
 
