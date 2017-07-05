@@ -1512,3 +1512,13 @@ body .container.body .right_col {
 .trunk-app-button-dynamic-execute {
     background-color: #00c6e1;
 }
+
+.upload-profile {
+    display: block;
+    cursor: pointer;
+}
+
+.upload-profile:hover {
+    color: #4a91e3;
+    text-decoration: underline;
+}
