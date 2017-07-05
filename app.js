@@ -5,7 +5,7 @@
 var opConsoleApp = angular.module('opConsoleApp', ['ngRoute', 'ui.bootstrap',
     'ui.router', 'angular-jwt', 'angular.filter', 'satellizer',
     'LocalStorageModule', 'base64', 'easypiechart', 'ngNotify',
-    'checklist-model', 'as.sortable', 'ui.slimscroll', 'oitozero.ngSweetAlert', 'ngTagsInput']);
+    'checklist-model', 'as.sortable', 'ui.slimscroll', 'oitozero.ngSweetAlert', 'ngTagsInput','btford.socket-io']);
 
 
 //app router
@@ -103,7 +103,10 @@ var baseUrls = {
     'phoneNumTrunkServiceBaseURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'ruleServiceBaseURL': 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'limitHandlerBaseURL': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
-    'clusterConfigurationBaseURL': 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/'
+    'clusterConfigurationBaseURL': 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/',
+    'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/',
+    'billingserviceURL': 'http://billingservice.app.veery.cloud/DVP/API/1.0.0.0/Billing/',
+    'notification': 'http://notificationservice.app.veery.cloud'
 };
 
 opConsoleApp.constant('baseUrls', baseUrls);
