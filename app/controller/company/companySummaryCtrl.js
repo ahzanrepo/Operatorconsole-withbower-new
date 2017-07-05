@@ -2,7 +2,10 @@
  * Created by damith on 4/7/17.
  */
 
-opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anchorScroll, $q, companyInfoServices, clusterConfigurationService, phnNumTrunkService, ngNotify, userService, $state) {
+opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anchorScroll, $q,
+                                                        companyInfoServices, clusterConfigurationService,
+                                                        phnNumTrunkService, ngNotify, userService, $state, $ngConfirm) {
+
     $anchorScroll();
 
     var param = {};
@@ -731,29 +734,61 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
 
     //change company activation
 
+    var confirmation = function (title, contentData, okText, okFunc, closeFunc) {
+        $ngConfirm({
+            title: title,
+            content: contentData, // if contentUrl is provided, 'content' is ignored.
+            scope: $scope,
+            buttons: {
+                // long hand button definition
+                ok: {
+                    text: okText,
+                    btnClass: 'btn-primary',
+                    keys: ['enter'], // will trigger when enter is pressed
+                    action: function (scope) {
+                        okFunc();
+                    }
+                },
+                // short hand button definition
+                close: function (scope) {
+                    //closeFunc();
+                }
+            }
+        });
+    };
+
     $scope.isChangeCompanySatate = false;
     $scope.changeCompanyActivation = function (state) {
-        var param = {
-            state: state,
-            companyId: $scope.companyObj.id
-        };
-        $scope.isChangeCompanySatate = true;
-        companyInfoServices.changeCompanyActivation(param).then(function (data) {
-            $scope.isChangeCompanySatate = false;
-            if (data.IsSuccess) {
-                $scope.companyObj.companyEnabled = state;
-                ngNotify.set('Company state update successfully...', {
-                    position: 'top',
-                    sticky: true,
-                    duration: 3000,
-                    type: 'success'
-                });
-            }
 
-        }, function (err) {
-            console.log(err);
+        var confirmBoxObj = {
+            title: state ? 'Deactivate Company' : 'Activate Company',
+            contentData: state ? 'Are You Sure Deactivate Company.' : 'Are You Sure  Activate Company.',
+            okText: state ? 'Deactivate ' : 'Activate'
+        };
+
+        confirmation(confirmBoxObj.title, confirmBoxObj.contentData, confirmBoxObj.okText, function () {
+            var param = {
+                state: state,
+                companyId: $scope.companyObj.id
+            };
+            $scope.isChangeCompanySatate = true;
+            companyInfoServices.changeCompanyActivation(param).then(function (data) {
+                $scope.isChangeCompanySatate = false;
+                if (data.IsSuccess) {
+                    $scope.companyObj.companyEnabled = state;
+                    ngNotify.set('Company state update successfully...', {
+                        position: 'top',
+                        sticky: true,
+                        duration: 3000,
+                        type: 'success'
+                    });
+                }
+
+            }, function (err) {
+                console.log(err);
+            });
         });
-    }
+    };
 
     //update company current package
     $scope.packageData = {};

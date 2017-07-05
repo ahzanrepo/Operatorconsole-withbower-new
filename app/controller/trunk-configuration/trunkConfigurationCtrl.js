@@ -17,7 +17,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
     $scope.cloudList = [];
     $scope.profileList = [];
 
-    $scope.terminationInfo= {
+    $scope.terminationInfo = {
         TerminationType: 'CLOUD'
     };
 
@@ -33,44 +33,37 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
     $scope.collapsedButton = 'Create Trunk';
     $scope.dynamicCss = 'trunk-app-button-dynamic-execute';
 
-    $scope.resetForm = function()
-    {
+    $scope.resetForm = function () {
         $scope.currentTrunk = {
             IpAddressList: []
         };
     };
 
-    $scope.resetPhoneForm = function()
-    {
+    $scope.resetPhoneForm = function () {
         $scope.phnNum = {};
     };
 
-    $scope.onClickCollapsed = function ()
-    {
-        if($scope.appState === 'TRUNKLIST')
-        {
+    $scope.onClickCollapsed = function () {
+        if ($scope.appState === 'TRUNKLIST') {
             $scope.appState = 'TRUNKSAVE';
             $scope.resetForm();
             $scope.collapsedButton = 'Back To Trunk List';
             $scope.dynamicCss = 'trunk-app-button-dynamic-back';
             $scope.status = 'Save';
         }
-        else if($scope.appState === 'TRUNKSAVE' || $scope.appState === 'TRUNKUPDATE')
-        {
+        else if ($scope.appState === 'TRUNKSAVE' || $scope.appState === 'TRUNKUPDATE') {
             $scope.appState = 'TRUNKLIST';
             $scope.collapsedButton = 'Create Trunk';
             $scope.dynamicCss = 'trunk-app-button-dynamic-execute';
             $scope.status = 'Save';
         }
-        else if($scope.appState === 'PHONESAVE' || $scope.appState === 'PHONEUPDATE')
-        {
+        else if ($scope.appState === 'PHONESAVE' || $scope.appState === 'PHONEUPDATE') {
             $scope.appState = 'PHONELIST';
             $scope.collapsedButton = 'Back To Phone Number List';
             $scope.dynamicCss = 'trunk-app-button-dynamic-back';
             $scope.status = 'Save';
         }
-        else if($scope.appState === 'PHONELIST')
-        {
+        else if ($scope.appState === 'PHONELIST') {
             $scope.appState = 'TRUNKLIST';
             $scope.collapsedButton = 'Create Trunk';
             $scope.dynamicCss = 'trunk-app-button-dynamic-execute';
@@ -133,12 +126,10 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
     var loadTranslations = function () {
         ruleService.getTranslations().then(function (data) {
-            if (data.IsSuccess)
-            {
+            if (data.IsSuccess) {
                 $scope.transList = data.Result;
             }
-            else
-            {
+            else {
                 var errMsg = data.CustomMessage;
 
                 if (data.Exception) {
@@ -167,10 +158,8 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
         });
     };
 
-    $scope.addNewTrunk = function ()
-    {
-        phnNumTrunkService.addNewTrunk($scope.currentTrunk).then(function (data)
-        {
+    $scope.addNewTrunk = function () {
+        phnNumTrunkService.addNewTrunk($scope.currentTrunk).then(function (data) {
             if (data.IsSuccess) {
                 ngNotify.set('Trunk configuration saved successfully', {
                     position: 'top',
@@ -183,8 +172,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
                 loadTrunks();
             }
-            else
-            {
+            else {
                 var errMsg = "";
                 if (data.Exception && data.Exception.Message) {
                     errMsg = data.Exception.Message;
@@ -216,18 +204,14 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
     };
 
     var getLimits = function () {
-        phnNumTrunkService.getLimits().then(function (data)
-        {
-            if (data.IsSuccess)
-            {
+        phnNumTrunkService.getLimits().then(function (data) {
+            if (data.IsSuccess) {
                 $scope.limitList = data.Result;
             }
-            else
-            {
+            else {
                 var errMsg = data.CustomMessage;
 
-                if (data.Exception)
-                {
+                if (data.Exception) {
                     errMsg = data.Exception.Message;
                 }
                 ngNotify.set(errMsg, {
@@ -255,8 +239,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
     $scope.addIpAddress = function () {
         phnNumTrunkService.addTrunkIpAddress($scope.currentTrunk.id, $scope.ipRangeData).then(function (data) {
-            if (data.IsSuccess)
-            {
+            if (data.IsSuccess) {
                 ngNotify.set('Ip address added successfully', {
                     position: 'top',
                     sticky: false,
@@ -268,8 +251,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
                 $scope.ipRangeData = {};
             }
-            else
-            {
+            else {
                 var errMsg = "";
                 if (data.Exception && data.Exception.Message) {
                     errMsg = data.Exception.Message;
@@ -286,8 +268,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                 });
             }
 
-        }, function (err)
-        {
+        }, function (err) {
             var errMsg = "Error adding ip address";
             if (err.statusText) {
                 errMsg = err.statusText;
@@ -303,12 +284,9 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
     $scope.setTerminationData = function () {
 
-        if($scope.terminationInfo.TerminationType === 'CLOUD')
-        {
-            phnNumTrunkService.setCloudToTrunk($scope.currentTrunk.id, $scope.terminationInfo.CloudId).then(function (data)
-            {
-                if (data.IsSuccess)
-                {
+        if ($scope.terminationInfo.TerminationType === 'CLOUD') {
+            phnNumTrunkService.setCloudToTrunk($scope.currentTrunk.id, $scope.terminationInfo.CloudId).then(function (data) {
+                if (data.IsSuccess) {
                     ngNotify.set('Trunk terminated to cloud successfully', {
                         position: 'top',
                         sticky: false,
@@ -316,8 +294,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                         type: 'success'
                     });
                 }
-                else
-                {
+                else {
                     var errMsg = "";
                     if (data.Exception && data.Exception.Message) {
                         errMsg = data.Exception.Message;
@@ -334,8 +311,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                     });
                 }
 
-            }, function (err)
-            {
+            }, function (err) {
                 var errMsg = "Error terminating trunk";
                 if (err.statusText) {
                     errMsg = err.statusText;
@@ -348,12 +324,9 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                 });
             });
         }
-        else if($scope.terminationInfo.TerminationType === 'PROFILE')
-        {
-            phnNumTrunkService.setProfileToTrunk($scope.currentTrunk.id, $scope.terminationInfo.ProfileId).then(function (data)
-            {
-                if (data.IsSuccess)
-                {
+        else if ($scope.terminationInfo.TerminationType === 'PROFILE') {
+            phnNumTrunkService.setProfileToTrunk($scope.currentTrunk.id, $scope.terminationInfo.ProfileId).then(function (data) {
+                if (data.IsSuccess) {
                     ngNotify.set('Trunk terminated to profile successfully', {
                         position: 'top',
                         sticky: false,
@@ -361,8 +334,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                         type: 'success'
                     });
                 }
-                else
-                {
+                else {
                     var errMsg = "";
                     if (data.Exception && data.Exception.Message) {
                         errMsg = data.Exception.Message;
@@ -379,8 +351,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                     });
                 }
 
-            }, function (err)
-            {
+            }, function (err) {
                 var errMsg = "Error terminating trunk";
                 if (err.statusText) {
                     errMsg = err.statusText;
@@ -393,8 +364,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                 });
             });
         }
-        else
-        {
+        else {
             ngNotify.set('Invalid termination type', {
                 position: 'top',
                 sticky: false,
@@ -405,15 +375,12 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
     };
 
-    $scope.addPhoneNumber = function ()
-    {
+    $scope.addPhoneNumber = function () {
         $scope.phnNum.TrunkId = $scope.currentTrunk.id;
 
-        if($scope.appState === 'PHONEUPDATE')
-        {
+        if ($scope.appState === 'PHONEUPDATE') {
             phnNumTrunkService.updatePhoneNumberTenant($scope.phnNum).then(function (data) {
-                if (data.IsSuccess)
-                {
+                if (data.IsSuccess) {
                     ngNotify.set('Phone number updated successfully', {
                         position: 'top',
                         sticky: false,
@@ -423,8 +390,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
                     $scope.showNumberList($scope.currentTrunk);
                 }
-                else
-                {
+                else {
                     var errMsg = "";
                     if (data.Exception && data.Exception.Message) {
                         errMsg = data.Exception.Message;
@@ -441,8 +407,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                     });
                 }
 
-            }, function (err)
-            {
+            }, function (err) {
                 var errMsg = "Error updating phone number";
                 if (err.statusText) {
                     errMsg = err.statusText;
@@ -455,11 +420,9 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                 });
             });
         }
-        else
-        {
+        else {
             phnNumTrunkService.addPhoneNumberTenant($scope.phnNum).then(function (data) {
-                if (data.IsSuccess)
-                {
+                if (data.IsSuccess) {
                     ngNotify.set('Phone number added successfully', {
                         position: 'top',
                         sticky: false,
@@ -469,8 +432,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
                     $scope.showNumberList($scope.currentTrunk);
                 }
-                else
-                {
+                else {
                     var errMsg = "";
                     if (data.Exception && data.Exception.Message) {
                         errMsg = data.Exception.Message;
@@ -487,8 +449,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                     });
                 }
 
-            }, function (err)
-            {
+            }, function (err) {
                 var errMsg = "Error adding phone number";
                 if (err.statusText) {
                     errMsg = err.statusText;
@@ -505,19 +466,14 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
     };
 
-    var loadCompanyList = function()
-    {
-        companyInfoServices.getAllCompanyDetails().then(function(compListResp)
-        {
-            if (compListResp.IsSuccess)
-            {
-                if (compListResp.Result)
-                {
+    var loadCompanyList = function () {
+        companyInfoServices.getAllCompanyDetails().then(function (compListResp) {
+            if (compListResp.IsSuccess) {
+                if (compListResp.Result) {
                     $scope.companyList = compListResp.Result;
                 }
             }
-            else
-            {
+            else {
                 var errMsg = compListResp.CustomMessage;
 
                 if (compListResp.Exception) {
@@ -531,8 +487,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                 });
 
             }
-        }).catch(function(ex)
-        {
+        }).catch(function (ex) {
             var errMsg = "Error loading company details";
             if (ex.statusText) {
                 errMsg = ex.statusText;
@@ -546,19 +501,14 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
         })
     };
 
-    var loadCloudList = function()
-    {
-        clusterConfigurationService.getClusters().then(function(clusterListResp)
-        {
-            if (clusterListResp.IsSuccess)
-            {
-                if (clusterListResp.Result)
-                {
+    var loadCloudList = function () {
+        clusterConfigurationService.getClusters().then(function (clusterListResp) {
+            if (clusterListResp.IsSuccess) {
+                if (clusterListResp.Result) {
                     $scope.cloudList = clusterListResp.Result;
                 }
             }
-            else
-            {
+            else {
                 var errMsg = clusterListResp.CustomMessage;
 
                 if (clusterListResp.Exception) {
@@ -572,8 +522,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                 });
 
             }
-        }).catch(function(ex)
-        {
+        }).catch(function (ex) {
             var errMsg = "Error loading cluster details";
             if (ex.statusText) {
                 errMsg = ex.statusText;
@@ -587,22 +536,16 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
         })
     };
 
-    var loadProfileList = function()
-    {
-        clusterConfigurationService.getProfiles().then(function(profileListResp)
-        {
-            if (profileListResp.IsSuccess)
-            {
-                if (profileListResp.Result)
-                {
-                    $scope.profileList = _.filter(profileListResp.Result, function(prof)
-                    {
+    var loadProfileList = function () {
+        clusterConfigurationService.getProfiles().then(function (profileListResp) {
+            if (profileListResp.IsSuccess) {
+                if (profileListResp.Result) {
+                    $scope.profileList = _.filter(profileListResp.Result, function (prof) {
                         return prof.ObjCategory === 'EXTERNAL';
                     });
                 }
             }
-            else
-            {
+            else {
                 var errMsg = profileListResp.CustomMessage;
 
                 if (profileListResp.Exception) {
@@ -616,8 +559,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                 });
 
             }
-        }).catch(function(ex)
-        {
+        }).catch(function (ex) {
             var errMsg = "Error loading profile details";
             if (ex.statusText) {
                 errMsg = ex.statusText;
@@ -635,17 +577,12 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
     loadProfileList();
 
 
-
-    var loadTrunk = function (trunk)
-    {
+    var loadTrunk = function (trunk) {
         $scope.terminationInfo.CloudId = null;
         $scope.terminationInfo.ProfileId = null;
-        phnNumTrunkService.getTrunk(trunk.id).then(function (data)
-        {
-            if (data.IsSuccess)
-            {
-                if (data.Result && data.Result.LoadBalancer && data.Result.LoadBalancer.Cloud)
-                {
+        phnNumTrunkService.getTrunk(trunk.id).then(function (data) {
+            if (data.IsSuccess) {
+                if (data.Result && data.Result.LoadBalancer && data.Result.LoadBalancer.Cloud) {
                     $scope.terminationInfo.CloudId = data.Result.LoadBalancer.Cloud.id.toString();
                     $scope.terminationInfo.ProfileId = data.Result.ProfileId.toString();
                 }
@@ -685,10 +622,8 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
     var loadIpAddresses = function (trunk) {
         $scope.currentTrunk.IpAddressList = [];
         phnNumTrunkService.getTrunkIpAddresses(trunk.id).then(function (data) {
-            if (data.IsSuccess)
-            {
-                if (data.Result)
-                {
+            if (data.IsSuccess) {
+                if (data.Result) {
                     $scope.currentTrunk.IpAddressList = data.Result.map(function (ip) {
                         var newIpAddressObj = ip;
                         newIpAddressObj.DisplayValue = ip.IpAddress + '/' + ip.Mask;
@@ -728,23 +663,18 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
     };
 
 
-
-    $scope.editPhone = function(phn)
-    {
+    $scope.editPhone = function (phn) {
         angular.copy(phn, $scope.phnNum);
 
-        if(phn.LimitInfoInbound)
-        {
+        if (phn.LimitInfoInbound) {
             $scope.phnNum.InboundLimit = phn.LimitInfoInbound.MaxCount;
         }
 
-        if(phn.LimitInfoOutbound)
-        {
+        if (phn.LimitInfoOutbound) {
             $scope.phnNum.OutboundLimit = phn.LimitInfoOutbound.MaxCount;
         }
 
-        if(phn.LimitInfoBoth)
-        {
+        if (phn.LimitInfoBoth) {
             $scope.phnNum.BothLimit = phn.LimitInfoBoth.MaxCount;
         }
 
@@ -759,12 +689,10 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
     };
 
 
-    $scope.editTrunk = function(trunk)
-    {
+    $scope.editTrunk = function (trunk) {
         angular.copy(trunk, $scope.currentTrunk);
 
-        if($scope.currentTrunk.TranslationId)
-        {
+        if ($scope.currentTrunk.TranslationId) {
             $scope.currentTrunk.TranslationId = $scope.currentTrunk.TranslationId.toString();
         }
 
@@ -779,8 +707,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
     };
 
-    $scope.onClickAddNewNumber = function()
-    {
+    $scope.onClickAddNewNumber = function () {
         $scope.appState = 'PHONESAVE';
         $scope.collapsedButton = 'Back To Phone Number List';
         $scope.dynamicCss = 'trunk-app-button-dynamic-back';
@@ -788,22 +715,18 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
         $scope.resetPhoneForm();
     };
 
-    $scope.showNumberList = function(trunk)
-    {
+    $scope.showNumberList = function (trunk) {
         getLimits();
         loadCompanyList();
 
         angular.copy(trunk, $scope.currentTrunk);
 
-        if($scope.currentTrunk.TranslationId)
-        {
+        if ($scope.currentTrunk.TranslationId) {
             $scope.currentTrunk.TranslationId = $scope.currentTrunk.TranslationId.toString();
         }
 
-        phnNumTrunkService.getPhoneNumbersByTrunk(trunk.id).then(function(numberListResp)
-        {
-            if(numberListResp && numberListResp.IsSuccess)
-            {
+        phnNumTrunkService.getPhoneNumbersByTrunk(trunk.id).then(function (numberListResp) {
+            if (numberListResp && numberListResp.IsSuccess) {
                 $scope.phoneNumberList = numberListResp.Result;
 
                 $scope.appState = 'PHONELIST';
@@ -811,11 +734,9 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                 $scope.collapsedButton = 'Back To Trunk List';
                 $scope.dynamicCss = 'trunk-app-button-dynamic-back';
             }
-            else
-            {
+            else {
                 //error
-                if(numberListResp.Exception)
-                {
+                if (numberListResp.Exception) {
                     ngNotify.set(numberListResp.Exception.Message, {
                         position: 'top',
                         sticky: false,
@@ -823,8 +744,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                         type: 'error'
                     });
                 }
-                else
-                {
+                else {
                     ngNotify.set('Error occurred while loading trunk list', {
                         position: 'top',
                         sticky: false,
@@ -835,8 +755,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
             }
 
-        }).catch(function(err)
-        {
+        }).catch(function (err) {
             ngNotify.set('Error occurred while loading trunk list', {
                 position: 'top',
                 sticky: false,
@@ -847,29 +766,22 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
         })
 
 
-
     };
 
-    var loadTrunks = function()
-    {
-        phnNumTrunkService.getTrunks().then(function(trunkListResp)
-        {
-            if(trunkListResp && trunkListResp.IsSuccess)
-            {
+    var loadTrunks = function () {
+        phnNumTrunkService.getTrunks().then(function (trunkListResp) {
+            if (trunkListResp && trunkListResp.IsSuccess) {
                 $scope.trunkList = trunkListResp.Result;
 
-                if(trunkListResp.Result.LoadBalancer && trunkListResp.Result.LoadBalancer.Cloud)
-                {
+                if (trunkListResp.Result.LoadBalancer && trunkListResp.Result.LoadBalancer.Cloud) {
                     $scope.trunkList.CloudId = trunkListResp.Result.LoadBalancer.Cloud.id
                 }
 
 
             }
-            else
-            {
+            else {
                 //error
-                if(trunkListResp.Exception)
-                {
+                if (trunkListResp.Exception) {
                     ngNotify.set(trunkListResp.Exception.Message, {
                         position: 'top',
                         sticky: false,
@@ -877,8 +789,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                         type: 'error'
                     });
                 }
-                else
-                {
+                else {
                     ngNotify.set('Error occurred while loading trunk list', {
                         position: 'top',
                         sticky: false,
@@ -889,8 +800,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
             }
 
-        }).catch(function(err)
-        {
+        }).catch(function (err) {
             ngNotify.set('Error occurred while loading trunk list', {
                 position: 'top',
                 sticky: false,
@@ -900,7 +810,6 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
         })
     };
-
 
 
     loadTrunks();
