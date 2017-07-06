@@ -73,13 +73,13 @@
             <div class="s-per-chart-wrp-l">
                 <div class="easy-chart-left">
                     <div class="header-chart">
-                        IDLE - CPU
+                        CUP Utilization
                     </div>
                     <div easypiechart options="pieoption" percent="currentServerItem.cpuProcess">
                         <div class="d1-pie-text">{{currentServerItem.cpuProcess}}%</div>
                     </div>
                     <div class="cpu-footer">
-                        FsIPv4 : {{currentServerItem.FsIPv4}}
+                        Server IP: {{currentServerItem.FsIPv4}}
                     </div>
                 </div>
 
@@ -97,8 +97,8 @@
                                 <div class="count">
                                     {{currentServerItem.SessionsSinceStartUp}}
                                 </div>
-                                <div class="session-name">
-                                    Sessions Since StartUp
+                                <div class="session-name" title="Connected session count since last startup">
+                                    Connected session count since last startup
                                 </div>
                             </div>
                         </div>
@@ -111,8 +111,8 @@
                                 <div class="count">
                                     {{currentServerItem.SessionCount}}
                                 </div>
-                                <div class="session-name">
-                                    Session Count
+                                <div class="session-name" title="Current connected session count">
+                                    Current Session Count
                                 </div>
                             </div>
                         </div>
@@ -126,8 +126,8 @@
                                 <div class="count">
                                     {{currentServerItem.SessionsPerSecMax}}
                                 </div>
-                                <div class="session-name">
-                                    Session Per Sec Max
+                                <div class="session-name" title="Maximum sessions connected per second">
+                                    Allowed maximum connected session count per second
                                 </div>
                             </div>
                         </div>
@@ -142,7 +142,7 @@
                         {{currentServerItem.UpTimeMSec}}
                     </div>
                     <div class="lg-footer">
-                        Up Time.Sec
+                        Total server uptime since last startup
                     </div>
                 </div>
             </div>
@@ -156,7 +156,7 @@
                                     {{currentServerItem.MaxSessions}}
                                 </div>
                                 <div class="session-name">
-                                    Max Sessions
+                                    Allowed maximum connected session count
                                 </div>
                             </div>
                         </div>
@@ -169,7 +169,7 @@
                                     {{currentServerItem.SessionsPerSec}}
                                 </div>
                                 <div class="session-name">
-                                    Session Per Sec
+                                    Allowed maximum connected session count per second
                                 </div>
                             </div>
                         </div>
