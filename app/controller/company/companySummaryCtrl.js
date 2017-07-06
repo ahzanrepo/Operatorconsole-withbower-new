@@ -35,15 +35,15 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 //check company package
                 $scope.currentPage = 'companyProfile';
 
-                // if ($scope.companyObj) {
-                //     if ($scope.companyObj.packageDetails) {
-                //         if ($scope.companyObj.packageDetails.length == 0) {
-                //             $scope.currentPage = 'companyPackage';
-                //             onLoadCompanyPackage($scope.companyObj);
-                //             $scope.isUpdatePackage = true;
-                //         }
-                //     }
-                // }
+                if ($scope.companyObj) {
+                    if ($scope.companyObj.packageDetails) {
+                        if ($scope.companyObj.packageDetails.length == 0) {
+                            $scope.currentPage = 'companyPackage';
+                            onLoadCompanyPackage($scope.companyObj);
+                            $scope.isUpdatePackage = true;
+                        }
+                    }
+                }
                 onLoadCompanyInfo($scope.companyObj);
             }
         }, function (err) {
@@ -93,6 +93,7 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
     var nowDate = new Date();
     nowDate = moment.utc(nowDate).format();
     var onLoadCompanyPackage = function (companyObj) {
+        $scope.currentPage = 'companyPackage';
         $scope.packageData.companyId = companyObj.id;
         $scope.packageDetails = companyObj.packageDetails.map(function (item) {
             var buyDate = moment(item.buyDate);
@@ -100,8 +101,6 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
             item.renewdate = buyDate.diff(currentDate, 'days');
             return item;
         });
-
-
     };
 
 

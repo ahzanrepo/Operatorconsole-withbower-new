@@ -719,7 +719,9 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
         getLimits();
         loadCompanyList();
 
-        angular.copy(trunk, $scope.currentTrunk);
+        if (trunk !== $scope.currentTrunk) {
+            angular.copy(trunk, $scope.currentTrunk);
+        }
 
         if ($scope.currentTrunk.TranslationId) {
             $scope.currentTrunk.TranslationId = $scope.currentTrunk.TranslationId.toString();

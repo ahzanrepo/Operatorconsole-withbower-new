@@ -1037,12 +1037,14 @@ body .container.body .right_col {
     display: block;
     text-align: center;
     font-size: 30px;
+    text-transform: capitalize;
 }
 
 .tab-sm-widget > .lg-text-header {
     display: block;
     text-align: center;
     font-size: 15px;
+    text-transform: capitalize;
 }
 
 .tab-user-group {
@@ -1503,6 +1505,7 @@ body .container.body .right_col {
     right: 20px;
     color: #000;
     font-size: 15px;
+    text-transform: capitalize;
 }
 
 .trunk-app-button-dynamic-back {
