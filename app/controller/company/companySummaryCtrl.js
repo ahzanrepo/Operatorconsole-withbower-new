@@ -35,15 +35,15 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 //check company package
                 $scope.currentPage = 'companyProfile';
 
-                if ($scope.companyObj) {
-                    if ($scope.companyObj.packageDetails) {
-                        if ($scope.companyObj.packageDetails.length == 0) {
-                            $scope.currentPage = 'companyPackage';
-                            onLoadCompanyPackage($scope.companyObj);
-                            $scope.isUpdatePackage = true;
-                        }
-                    }
-                }
+                // if ($scope.companyObj) {
+                //     if ($scope.companyObj.packageDetails) {
+                //         if ($scope.companyObj.packageDetails.length == 0) {
+                //             $scope.currentPage = 'companyPackage';
+                //             onLoadCompanyPackage($scope.companyObj);
+                //             $scope.isUpdatePackage = true;
+                //         }
+                //     }
+                // }
                 onLoadCompanyInfo($scope.companyObj);
             }
         }, function (err) {
@@ -93,7 +93,7 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
     var nowDate = new Date();
     nowDate = moment.utc(nowDate).format();
     var onLoadCompanyPackage = function (companyObj) {
-        $scope.currentPage = 'companyPackage';
+
         $scope.packageData.companyId = companyObj.id;
         $scope.packageDetails = companyObj.packageDetails.map(function (item) {
             var buyDate = moment(item.buyDate);
@@ -760,9 +760,9 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
     $scope.changeCompanyActivation = function (state) {
 
         var confirmBoxObj = {
-            title: state ? 'Deactivate Company' : 'Activate Company',
-            contentData: state ? 'Are You Sure Deactivate Company.' : 'Are You Sure  Activate Company.',
-            okText: state ? 'Deactivate ' : 'Activate'
+            title: state ? 'Activate Company' : ' Deactivate Company',
+            contentData: state ? 'Are You Sure  Activate Company.' : 'Are You Sure Deactivate Company.',
+            okText: state ? 'Activate' : 'Deactivate'
         };
 
         confirmation(confirmBoxObj.title, confirmBoxObj.contentData, confirmBoxObj.okText, function () {
@@ -856,7 +856,7 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                         type: 'success'
                     });
                 } else {
-                    ngNotify.set('Package Update Error...', {
+                    ngNotify.set(response.CustomMessage, {
                         position: 'top',
                         sticky: true,
                         duration: 3000,
