@@ -855,6 +855,7 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                         duration: 3000,
                         type: 'success'
                     });
+                    onLoadCompanyPackage($scope.companyObj);
                 } else {
                     ngNotify.set(response.CustomMessage, {
                         position: 'top',
@@ -884,6 +885,7 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                         duration: 3000,
                         type: 'success'
                     });
+                    onLoadCompanyPackage($scope.companyObj);
 
                 } else {
                     // $scope.notify('Assign Package Failed', 'error');
@@ -945,13 +947,14 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
     $scope.updatePackage = function () {
 
         _updatePackage.companyId = $scope.companyObj.id;
-        console.log(_updatePackage);
 
         if ($scope.packageData.assignType && $scope.packageData.assignType === 'unit') {
             assignUnit(_updatePackage);
         } else {
             assignPackage(_updatePackage);
         }
+
+
     };
 
 
