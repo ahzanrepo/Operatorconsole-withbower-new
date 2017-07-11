@@ -21,6 +21,9 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
         TerminationType: 'CLOUD'
     };
 
+    $scope.availableCodecs = ['PCMU', 'PCMA', 'OPUS', 'Speex', 'G729'];
+    $scope.currentCodecs = [];
+
     $scope.phnNum = {};
 
     $scope.appState = 'TRUNKLIST';
@@ -77,6 +80,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
             $scope.status = 'Save';
         }
     };
+
 
     $scope.ipAddressDelete = function (trunkIpObj) {
         phnNumTrunkService.removeTrunkIpAddress($scope.currentTrunk.id, trunkIpObj.id).then(function (data) {
@@ -169,29 +173,46 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
     $scope.addNewTrunk = function ()
     {
-        phnNumTrunkService.addNewTrunk($scope.currentTrunk).then(function (data)
+        $scope.currentTrunk.Codecs = $scope.currentCodecs;
+
+        if($scope.status === 'Update')
         {
-            if (data.IsSuccess) {
-                ngNotify.set('Trunk configuration saved successfully', {
-                    position: 'top',
-                    sticky: false,
-                    duration: 3000,
-                    type: 'success'
-                });
-
-                $scope.resetForm();
-
-                loadTrunks();
-            }
-            else
+            phnNumTrunkService.updateTrunk($scope.currentTrunk.id, $scope.currentTrunk).then(function (data)
             {
-                var errMsg = "";
-                if (data.Exception && data.Exception.Message) {
-                    errMsg = data.Exception.Message;
+                if (data.IsSuccess) {
+                    ngNotify.set('Trunk configuration updated successfully', {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'success'
+                    });
+
+                    $scope.resetForm();
+
+                    loadTrunks();
+                }
+                else
+                {
+                    var errMsg = "";
+                    if (data.Exception && data.Exception.Message) {
+                        errMsg = data.Exception.Message;
+                    }
+
+                    if (data.CustomMessage) {
+                        errMsg = data.CustomMessage;
+                    }
+                    ngNotify.set(errMsg, {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'error'
+                    });
                 }
 
-                if (data.CustomMessage) {
-                    errMsg = data.CustomMessage;
+            }, function (err) {
+                var errMsg = "Error updating trunk";
+                if (err.statusText) {
+                    errMsg = err.statusText;
                 }
                 ngNotify.set(errMsg, {
                     position: 'top',
@@ -199,20 +220,56 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
                     duration: 3000,
                     type: 'error'
                 });
-            }
-
-        }, function (err) {
-            var errMsg = "Error saving trunk";
-            if (err.statusText) {
-                errMsg = err.statusText;
-            }
-            ngNotify.set(errMsg, {
-                position: 'top',
-                sticky: false,
-                duration: 3000,
-                type: 'error'
             });
-        });
+        }
+        else
+        {
+            phnNumTrunkService.addNewTrunk($scope.currentTrunk).then(function (data)
+            {
+                if (data.IsSuccess) {
+                    ngNotify.set('Trunk configuration saved successfully', {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'success'
+                    });
+
+                    $scope.resetForm();
+
+                    loadTrunks();
+                }
+                else
+                {
+                    var errMsg = "";
+                    if (data.Exception && data.Exception.Message) {
+                        errMsg = data.Exception.Message;
+                    }
+
+                    if (data.CustomMessage) {
+                        errMsg = data.CustomMessage;
+                    }
+                    ngNotify.set(errMsg, {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'error'
+                    });
+                }
+
+            }, function (err) {
+                var errMsg = "Error saving trunk";
+                if (err.statusText) {
+                    errMsg = err.statusText;
+                }
+                ngNotify.set(errMsg, {
+                    position: 'top',
+                    sticky: false,
+                    duration: 3000,
+                    type: 'error'
+                });
+            });
+        }
+
     };
 
     var getLimits = function () {
@@ -768,6 +825,10 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
             $scope.currentTrunk.TranslationId = $scope.currentTrunk.TranslationId.toString();
         }
 
+        $scope.currentCodecs = $scope.currentTrunk.Codecs;
+        var arrayDiff = _.difference($scope.availableCodecs, $scope.currentCodecs);
+        $scope.availableCodecs = arrayDiff;
+
         loadIpAddresses(trunk);
         loadTrunk(trunk);
 
@@ -793,7 +854,12 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
         getLimits();
         loadCompanyList();
 
-        angular.copy(trunk, $scope.currentTrunk);
+        if(trunk !== $scope.currentTrunk)
+        {
+            angular.copy(trunk, $scope.currentTrunk);
+        }
+
+
 
         if($scope.currentTrunk.TranslationId)
         {
