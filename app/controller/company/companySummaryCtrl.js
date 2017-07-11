@@ -2,7 +2,10 @@
  * Created by damith on 4/7/17.
  */
 
-opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anchorScroll, $q, companyInfoServices, clusterConfigurationService, phnNumTrunkService, ngNotify, userService, $state) {
+opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anchorScroll, $q,
+                                                        companyInfoServices, clusterConfigurationService,
+                                                        phnNumTrunkService, ngNotify, userService, $state, $ngConfirm) {
+
     $anchorScroll();
 
     var param = {};
@@ -90,6 +93,7 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
     var nowDate = new Date();
     nowDate = moment.utc(nowDate).format();
     var onLoadCompanyPackage = function (companyObj) {
+
         $scope.packageData.companyId = companyObj.id;
         $scope.packageDetails = companyObj.packageDetails.map(function (item) {
             var buyDate = moment(item.buyDate);
@@ -97,24 +101,18 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
             item.renewdate = buyDate.diff(currentDate, 'days');
             return item;
         });
-
-
     };
 
 
-    var loadInbLimits = function()
-    {
+    var loadInbLimits = function () {
         var deferred = $q.defer();
         phnNumTrunkService.getLimitsByCategory('COMPANY_NUMBER_LIMIT', 'INBOUND', $scope.companyObj.id).then(function (response) {
-            if (response.IsSuccess)
-            {
-                if (response.Result.length > 0)
-                {
+            if (response.IsSuccess) {
+                if (response.Result.length > 0) {
                     $scope.isNewInboundLimit = false;
                     $scope.numberLimit.Inbound = response.Result[0];
                 }
-                else
-                {
+                else {
                     $scope.isNewInboundLimit = true;
                 }
                 deferred.resolve();
@@ -161,24 +159,20 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
         return deferred.promise;
     };
 
-    var loadOutbLimits = function()
-    {
+    var loadOutbLimits = function () {
         var deferred = $q.defer();
         phnNumTrunkService.getLimitsByCategory('COMPANY_NUMBER_LIMIT', 'OUTBOUND', $scope.companyObj.id).then(function (response) {
             if (response.IsSuccess) {
-                if (response.Result.length > 0)
-                {
+                if (response.Result.length > 0) {
                     $scope.isNewOutboundLimit = false;
                     $scope.numberLimit.Outbound = response.Result[0];
                 }
-                else
-                {
+                else {
                     $scope.isNewOutboundLimit = true;
                 }
                 deferred.resolve();
             }
-            else
-            {
+            else {
                 $scope.isNewOutboundLimit = null;
                 var errMsg = "";
                 if (response.Exception && response.Exception.Message) {
@@ -222,19 +216,16 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
 
     }
 
-    var loadBothLimits = function()
-    {
+    var loadBothLimits = function () {
         var deferred = $q.defer();
 
         phnNumTrunkService.getLimitsByCategory('COMPANY_NUMBER_LIMIT', 'BOTH', $scope.companyObj.id).then(function (response) {
             if (response.IsSuccess) {
-                if (response.Result.length > 0)
-                {
+                if (response.Result.length > 0) {
                     $scope.isNewBothLimit = false;
                     $scope.numberLimit.Both = response.Result[0];
                 }
-                else
-                {
+                else {
                     $scope.isNewBothLimit = true;
                 }
 
@@ -293,13 +284,11 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
 
         arr.push(loadBothLimits());
 
-        $q.all(arr).then(function(resolveData)
-        {
+        $q.all(arr).then(function (resolveData) {
             //form complete
             $scope.disableSaveLimit = false;
 
-        }).catch(function(err)
-        {
+        }).catch(function (err) {
             ngNotify.set('Error occurred while loading company number limits', {
                 position: 'top',
                 sticky: false,
@@ -309,9 +298,6 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
 
             $scope.disableSaveLimit = false;
         });
-
-
-
 
 
     };
@@ -365,6 +351,7 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
     };
 
     //go to summary inside page
+    $scope.uploadAvatar = false;
     $scope.goToCompanySummaryPage = function (page) {
         $scope.currentPage = page;
         switch (page) {
@@ -380,6 +367,8 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 break;
             case 'companyPackage':
                 onLoadCompanyPackage($scope.companyObj);
+            case 'uploadAvatar':
+                $scope.uploadAvatar = true;
                 break;
 
         }
@@ -505,18 +494,14 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
 
     };
 
-    var saveInboundLimit = function()
-    {
+    var saveInboundLimit = function () {
         var deferred = $q.defer();
 
-        if($scope.isNewInboundLimit === null)
-        {
+        if ($scope.isNewInboundLimit === null) {
             deferred.reject(new Error('Unable to find inbound limit save state please refresh and try again'))
         }
-        else
-        {
-            if ($scope.isNewInboundLimit)
-            {
+        else {
+            if ($scope.isNewInboundLimit) {
                 var inbLim = {
                     LimitDescription: 'Company ' + $scope.companyObj.id + ' Inbound Limit',
                     ObjClass: 'CALL',
@@ -526,14 +511,11 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                     Enable: true
                 };
 
-                phnNumTrunkService.addLimitByTenant(inbLim, $scope.companyObj.id).then(function (response)
-                {
-                    if (response.IsSuccess)
-                    {
+                phnNumTrunkService.addLimitByTenant(inbLim, $scope.companyObj.id).then(function (response) {
+                    if (response.IsSuccess) {
                         deferred.resolve(true);
                     }
-                    else
-                    {
+                    else {
                         deferred.reject(null);
                     }
                 }).catch(function (ex) {
@@ -541,26 +523,20 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 });
 
             }
-            else
-            {
-                if($scope.numberLimit.Inbound && $scope.numberLimit.Inbound.LimitId)
-                {
+            else {
+                if ($scope.numberLimit.Inbound && $scope.numberLimit.Inbound.LimitId) {
                     phnNumTrunkService.updateMaxLimit($scope.numberLimit.Inbound.LimitId, $scope.numberLimit.Inbound.MaxCount, $scope.companyObj.id).then(function (response) {
-                        if (response.IsSuccess)
-                        {
+                        if (response.IsSuccess) {
                             deferred.resolve(true);
                         }
-                        else
-                        {
+                        else {
                             deferred.reject(null);
                         }
-                    }).catch(function (ex)
-                    {
+                    }).catch(function (ex) {
                         deferred.reject(null);
                     });
                 }
-                else
-                {
+                else {
                     deferred.reject(null);
                 }
 
@@ -570,18 +546,14 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
         return deferred.promise;
     };
 
-    var saveOutboundLimit = function()
-    {
+    var saveOutboundLimit = function () {
         var deferred = $q.defer();
 
-        if($scope.isNewOutboundLimit === null)
-        {
+        if ($scope.isNewOutboundLimit === null) {
             deferred.reject(new Error('Unable to find inbound limit save state please refresh and try again'))
         }
-        else
-        {
-            if ($scope.isNewOutboundLimit)
-            {
+        else {
+            if ($scope.isNewOutboundLimit) {
                 var outbLim = {
                     LimitDescription: 'Company ' + $scope.companyObj.id + ' Outbound Limit',
                     ObjClass: 'CALL',
@@ -591,14 +563,11 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                     Enable: true
                 };
 
-                phnNumTrunkService.addLimitByTenant(outbLim, $scope.companyObj.id).then(function (response)
-                {
-                    if (response.IsSuccess)
-                    {
+                phnNumTrunkService.addLimitByTenant(outbLim, $scope.companyObj.id).then(function (response) {
+                    if (response.IsSuccess) {
                         deferred.resolve(true);
                     }
-                    else
-                    {
+                    else {
                         deferred.reject(null);
                     }
                 }).catch(function (ex) {
@@ -606,26 +575,20 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 });
 
             }
-            else
-            {
-                if($scope.numberLimit.Outbound && $scope.numberLimit.Outbound.LimitId)
-                {
+            else {
+                if ($scope.numberLimit.Outbound && $scope.numberLimit.Outbound.LimitId) {
                     phnNumTrunkService.updateMaxLimit($scope.numberLimit.Outbound.LimitId, $scope.numberLimit.Outbound.MaxCount, $scope.companyObj.id).then(function (response) {
-                        if (response.IsSuccess)
-                        {
+                        if (response.IsSuccess) {
                             deferred.resolve(true);
                         }
-                        else
-                        {
+                        else {
                             deferred.reject(null);
                         }
-                    }).catch(function (ex)
-                    {
+                    }).catch(function (ex) {
                         deferred.reject(null);
                     });
                 }
-                else
-                {
+                else {
                     deferred.reject(null);
                 }
 
@@ -636,18 +599,14 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
         return deferred.promise;
     };
 
-    var saveBothLimit = function()
-    {
+    var saveBothLimit = function () {
         var deferred = $q.defer();
 
-        if($scope.isNewOutboundLimit === null)
-        {
+        if ($scope.isNewOutboundLimit === null) {
             deferred.reject(new Error('Unable to find inbound limit save state please refresh and try again'))
         }
-        else
-        {
-            if ($scope.isNewBothLimit)
-            {
+        else {
+            if ($scope.isNewBothLimit) {
                 var bothLim = {
                     LimitDescription: 'Company ' + $scope.companyObj.id + ' Both Limit',
                     ObjClass: 'CALL',
@@ -657,14 +616,11 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                     Enable: true
                 };
 
-                phnNumTrunkService.addLimitByTenant(bothLim, $scope.companyObj.id).then(function (response)
-                {
-                    if (response.IsSuccess)
-                    {
+                phnNumTrunkService.addLimitByTenant(bothLim, $scope.companyObj.id).then(function (response) {
+                    if (response.IsSuccess) {
                         deferred.resolve(true);
                     }
-                    else
-                    {
+                    else {
                         deferred.reject(null);
                     }
                 }).catch(function (ex) {
@@ -672,26 +628,20 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                 });
 
             }
-            else
-            {
-                if($scope.numberLimit.Both && $scope.numberLimit.Both.LimitId)
-                {
+            else {
+                if ($scope.numberLimit.Both && $scope.numberLimit.Both.LimitId) {
                     phnNumTrunkService.updateMaxLimit($scope.numberLimit.Both.LimitId, $scope.numberLimit.Both.MaxCount, $scope.companyObj.id).then(function (response) {
-                        if (response.IsSuccess)
-                        {
+                        if (response.IsSuccess) {
                             deferred.resolve(true);
                         }
-                        else
-                        {
+                        else {
                             deferred.reject(null);
                         }
-                    }).catch(function (ex)
-                    {
+                    }).catch(function (ex) {
                         deferred.reject(null);
                     });
                 }
-                else
-                {
+                else {
                     deferred.reject(null);
                 }
 
@@ -699,22 +649,17 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
         }
 
 
-
         return deferred.promise;
     };
 
-    var deleteLimit = function(limitId)
-    {
+    var deleteLimit = function (limitId) {
         var deferred = $q.defer();
 
-        phnNumTrunkService.deleteLimit(limitId, $scope.companyObj.id).then(function (response)
-        {
-            if (response.IsSuccess)
-            {
+        phnNumTrunkService.deleteLimit(limitId, $scope.companyObj.id).then(function (response) {
+            if (response.IsSuccess) {
                 deferred.resolve(true);
             }
-            else
-            {
+            else {
                 deferred.reject(null);
             }
         }).catch(function (ex) {
@@ -722,16 +667,13 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
         });
 
 
-
         return deferred.promise;
     };
 
 
-    $scope.saveCompanyLimits = function ()
-    {
+    $scope.saveCompanyLimits = function () {
         $scope.disableSaveLimit = true;
-        if($scope.isNewInboundLimit === null || $scope.isNewOutboundLimit === null || $scope.isNewBothLimit === null)
-        {
+        if ($scope.isNewInboundLimit === null || $scope.isNewOutboundLimit === null || $scope.isNewBothLimit === null) {
             ngNotify.set('Cannot save limits - please reload page and try again', {
                 position: 'top',
                 sticky: false,
@@ -741,39 +683,31 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
 
             $scope.disableSaveLimit = false;
         }
-        else
-        {
+        else {
             var arr = [];
-            if($scope.isNewInboundLimit === false && $scope.numberLimit.Inbound.MaxCount === '')
-            {
+            if ($scope.isNewInboundLimit === false && $scope.numberLimit.Inbound.MaxCount === '') {
                 arr.push(deleteLimit($scope.numberLimit.Inbound.LimitId));
             }
 
-            if($scope.isNewOutboundLimit === false && $scope.numberLimit.Outbound.MaxCount === '')
-            {
+            if ($scope.isNewOutboundLimit === false && $scope.numberLimit.Outbound.MaxCount === '') {
                 arr.push(deleteLimit($scope.numberLimit.Outbound.LimitId));
             }
 
-            if($scope.isNewBothLimit === false && $scope.numberLimit.Both.MaxCount === '')
-            {
+            if ($scope.isNewBothLimit === false && $scope.numberLimit.Both.MaxCount === '') {
                 arr.push(deleteLimit($scope.numberLimit.Both.LimitId));
             }
 
-            if($scope.numberLimit.Inbound.MaxCount)
-            {
+            if ($scope.numberLimit.Inbound.MaxCount) {
                 arr.push(saveInboundLimit())
             }
-            if($scope.numberLimit.Outbound.MaxCount)
-            {
+            if ($scope.numberLimit.Outbound.MaxCount) {
                 arr.push(saveOutboundLimit())
             }
-            if($scope.numberLimit.Both.MaxCount)
-            {
+            if ($scope.numberLimit.Both.MaxCount) {
                 arr.push(saveBothLimit())
             }
 
-            $q.all(arr).then(function(resolveData)
-            {
+            $q.all(arr).then(function (resolveData) {
                 //form complete
                 loadNumberLimits();
                 ngNotify.set('Company number limits updated successfully', {
@@ -783,8 +717,7 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                     type: 'success'
                 });
 
-            }).catch(function(err)
-            {
+            }).catch(function (err) {
                 ngNotify.set('Error occurred while setting company number limits', {
                     position: 'top',
                     sticky: false,
@@ -798,32 +731,63 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
     };
 
 
-
     //change company activation
+
+    var confirmation = function (title, contentData, okText, okFunc, closeFunc) {
+        $ngConfirm({
+            title: title,
+            content: contentData, // if contentUrl is provided, 'content' is ignored.
+            scope: $scope,
+            buttons: {
+                // long hand button definition
+                ok: {
+                    text: okText,
+                    btnClass: 'btn-primary',
+                    keys: ['enter'], // will trigger when enter is pressed
+                    action: function (scope) {
+                        okFunc();
+                    }
+                },
+                // short hand button definition
+                close: function (scope) {
+                    //closeFunc();
+                }
+            }
+        });
+    };
 
     $scope.isChangeCompanySatate = false;
     $scope.changeCompanyActivation = function (state) {
-        var param = {
-            state: state,
-            companyId: $scope.companyObj.id
-        };
-        $scope.isChangeCompanySatate = true;
-        companyInfoServices.changeCompanyActivation(param).then(function (data) {
-            $scope.isChangeCompanySatate = false;
-            if (data.IsSuccess) {
-                $scope.companyObj.companyEnabled = state;
-                ngNotify.set('Company state update successfully...', {
-                    position: 'top',
-                    sticky: true,
-                    duration: 3000,
-                    type: 'success'
-                });
-            }
 
-        }, function (err) {
-            console.log(err);
+        var confirmBoxObj = {
+            title: state ? 'Activate Company' : ' Deactivate Company',
+            contentData: state ? 'Are You Sure  Activate Company.' : 'Are You Sure Deactivate Company.',
+            okText: state ? 'Activate' : 'Deactivate'
+        };
+
+        confirmation(confirmBoxObj.title, confirmBoxObj.contentData, confirmBoxObj.okText, function () {
+            var param = {
+                state: state,
+                companyId: $scope.companyObj.id
+            };
+            $scope.isChangeCompanySatate = true;
+            companyInfoServices.changeCompanyActivation(param).then(function (data) {
+                $scope.isChangeCompanySatate = false;
+                if (data.IsSuccess) {
+                    $scope.companyObj.companyEnabled = state;
+                    ngNotify.set('Company state update successfully...', {
+                        position: 'top',
+                        sticky: true,
+                        duration: 3000,
+                        type: 'success'
+                    });
+                }
+
+            }, function (err) {
+                console.log(err);
+            });
         });
-    }
+    };
 
     //update company current package
     $scope.packageData = {};
@@ -891,8 +855,9 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                         duration: 3000,
                         type: 'success'
                     });
+                    onLoadCompanyPackage($scope.companyObj);
                 } else {
-                    ngNotify.set('Package Update Error...', {
+                    ngNotify.set(response.CustomMessage, {
                         position: 'top',
                         sticky: true,
                         duration: 3000,
@@ -920,6 +885,7 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
                         duration: 3000,
                         type: 'success'
                     });
+                    onLoadCompanyPackage($scope.companyObj);
 
                 } else {
                     // $scope.notify('Assign Package Failed', 'error');
@@ -981,13 +947,14 @@ opConsoleApp.controller('companySummaryCtrl', function ($scope, $location, $anch
     $scope.updatePackage = function () {
 
         _updatePackage.companyId = $scope.companyObj.id;
-        console.log(_updatePackage);
 
         if ($scope.packageData.assignType && $scope.packageData.assignType === 'unit') {
             assignUnit(_updatePackage);
         } else {
             assignPackage(_updatePackage);
         }
+
+
     };
 
 
