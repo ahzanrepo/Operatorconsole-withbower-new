@@ -43,6 +43,9 @@
                                     <div class="company-logo">
                                         {{ companyObj.companyName | limitTo:2 }}
                                     </div>
+                                    <!--<div class="upload-profile" ng-click="goToCompanySummaryPage('uploadAvatar')">-->
+                                    <!--upload-->
+                                    <!--</div>-->
                                 </div>
                                 <h5>{{companyObj.companyName}}</h5>
                                 <h4> created at {{companyObj.created_at | date:'MM/dd/yyyy'}}</h4>
@@ -177,6 +180,10 @@
                         </div>
                         <div class="right-company-s-wrp" ng-if="currentPage=='companyPackage'">
                             <div ng-include="'app/views/company/temp/company-package.html'">
+                            </div>
+                        </div>
+                        <div class="right-company-s-wrp" ng-if="currentPage=='uploadAvatar'">
+                            <div ng-show="uploadAvatar" ng-include="'app/views/company/temp/avatar-upload.html'">
                             </div>
                         </div>
                     </div>

@@ -54,7 +54,8 @@
     <link rel="stylesheet" type="text/css" href="bower_components/ng-tags-input/ng-tags-input.min.css">
     <link rel="stylesheet" type="text/css" href="bower_components/ng-tags-input/ng-tags-input.bootstrap.min.css">
 
-
+    <!-- confirmation box -->
+    <link rel="stylesheet" href="bower_components/angular-confirm/css/angular-confirm.css"/>
 
     <!-- customer css -->
     <link rel="stylesheet" href="assets/css/op-console1.css"/>
@@ -129,6 +130,9 @@
 
 <!-- anuglar scroll -->
 
+<!-- confirm box -->
+<script type="text/javascript" src="bower_components/angular-confirm/js/angular-confirm.js"></script>
+
 <!-- sweet alert -->
 <script type="text/javascript" src="bower_components/ngSweetAlert/SweetAlert.js"></script>
 <script type="text/javascript" src="bower_components/ngSweetAlert/SweetAlert.min.js"></script>
@@ -136,7 +140,6 @@
 
 <!-- Lodash -->
 <script src="bower_components/lodash/dist/lodash.min.js"></script>
-
 
 
 <!-- #### don't use jquery lib
@@ -169,6 +172,7 @@
 <!-- main file app.js -->
 <script type="text/javascript" src="app.js"></script>
 
+<!-- factory -->
 
 <!-- ####services#### -->
 <!--auth services-->
@@ -216,6 +220,15 @@
 
 <!-- create Company -->
 <script type="text/javascript" src="app/controller/company/createCompanyController.js"></script>
+
+<!-- Notifications  -->
+<script type="text/javascript" src="bower_components/angular-socket-io/socket.js"></script>
+<script type="text/javascript" src="bower_components/socket.io-client/dist/socket.io.js"></script>
+<script type="text/javascript" src="assets/js/veery.chat.client.api.js"></script>
+<script type="text/javascript" src="app/services/subscribe/subscribeServices.js"></script>
+
+<!-- Account Activation  -->
+<script type="text/javascript" src="app/services/billingservice/billingservice.js"></script>
 
 </body>
 </html>

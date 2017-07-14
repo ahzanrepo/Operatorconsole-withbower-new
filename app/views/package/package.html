@@ -12,7 +12,6 @@
     </div>
 
     <div class="row">
-
         <div class="col-lg-12 col-sm-12 col-xs-12">
             <div class="col-md-2 col-sm-2 col-xs-12 pull-right">
                 <button type="button" class="btn btn-primary" ng-click="onClickCollapsed()">{{collapsedButton}}</button>
@@ -22,6 +21,7 @@
     </div>
 
     <div class="clearfix"></div>
+
     <div class="row" ng-hide="isCollapsed">
         <div class="ln_solid"></div>
         <div class="col-lg-12 col-sm-12 col-xs-12">
@@ -118,18 +118,21 @@
 
                             <div class="col-md-4 col-sm-4 col-xs-12">
                                 <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <label>Admin Access</label>
                                     <input type="number" class="form-control" min="0"
                                            ng-pattern="/^(?:100|[1-9]?[0-9])$/"
                                            ng-model="packageObj.consoleAccessLimit[0].accessLimit"
                                            placeholder="Admin Access">
                                 </div>
                                 <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <label>Supervisor Access</label>
                                     <input type="number" class="form-control" min="0"
                                            ng-pattern="/^(?:100|[1-9]?[0-9])$/"
                                            ng-model="packageObj.consoleAccessLimit[1].accessLimit"
                                            placeholder="Supervisor Access">
                                 </div>
                                 <div class="col-md-4 col-sm-4 col-xs-12">
+                                    <label>Agent Access</label>
                                     <input type="number" class="form-control" min="0"
                                            ng-pattern="/^(?:100|[1-9]?[0-9])$/"
                                            ng-model="packageObj.consoleAccessLimit[2].accessLimit"
