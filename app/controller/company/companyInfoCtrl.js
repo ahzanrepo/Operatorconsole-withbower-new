@@ -26,6 +26,10 @@ opConsoleApp.controller('companyInfoCtrl', function ($scope, companyInfoServices
     };
     getAllCompanyInfo();
 
+    $scope.refreshPage = function () {
+        getAllCompanyInfo();
+    };
+
 
     //go to view company summary
     $scope.goToCompany = function (company) {
