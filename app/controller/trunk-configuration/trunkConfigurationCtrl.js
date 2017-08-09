@@ -2,7 +2,7 @@
  * Created by dinusha on 4/24/2017.
  */
 
-opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, sipUserService, ruleService, clusterConfigurationService, phnNumTrunkService, companyInfoServices, userProfileServices) {
+opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ngNotify, sipUserService, monitorRestApi, ruleService, clusterConfigurationService, phnNumTrunkService, companyInfoServices, userProfileServices) {
 
     $scope.currentTrunk = {
         IpAddressList: []
@@ -32,6 +32,7 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
 
     $scope.trunkList = [];
+    $scope.trunkMonitoringList = [];
 
     $scope.collapsedButton = 'Create Trunk';
     $scope.dynamicCss = 'trunk-app-button-dynamic-execute';
@@ -916,19 +917,155 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
 
     };
 
+    var reloadTrunkStatus = function()
+    {
+        if($scope.trunkList)
+        {
+            monitorRestApi.getMonitorTrunks().then(function(monitorTrunkListResp)
+            {
+                if(monitorTrunkListResp && monitorTrunkListResp.IsSuccess)
+                {
+                    $scope.trunkList.forEach(function(trunk)
+                    {
+                        var match = _.find(monitorTrunkListResp.Result, function(monitorTr)
+                        {
+                            return monitorTr.Gateway === trunk.TrunkCode;
+                        });
+
+                        if(match && (match['Ping-Status'] === 'UP' || match['Ping-Status'] === 'DOWN'))
+                        {
+                            trunk.PingStatus = match['Ping-Status'];
+                        }
+                        else
+                        {
+                            trunk.PingStatus = 'UNKNOWN';
+                        }
+
+                        if(match && match['Event-Date-Timestamp'])
+                        {
+                            var timeInSeconds = match['Event-Date-Timestamp']/1000000;
+                            var evtTime = moment.unix(timeInSeconds).format('YYYY-MM-DD hh:mm:ss a');
+                            trunk.LastEventTime = evtTime;
+                        }
+                        else
+                        {
+                            trunk.LastEventTime = 'N/A';
+                        }
+                    });
+
+
+                }
+                else
+                {
+                    //error
+                    if(monitorTrunkListResp.Exception)
+                    {
+                        ngNotify.set(monitorTrunkListResp.Exception.Message, {
+                            position: 'top',
+                            sticky: false,
+                            duration: 3000,
+                            type: 'error'
+                        });
+                    }
+                    else
+                    {
+                        console.log(new Error('Error occurred while reloading trunk status'));
+                    }
+
+                }
+
+            }).catch(function(err)
+            {
+                console.log(err);
+
+            })
+        }
+
+        $timeout(reloadTrunkStatus, 10000);
+
+    };
+
     var loadTrunks = function()
     {
         phnNumTrunkService.getTrunks().then(function(trunkListResp)
         {
             if(trunkListResp && trunkListResp.IsSuccess)
             {
-                $scope.trunkList = trunkListResp.Result;
-
-                if(trunkListResp.Result.LoadBalancer && trunkListResp.Result.LoadBalancer.Cloud)
+                monitorRestApi.getMonitorTrunks().then(function(monitorTrunkListResp)
                 {
-                    $scope.trunkList.CloudId = trunkListResp.Result.LoadBalancer.Cloud.id
-                }
+                    if(monitorTrunkListResp && monitorTrunkListResp.IsSuccess)
+                    {
+                        trunkListResp.Result.forEach(function(trunk)
+                        {
+                            var match = _.find(monitorTrunkListResp.Result, function(monitorTr)
+                            {
+                                return monitorTr.Gateway === trunk.TrunkCode;
+                            });
 
+                            if(match && (match['Ping-Status'] === 'UP' || match['Ping-Status'] === 'DOWN'))
+                            {
+                                trunk.PingStatus = match['Ping-Status'];
+                            }
+                            else
+                            {
+                                trunk.PingStatus = 'UNKNOWN';
+                            }
+
+                            if(match && match['Event-Date-Timestamp'])
+                            {
+                                var timeInSeconds = match['Event-Date-Timestamp']/1000000;
+                                var evtTime = moment.unix(timeInSeconds).format('YYYY-MM-DD hh:mm:ss a');
+                                trunk.LastEventTime = evtTime;
+                            }
+                            else
+                            {
+                                trunk.LastEventTime = 'N/A';
+                            }
+                        });
+
+                        $scope.trunkList = trunkListResp.Result;
+
+                        if(trunkListResp.Result.LoadBalancer && trunkListResp.Result.LoadBalancer.Cloud)
+                        {
+                            $scope.trunkList.CloudId = trunkListResp.Result.LoadBalancer.Cloud.id
+                        }
+
+
+                    }
+                    else
+                    {
+                        //error
+                        if(monitorTrunkListResp.Exception)
+                        {
+                            ngNotify.set(monitorTrunkListResp.Exception.Message, {
+                                position: 'top',
+                                sticky: false,
+                                duration: 3000,
+                                type: 'error'
+                            });
+                        }
+                        else
+                        {
+                            ngNotify.set('Error occurred while loading trunk monitor list', {
+                                position: 'top',
+                                sticky: false,
+                                duration: 3000,
+                                type: 'error'
+                            });
+                        }
+
+                    }
+
+                }).catch(function(err)
+                {
+                    ngNotify.set('Error occurred while loading trunk monitor list', {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'error'
+                    });
+
+                })
 
             }
             else
@@ -967,9 +1104,18 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, ngNotify, si
         })
     };
 
+    var loadMonitorTrunks = function()
+    {
+
+    };
+
 
 
     loadTrunks();
+
+    reloadTrunkStatus();
+
+    loadMonitorTrunks();
 
     loadTranslations();
 
