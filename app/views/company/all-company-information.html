@@ -40,11 +40,12 @@
                                         <ul class="pull-right">
                                             <li>
                                                 <div class="table-search">
-                                                    <input type="text" placeholder="search company name here.."
+                                                    <input type="text" placeholder="search company here.."
                                                            ng-model="searchCompanyInfo"
-                                                           class="form-control">
+                                                           class="form-control" company-info-enter-press="setToSearchString()" company-info-other-press="resetSearch()">
                                                 </div>
                                             </li>
+
                                             <li ng-if="!isLoadingCompany">
                                                 <button class="btn btn-green btn-green-op" ng-click="refreshPage();">
                                                     Refresh
@@ -102,7 +103,7 @@
                     <div class="col-lg-12 col-xs-12">
                         <div class="table-row animated fadeIn"
                              ng-click="goToCompany(company)"
-                             ng-repeat="company in companyObj | filterBy: ['companyName']: searchCompanyInfo">
+                             ng-repeat="company in companyObj | filterBy: ['companyName']: searchByNum">
                             <div class="col-lg-2 col-xs-3">
 
                             </div>

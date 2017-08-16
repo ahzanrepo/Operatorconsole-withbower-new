@@ -18,6 +18,17 @@
             })
         };
 
+        var getTenantNumber = function(phnNum)
+        {
+            return $http({
+                method: 'GET',
+                url: baseUrls.phoneNumTrunkServiceBaseURL + 'PhoneNumberTrunkApi/PhoneNumber/' + phnNum
+            }).then(function(resp)
+            {
+                return resp.data;
+            })
+        };
+
         var setCloudToTrunk = function(trunkId, cloudId)
         {
             return $http({
@@ -353,7 +364,8 @@
             getLimitsByCategory: getLimitsByCategory,
             addLimitByTenant: addLimitByTenant,
             updateMaxLimit: updateMaxLimit,
-            deleteLimit: deleteLimit
+            deleteLimit: deleteLimit,
+            getTenantNumber: getTenantNumber
         };
 
 

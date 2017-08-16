@@ -2,7 +2,35 @@
  * Created by damith on 4/6/17.
  */
 
-opConsoleApp.controller('companyInfoCtrl', function ($scope, companyInfoServices,
+opConsoleApp.directive('companyInfoEnterPress', function () {
+    return function (scope, element, attrs) {
+        element.bind("keyup", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.companyInfoEnterPress);
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
+});
+
+opConsoleApp.directive('companyInfoOtherPress', function () {
+    return function (scope, element, attrs) {
+        element.bind("keyup", function (event) {
+            if(event.which !== 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.companyInfoOtherPress);
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
+});
+
+opConsoleApp.controller('companyInfoCtrl', function ($scope, companyInfoServices, phnNumTrunkService,
                                                      $state, $anchorScroll, userService) {
 
 
@@ -28,6 +56,48 @@ opConsoleApp.controller('companyInfoCtrl', function ($scope, companyInfoServices
 
     $scope.refreshPage = function () {
         getAllCompanyInfo();
+    };
+
+    $scope.setToSearchString = function()
+    {
+        phnNumTrunkService.getTenantNumber($scope.searchCompanyInfo).then(function(phnNumInfo)
+        {
+            if(phnNumInfo && phnNumInfo.Result)
+            {
+                var comp = $scope.companyObj.filter(function(comp)
+                {
+                    if(comp.companyId === phnNumInfo.Result.CompanyId)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                });
+
+                if(comp)
+                {
+                    $scope.searchByNum = comp[0].companyName;
+                }
+
+            }
+
+        }).catch(function(err)
+        {
+
+        })
+
+    };
+
+    $scope.resetSearch = function()
+    {
+        $scope.searchByNum = angular.copy($scope.searchCompanyInfo);
+    };
+
+    $scope.filterFunction = function(searchVal)
+    {
+        return searchVal === $scope.searchCompanyInfo || searchVal === $scope.searchByNum;
     };
 
 
