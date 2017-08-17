@@ -221,6 +221,12 @@ body .container.body .right_col {
     color: #3ed783 !important;
 }
 
+.btn-orange-op {
+    background: #d7aa1d !important;
+    color: #ffffff !important;
+    font-family: "roboto-bold", sans-serif;
+}
+
 .page-title {
     width: 100%;
     min-height: 10px;

@@ -58,6 +58,10 @@ opConsoleApp.controller('companyInfoCtrl', function ($scope, companyInfoServices
         getAllCompanyInfo();
     };
 
+    $scope.searchByNumber = function(){
+        $scope.setToSearchString();
+    }
+
     $scope.setToSearchString = function()
     {
         phnNumTrunkService.getTenantNumber($scope.searchCompanyInfo).then(function(phnNumInfo)
