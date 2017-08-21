@@ -39,6 +39,7 @@ opConsoleApp.controller('companyInfoCtrl', function ($scope, ngNotify, companyIn
     $scope.companyData = {}
 
     $scope.companyObj = null;
+    $scope.companyFilteredList = [];
     $scope.isLoadingCompany = false;
     var getAllCompanyInfo = function () {
         $scope.isLoadingCompany = true;
@@ -46,7 +47,7 @@ opConsoleApp.controller('companyInfoCtrl', function ($scope, ngNotify, companyIn
             $scope.isLoadingCompany = false;
             if (data.IsSuccess) {
                 $scope.companyObj = data.Result;
-                console.log($scope.companyObj);
+                $scope.companyFilteredList = angular.copy($scope.companyObj);
             }
         }, function (err) {
             console.log(err);
@@ -60,10 +61,46 @@ opConsoleApp.controller('companyInfoCtrl', function ($scope, ngNotify, companyIn
 
     $scope.searchByNumber = function(){
         $scope.setToSearchString();
-    }
+    };
+
+    $scope.searchByCompanyName = function(){
+        $scope.isLoadingCompany = true;
+        var comp = $scope.companyObj.filter(function(comp)
+        {
+            var regexp = '^(' + $scope.searchCompanyInfo + ')[^\s]*';
+            var matchArray = comp.companyName.match(regexp);
+
+            if(matchArray && matchArray.length > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        });
+
+        if(comp && comp.length > 0)
+        {
+            $scope.companyFilteredList = comp;
+        }
+        else
+        {
+            ngNotify.set("No company found with given name", {
+                position: 'top',
+                sticky: false,
+                duration: 3000,
+                type: 'warn'
+            });
+            $scope.companyFilteredList = [];
+        }
+
+        $scope.isLoadingCompany = false;
+    };
 
     $scope.setToSearchString = function()
     {
+        $scope.isLoadingCompany = true;
         phnNumTrunkService.getTenantNumber($scope.searchCompanyInfo).then(function(phnNumInfo)
         {
             if(phnNumInfo && phnNumInfo.Result)
@@ -82,12 +119,18 @@ opConsoleApp.controller('companyInfoCtrl', function ($scope, ngNotify, companyIn
 
                 if(comp)
                 {
-                    $scope.searchByNum = comp[0].companyName;
+                    $scope.companyFilteredList = comp;
                 }
+                else
+                {
+                    $scope.companyFilteredList = [];
+                }
+                $scope.isLoadingCompany = false;
 
             }
             else
             {
+                $scope.companyFilteredList = [];
                 if(phnNumInfo.Exception)
                 {
                     ngNotify.set(phnNumInfo.Exception.Message, {
@@ -107,16 +150,21 @@ opConsoleApp.controller('companyInfoCtrl', function ($scope, ngNotify, companyIn
                     });
                 }
 
+                $scope.isLoadingCompany = false;
+
             }
 
         }).catch(function(err)
         {
+            $scope.companyFilteredList = [];
             ngNotify.set("Error occurred while searching company", {
                 position: 'top',
                 sticky: false,
                 duration: 3000,
                 type: 'error'
             });
+
+            $scope.isLoadingCompany = false;
 
         })
 
