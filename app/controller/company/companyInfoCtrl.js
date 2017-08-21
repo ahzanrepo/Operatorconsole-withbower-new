@@ -30,7 +30,7 @@ opConsoleApp.directive('companyInfoOtherPress', function () {
     };
 });
 
-opConsoleApp.controller('companyInfoCtrl', function ($scope, companyInfoServices, phnNumTrunkService,
+opConsoleApp.controller('companyInfoCtrl', function ($scope, ngNotify, companyInfoServices, phnNumTrunkService,
                                                      $state, $anchorScroll, userService) {
 
 
@@ -86,9 +86,37 @@ opConsoleApp.controller('companyInfoCtrl', function ($scope, companyInfoServices
                 }
 
             }
+            else
+            {
+                if(phnNumInfo.Exception)
+                {
+                    ngNotify.set(phnNumInfo.Exception.Message, {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'error'
+                    });
+                }
+                else
+                {
+                    ngNotify.set("No company found for given number", {
+                        position: 'top',
+                        sticky: false,
+                        duration: 3000,
+                        type: 'warn'
+                    });
+                }
+
+            }
 
         }).catch(function(err)
         {
+            ngNotify.set("Error occurred while searching company", {
+                position: 'top',
+                sticky: false,
+                duration: 3000,
+                type: 'error'
+            });
 
         })
 
