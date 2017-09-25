@@ -366,14 +366,40 @@
             <div class="x-content">
                 <div class="form-group">
                     <div class="x_panel col-lg-12 col-md-12 col-sm-12 col-xs-12" ng-repeat="item in trunkList | filterBy: ['TrunkCode', 'TrunkName']: searchCriteriaTrunk">
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                             <b>{{item.TrunkCode}}</b>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                             <b>{{item.TrunkName}}</b>
                         </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                             <b>{{item.IpUrl}}</b>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+
+                            <div ng-if="item.PingStatus === 'UP'" style="border-radius: 5px; background: #5ead6e; height: 35px;">
+                                <i class="fa fa-heartbeat fa-2x" style="color: white; padding-left: 15px; padding-top:2px">
+
+                                </i>
+                                <i style="font-size: medium; font-weight: bold; padding-left:30px; color:white;">Up</i>
+                                <i style="font-size: medium; font-weight: bold; padding-left:50px; color:white;">{{item.LastEventTime}}</i>
+
+                            </div>
+
+                            <div ng-if="item.PingStatus === 'DOWN'" style="border-radius: 5px; background: #ad3f39; height: 35px;">
+                                <i class="fa fa-warning fa-2x" style="color: white; padding-left: 15px; padding-top:2px">
+                                </i>
+                                <i style="font-size: medium; font-weight: bold; padding-left:30px; color:white;">Down</i>
+                                <i style="font-size: medium; font-weight: bold; padding-left:50px; color:white;">{{item.LastEventTime}}</i>
+                            </div>
+
+                            <div ng-if="item.PingStatus === 'UNKNOWN'" style="border-radius: 5px; background: #ada641; height: 35px;">
+                                <i class="fa fa-question-circle fa-2x" style="color: white; padding-left: 15px; padding-top:2px">
+                                </i>
+                                <i style="font-size: medium; font-weight: bold; padding-left:30px; color:white;">Unknown</i>
+                                <i style="font-size: medium; font-weight: bold; padding-left:50px; color:white;">{{item.LastEventTime}}</i>
+
+                            </div>
                         </div>
                         <ul class="nav navbar-right panel_toolbox">
                             <li><a class="collapse-link" ng-click="editTrunk(item)"><i class="fa fa-edit" style="color: black"></i></a>
