@@ -207,6 +207,7 @@
                                                 id="cloud"
                                                 name="cloud" ng-model="terminationInfo.CloudId"
                                                 ng-model-options="{trackBy: '$value'}">
+                                            <option value=""></option>
                                             <option ng-repeat="cloud in cloudList" value="{{cloud.id}}">{{cloud.Name}}
                                             </option>
                                         </select>
@@ -219,6 +220,7 @@
                                                 id="profile"
                                                 name="profile" ng-model="terminationInfo.ProfileId"
                                                 ng-model-options="{trackBy: '$value'}">
+                                            <option value=""></option>
                                             <option ng-repeat="profile in profileList" value="{{profile.id}}">{{profile.ProfileName}}
                                             </option>
                                         </select>
