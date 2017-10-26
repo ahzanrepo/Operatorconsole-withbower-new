@@ -178,6 +178,10 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
 
         if($scope.status === 'Update')
         {
+            if(!$scope.currentTrunk.TranslationId)
+            {
+                $scope.currentTrunk.TranslationId = null;
+            }
             phnNumTrunkService.updateTrunk($scope.currentTrunk.id, $scope.currentTrunk).then(function (data)
             {
                 if (data.IsSuccess) {
@@ -191,6 +195,11 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
                     $scope.resetForm();
 
                     loadTrunks();
+
+                    $scope.appState = 'TRUNKLIST';
+                    $scope.collapsedButton = 'Create Trunk';
+                    $scope.dynamicCss = 'trunk-app-button-dynamic-execute';
+                    $scope.status = 'Save';
                 }
                 else
                 {
@@ -236,6 +245,11 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
                     });
 
                     $scope.resetForm();
+
+                    $scope.appState = 'TRUNKLIST';
+                    $scope.collapsedButton = 'Create Trunk';
+                    $scope.dynamicCss = 'trunk-app-button-dynamic-execute';
+                    $scope.status = 'Save';
 
                     loadTrunks();
                 }
@@ -363,7 +377,13 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
 
         if($scope.terminationInfo.TerminationType === 'CLOUD')
         {
-            phnNumTrunkService.setCloudToTrunk($scope.currentTrunk.id, $scope.terminationInfo.CloudId).then(function (data)
+            var cloudId = "-1";
+
+            if($scope.terminationInfo.CloudId && parseInt($scope.terminationInfo.CloudId) > 0)
+            {
+                cloudId = $scope.terminationInfo.CloudId;
+            }
+            phnNumTrunkService.setCloudToTrunk($scope.currentTrunk.id, cloudId).then(function (data)
             {
                 if (data.IsSuccess)
                 {
@@ -408,7 +428,13 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
         }
         else if($scope.terminationInfo.TerminationType === 'PROFILE')
         {
-            phnNumTrunkService.setProfileToTrunk($scope.currentTrunk.id, $scope.terminationInfo.ProfileId).then(function (data)
+            var profId = "-1";
+
+            if($scope.terminationInfo.ProfileId && parseInt($scope.terminationInfo.ProfileId) > 0)
+            {
+                profId = $scope.terminationInfo.ProfileId;
+            }
+            phnNumTrunkService.setProfileToTrunk($scope.currentTrunk.id, profId).then(function (data)
             {
                 if (data.IsSuccess)
                 {
@@ -702,10 +728,18 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
         {
             if (data.IsSuccess)
             {
-                if (data.Result && data.Result.LoadBalancer && data.Result.LoadBalancer.Cloud)
+                if (data.Result)
                 {
-                    $scope.terminationInfo.CloudId = data.Result.LoadBalancer.Cloud.id.toString();
-                    $scope.terminationInfo.ProfileId = data.Result.ProfileId.toString();
+                    if(data.Result.LoadBalancer && data.Result.LoadBalancer.Cloud)
+                    {
+                        $scope.terminationInfo.CloudId = data.Result.LoadBalancer.Cloud.id.toString();
+                    }
+
+                    if(data.Result.ProfileId)
+                    {
+                        $scope.terminationInfo.ProfileId = data.Result.ProfileId.toString();
+                    }
+
                 }
 
                 //$scope.trunkList = data.Result;
@@ -1104,18 +1138,12 @@ opConsoleApp.controller('trunkConfigurationCtrl', function ($scope, $timeout, ng
         })
     };
 
-    var loadMonitorTrunks = function()
-    {
-
-    };
 
 
 
     loadTrunks();
 
     reloadTrunkStatus();
-
-    loadMonitorTrunks();
 
     loadTranslations();
 
