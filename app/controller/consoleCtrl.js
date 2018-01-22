@@ -3,12 +3,12 @@
  */
 
 'use strict';
-opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state,ngNotify,
+opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state, ngNotify,
                                                  userProfileServices,
                                                  loginService,
-                                                 subscribeServices,billingservice) {
+                                                 subscribeServices, billingservice) {
 
-    $scope.showAlert  = function (title, type, content) {
+    $scope.showAlert = function (title, type, content) {
         ngNotify.set(content, {
             position: 'top',
             sticky: true,
@@ -16,17 +16,17 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state,ngNotif
             type: type
         });
 
-       /* new PNotify({
-            title: title,
-            text: content,
-            type: type,
-            styling: 'bootstrap3',
-            animate: {
-                animate: true,
-                in_class: "bounceIn",
-                out_class: "bounceOut"
-            }
-        });*/
+        /* new PNotify({
+         title: title,
+         text: content,
+         type: type,
+         styling: 'bootstrap3',
+         animate: {
+         animate: true,
+         in_class: "bounceIn",
+         out_class: "bounceOut"
+         }
+         });*/
     };
 
     //get current login user
@@ -51,6 +51,12 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state,ngNotif
     //go to navigation
     $scope.goToNavigation = function (nav) {
         switch (nav) {
+            case 'agentProductivity':
+                $state.go('op-console.agent-productivity');
+                break;
+            case 'agentSummery':
+                $state.go('op-console.agent-summery');
+                break;
             case 'serverPerformance':
                 $state.go('op-console.monitor-server-performance');
                 break;
@@ -92,7 +98,7 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state,ngNotif
 
         if (data.From) {
             data.avatar = "assets/img/profileAvatar.png";
-            if($scope.users && $scope.users.length){
+            if ($scope.users && $scope.users.length) {
                 var sender = $filter('filter')($scope.users, {username: data.From})[0];
                 console.log("Sender ", sender);
 
@@ -219,7 +225,7 @@ opConsoleApp.controller('consoleCtrl', function ($scope, $filter, $state,ngNotif
         });
     };
 
-   $scope.veeryNotification();
+    $scope.veeryNotification();
 
     $scope.checkAndRegister = function () {
 

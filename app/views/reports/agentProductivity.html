@@ -1,0 +1,119 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="x_panel">
+            <div class="x_title">
+                <h2><i class="fa fa-align-left"></i> Agent Productivity
+                    <small>.</small>
+                </h2>
+                <div class="clearfix"></div>
+            </div>
+            <div class="x_content">
+                <div class="row">
+
+                    <!--<div ng-show="OnlineAgents.length==0" >
+                        <div class="row ">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="data-state-wrap">
+                                    No Data....
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-show="isLoading" >
+                        <div class="row ">
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="data-state-wrap">
+                                    Please Wait...
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    -->
+                    <div class="row">
+                        <div class="x_panel">
+
+                            <div class="x_title bottom-gray-200 m-bottom20">
+                                <h4 class="font-robot font-300 text-uppercase font-15">Search option
+                                </h4>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <label>Start Date</label>
+                                <input id="startDate" type="text" class="form-control" ng-model="startDate" ng-change="onDateChange()"
+                                       name="startDate"
+                                       datepicker>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <label>End Date</label>
+                                <input id="endDate" type="text" class="form-control" ng-model="endDate" ng-change="onDateChange()" name="endDate"
+                                       datepicker>
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <label>Agent</label>
+
+                                <!--<ui-select ng-model="agentFilter" ng-disabled="isTableLoading"   title="Choose a Agent" append-to-body="true">
+                                    <ui-select-match placeholder="select or search a agent">{{$select.selected.ResourceName}}</ui-select-match>
+                                    <ui-select-choices repeat="Agent in (Agents | filter: $select.search)  track by Agent.ResourceId">
+                                        <span ng-bind-html="Agent.ResourceName | highlight: $select.search"></span>
+                                    </ui-select-choices>
+                                </ui-select>-->
+
+                                <ui-select ng-model="agentFilter.value">
+                                    <ui-select-match>
+                                        <span ng-bind="$select.selected.ResourceName"></span>
+                                    </ui-select-match>
+                                    <ui-select-choices repeat="item in (Agents | filter: $select.search) track by item.ResourceId">
+                                        <span ng-bind="item.ResourceName"></span>
+                                    </ui-select-choices>
+                                </ui-select>
+
+                            </div>
+                            <div class="col-md-1 col-sm-3 col-xs-12">
+                                <button  style="position: relative; top: 25px;" type="button" class="btn btn-primary" ng-disabled="isTableLoading"  ng-click="getAgentSummary()" >Search</button>
+                            </div>
+
+                            <div class="col-sm-1">
+                                <div style="position: relative; top: 25px;">
+                                    <button ng-disabled="disableDownload" type="button" class="btn"
+                                            style="background-color: #a3d100; color: #000000; font-weight: 500; position: relative; "
+                                            csv-header="['Agent ID', 'Date', 'LoginTime', 'Total Calls(inbound)', 'Total Calls(outbound)'
+                                , 'Total Answered', 'Total Outbound Answered', 'Total Hold(inbound)', 'Total Hold(outbound)', 'Staff Time', 'Inbound Time', 'Outbound Time'
+                                , 'Idle Time(inbound)', 'Idle Time(outbound)', 'Idle Time(offline)', 'Talk Time(inbound)', 'Talk Time(outbound)'
+                                , 'Hold Time(inbound)', 'Hold Time(outbound)', 'After Work Time(inbound)', 'After Work Time(outbound)', 'Break Time'
+                                , 'Average Handling Time(inbound)', 'Average Handling Time(outbound)', 'Average Talk Time(inbound)', 'Average Talk Time(outbound)'
+                                , 'Average Hold Time(inbound)', 'Average Hold Time(outbound)']"
+                                            csv-column-order="['AgentName', 'Date', 'LoginTime', 'TotalCallsInbound', 'TotalCallsOutbound', 'TotalAnswered', 'TotalAnsweredOutbound', 'TotalHoldInbound'
+                                , 'TotalHoldOutbound', 'StaffTime', 'InboundTime', 'OutboundTime', 'IdleTimeInbound', 'IdleTimeOutbound', 'IdleTimeOffline'
+                                , 'TalkTimeInbound', 'TalkTimeOutbound', 'TotalHoldTimeInbound', 'TotalHoldTimeOutbound', 'AfterWorkTimeInbound', 'AfterWorkTimeOutbound'
+                                , 'BreakTime', 'AverageHandlingTimeInbound', 'AverageHandlingTimeOutbound', 'AvgTalkTimeInbound', 'AvgTalkTimeOutbound', 'AvgHoldTimeInbound'
+                                , 'AvgHoldTimeOutbound']"
+                                            ng-csv="getAgentSummaryCSV()" filename="{{DownloadFileName}}.csv">
+                                        CSV&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <i class="fa fa-download"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div ng-show="isTableLoading"
+                             class="loading-current-view" style="background: transparent;">
+                            <!--  loader  -->
+                            <svg class="circular">
+                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"></circle>
+                            </svg>
+                            <div class="loader-section"></div>
+                        </div>
+
+                        <div ui-if="gridQOptions.data.length>0" id="grid1" ui-grid="gridQOptions" class="grid" ui-grid-auto-resize ng-style="getTableHeight()"></div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

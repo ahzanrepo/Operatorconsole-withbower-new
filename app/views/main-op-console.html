@@ -37,7 +37,7 @@
                         <div>
                             <div class="col-md-8 col-sm-8 col-xs-8 form-group has-feedback">
                                 <input type="text" class="form-control has-feedback-left" id="inputSuccess2"
-                                       ng-model="vToken"   placeholder="Key">
+                                       ng-model="vToken" placeholder="Key">
                                 <span class="fa fa-user form-control-feedback left"
                                       aria-hidden="true"></span>
                             </div>
@@ -122,16 +122,31 @@
                                 <!--</ul>-->
                                 <!--</li>-->
 
-                                <li><a href="javascript:void(0);"
-                                       ng-click="goToNavigation('codecManagement')"><i>
-                                    <img src="assets/img/ui-icon-1/music.svg" width="20px"/>
-                                </i> Codec Management</a>
+                                <li>
+                                    <a href="javascript:void(0);" ng-click="goToNavigation('codecManagement')"><i> <img
+                                            src="assets/img/ui-icon-1/music.svg" width="20px"/></i> Codec Management</a>
                                 </li>
 
                                 <li><a href="javascript:void(0);"
                                        ng-click="goToNavigation('trunkConfiguration')"><i>
                                     <img src="assets/img/ui-icon-1/shield.svg" width="20px"/>
                                 </i> Trunk Configuration</a>
+                                </li>
+
+
+                                <li>
+                                    <a><i><img src="assets/img/ui-icon-1/files-1.svg" width="20px"/></i> Reports
+                                        <span class="fa fa-chevron-down"></span></a>
+                                    <ul class="nav child_menu">
+                                        <li>
+                                            <a ng-click="goToNavigation('agentProductivity')"
+                                               href="javascript:void(0);">Agent Productivity</a>
+                                        </li>
+                                        <li>
+                                            <a ng-click="goToNavigation('agentSummery')" href="javascript:void(0);">Agent
+                                                Summery</a>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
                         </div>

@@ -6,7 +6,15 @@ var opConsoleApp = angular.module('opConsoleApp', ['ngRoute', 'ui.bootstrap',
     'ui.router', 'angular-jwt', 'angular.filter', 'satellizer',
     'LocalStorageModule', 'base64', 'easypiechart', 'ngNotify',
     'checklist-model', 'as.sortable', 'ui.slimscroll', 'oitozero.ngSweetAlert',
-    'ngTagsInput', 'btford.socket-io', 'cp.ngConfirm']);
+    'ngTagsInput', 'btford.socket-io', 'cp.ngConfirm','ui.grid.pinning',
+    'ui.grid.autoResize',
+    'ui.grid.exporter',
+    'ui.grid.resizeColumns',
+    'ui.grid.resizeColumns',
+    'ui.grid.selection',
+    'ui.grid.moveColumns',
+    'ui.grid.infiniteScroll',
+    'ui.grid.grouping','ui.select', 'ngSanitize','ngCsv']);
 
 
 //app router
@@ -14,7 +22,7 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
     function ($httpProvider, $stateProvider, $urlRouterProvider, $authProvider) {
 
         //auth URL
-        var authProviderUrl = 'http://userservice.app.veery.cloud/';
+        var authProviderUrl = 'http://userservice.app1.veery.cloud/';
         $authProvider.loginUrl = authProviderUrl + 'auth/login';
         $authProvider.signupUrl = authProviderUrl + 'auth/signup';
 
@@ -88,6 +96,17 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             data: {
                 requireLogin: true
             }
+        }).state('op-console.agent-productivity', {
+            url: "/agent-productivity",
+            controller: "agentProductivityController",
+            templateUrl: "app/views/reports/agentProductivity.html",
+            data: {
+                requireLogin: true
+            }
+        }).state('op-console.agent-summery', {
+            url: "/agent-summery",
+            controller: "agentSummeryController",
+            templateUrl: "app/views/reports/agentSummery.html"
         })
     }], function () {
 
@@ -96,11 +115,11 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
 
 //app base URL
 var baseUrls = {
-    'userServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'userServiceBaseUrl': 'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/', //userservice.app.veery.cloud
     'monitorServerUrl': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
     'sipUserEndpointService': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
-    'userServiceAuthUrl': 'http://userservice.app.veery.cloud/',
-    'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
+    'userServiceAuthUrl': 'http://userservice.app1.veery.cloud/',
+    'resourceServiceBaseUrl': 'http://127.0.0.1:8832/DVP/API/1.0.0.0/ResourceManager/',// resourceservice.app.veery.cloud
     'phoneNumTrunkServiceBaseURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'ruleServiceBaseURL': 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'limitHandlerBaseURL': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
@@ -113,11 +132,16 @@ var baseUrls = {
 opConsoleApp.constant('baseUrls', baseUrls);
 
 opConsoleApp.constant('config', {
-    Auth_API: 'http://userservice.162.243.230.46.xip.io/',
+    Auth_API: 'http://userservice.app1.veery.cloud/',
     appVersion: 1.0,
     client_Id_secret: 'ae849240-2c6d-11e6-b274-a9eec7dab26b:6145813102144258048',
     clusterId: '2'
 });
+
+opConsoleApp.run(['$anchorScroll', function ($anchorScroll,$rootScope, loginService, $location, $state) {
+    $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
+}]);
+
 
 //authentication
 //Authentication
@@ -170,3 +194,31 @@ opConsoleApp.directive('passwordVerify', function () {
         }
     }
 });
+
+
+opConsoleApp.directive('datepicker', function () {
+    return {
+        restrict: "A",
+        require: "ngModel",
+        link: function (scope, elem, attrs, ngModelCtrl) {
+            var updateModel = function (dateText) {
+                scope.$apply(function () {
+                    ngModelCtrl.$setViewValue(dateText);
+                });
+            };
+            var options = {
+                dateFormat: "yy-mm-dd",
+                onSelect: function (dateText) {
+                    updateModel(dateText);
+                }
+            };
+            elem.datepicker(options);
+        }
+    }
+});
+
+opConsoleApp.filter('secondsToDateTime', [function () {
+    return function (seconds) {
+        return new Date(1970, 0, 1).setSeconds(seconds);
+    };
+}]);
