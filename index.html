@@ -66,6 +66,8 @@
     <link rel="stylesheet" href="assets/css/element-animation.css"/>
     <link rel="stylesheet" href="assets/css/sign-in.css"/>
     <link rel="stylesheet" href="assets/css/animate.css"/>
+
+    <link rel="stylesheet" href="bower_components/angular-gantt/dist/angular-gantt.css"/>
 </head>
 
 <body class="nav-md">
@@ -239,7 +241,7 @@
 
 <!--reports -->
 <script type="text/javascript" src="app/controller/reports/agentProductivityController.js"></script>
-<script type="text/javascript" src="app/controller/reports/agentSummeryController.js"></script>
+<script type="text/javascript" src="app/controller/reports/agentStatusEventController.js"></script>
 <script type="text/javascript" src="app/services/productivity/resourceProductivityService.js"></script>
 
 
@@ -255,6 +257,20 @@
 <!-- json to csv -->
 <script type="text/javascript" src="bower_components/ng-csv/build/ng-csv.js"></script>
 <!-- json to csv -->
+
+<!--Reports-->
+<script type="text/javascript" src="app/services/Reports/cdrApiHandler.js"></script>
+<script type="text/javascript" src="app/services/Reports/companyConfigService.js"></script>
+<script type="text/javascript" src="app/directive/Reports/statusgantt.js"></script>
+<script type="text/javascript" src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.min.js "></script>
+<script type="text/javascript" src="bower_components/ng-tags-input/ng-tags-input.min.js"></script>
+<script type="text/javascript" src="bower_components/angular-gantt/dist/angular-gantt.js"></script>
+
+<script src="bower_components/moment/moment.js"></script>
+<script src="bower_components/angular-moment/angular-moment.js"></script>
+<script src="bower_components/angular-moment-picker/dist/angular-moment-picker.js"></script>
+
+
 
 </body>
 </html>

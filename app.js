@@ -14,9 +14,10 @@ var opConsoleApp = angular.module('opConsoleApp', ['ngRoute', 'ui.bootstrap',
     'ui.grid.selection',
     'ui.grid.moveColumns',
     'ui.grid.infiniteScroll',
-    'ui.grid.grouping','ui.select', 'ngSanitize','ngCsv']);
+    'ui.grid.grouping','ui.select', 'ngSanitize','ngCsv','ui.bootstrap.datetimepicker','ngTagsInput','gantt','angularMoment','moment-picker']);
 
 
+opConsoleApp.constant('moment', moment);
 //app router
 opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authProvider",
     function ($httpProvider, $stateProvider, $urlRouterProvider, $authProvider) {
@@ -105,8 +106,8 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             }
         }).state('op-console.agent-summery', {
             url: "/agent-summery",
-            controller: "agentSummeryController",
-            templateUrl: "app/views/reports/agentSummery.html"
+            controller: "agentStatusEventController",
+            templateUrl: "app/views/reports/agentStatusEventList.html"
         })
     }], function () {
 
@@ -126,7 +127,9 @@ var baseUrls = {
     'clusterConfigurationBaseURL': 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/',
     'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/',
     'billingserviceURL': 'http://billingservice.app.veery.cloud/DVP/API/1.0.0.0/Billing/',
-    'notification': 'http://notificationservice.app.veery.cloud'
+    'notification': 'http://notificationservice.app.veery.cloud',
+    'authUrl':'http://userservice.app1.veery.cloud',
+    'cdrProcessor':'http://localhost:9093/DVP/API/1.0.0.0/CallCDR/' //cdrprocessor.app.veery.cloud
 };
 
 opConsoleApp.constant('baseUrls', baseUrls);
