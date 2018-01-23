@@ -3,16 +3,15 @@
  */
 
 
-opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorScroll , $filter, $q, cdrApiHandler, resourceProductivityService, companyConfigBackendService) {
+opConsoleApp.controller("agentStatusEventController", function ($scope, $anchorScroll, $filter, $q,ngNotify, cdrApiHandler, resourceProductivityService, companyConfigBackendService) {
 
     $anchorScroll();
     $scope.showAlert = function (tittle, type, content) {
-
-        new PNotify({
-            title: tittle,
-            text: content,
-            type: type,
-            styling: 'bootstrap3'
+        ngNotify.set(content, {
+            position: 'top',
+            sticky: true,
+            duration: 3000,
+            type: type
         });
     };
 
@@ -37,8 +36,7 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
     ];
 
 
-
-    $scope.getBreakTypes = function () {
+    /*$scope.getBreakTypes = function () {
         companyConfigBackendService.getAllActiveBreakTypes().then(function (response) {
             if(response.IsSuccess)
             {
@@ -71,8 +69,7 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
         });
     };
 
-    $scope.getBreakTypes();
-
+    $scope.getBreakTypes();*/
 
 
     $scope.obj = {
@@ -82,7 +79,7 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
 
     $scope.startTime = '12:00 AM';
     $scope.endTime = '12:00 AM';
-    $scope.endDtTm='';
+    $scope.endDtTm = '';
 
     $scope.timeEnabled = 'Date Only';
     $scope.timeEnabledStatus = false;
@@ -98,6 +95,68 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
         }
     };
 
+    $scope.resList = [];
+    var loadDefaultData = function () {
+        $scope.obj.isTableLoading = 0;
+        $q.all([
+            companyConfigBackendService.getAllActiveBreakTypes(),
+            resourceProductivityService.GetConsolidateAgentDetails()
+        ]).then(function (value) {
+            if (value[0] && value[0].IsSuccess) {
+                value[0].Result.forEach(function (bType) {
+                    $scope.agentStatuses.push(
+                        {
+                            DisplayName: bType.BreakType,
+                            Status: bType.BreakType
+                        }
+                    );
+                });
+            }
+            else {
+                var errMsg = response.CustomMessage;
+
+                if (value[0].Exception) {
+                    errMsg = value[0].Exception.Message;
+                }
+                $scope.showAlert('Agent List', errMsg, 'error');
+            }
+
+            if (value[1]) {
+
+                $scope.uniqAgentNameWithResourceIds = {};
+                $scope.comapnyWiseAgents = value[1].map(function (item) {
+                    if ($scope.uniqAgentNameWithResourceIds[item.ResourceName]) {
+                        $scope.uniqAgentNameWithResourceIds[item.ResourceName].ResourceIds.push(item.ResourceId.toString())
+                    }
+                    else {
+                        $scope.uniqAgentNameWithResourceIds[item.ResourceName] = {
+                            ResourceIds: [item.ResourceId.toString()],
+                            ResourceName: item.ResourceName
+                        };
+                        $scope.resList.push({
+                            ResourceId: item.ResourceId.toString(),
+                            ResourceName: item.ResourceName
+                        })
+                    }
+                    return {
+                        ResourceId: item.ResourceId.toString(),
+                        ResourceName: item.ResourceName
+                    };
+                });
+                $scope.resList.splice(0, 0, {
+                    ResourceId: "-999",
+                    ResourceName: "Select"
+                });
+
+            }
+            $scope.obj.isTableLoading = 1;
+        }, function (reason) {
+            $scope.showAlert('Agent List', 'error', 'Failed to bind agent auto complete list or Status List.');
+            $scope.obj.isTableLoading = 1;
+        });
+    };
+
+    loadDefaultData();
 
     var isEmpty = function (map) {
         for (var key in map) {
@@ -176,8 +235,8 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
 
     };
 
-    $scope.resList = [];
-    $scope.loadAgentList = function () {
+
+    /*$scope.loadAgentList = function () {
         resourceProductivityService.GetConsolidateAgentDetails().then(function (response) {
             if (response) {
 
@@ -201,13 +260,13 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
                         ResourceName: item.ResourceName
                     };
                 });
-                /*
+                /!*
                  $scope.resList = response.map(function (item) {
                  return {
                  ResourceId: item.ResourceId.toString(),
                  ResourceName: item.ResourceName
                  }
-                 });*/
+                 });*!/
                 $scope.resList.splice(0, 0, {
                     ResourceId: "-999",
                     ResourceName: "Select"
@@ -224,9 +283,7 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
         })
     };
 
-    $scope.loadAgentList();
-
-
+    $scope.loadAgentList();*/
 
 
     $scope.getAgentStatusList = function () {
@@ -244,8 +301,7 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
             endDate = $scope.obj.endDay + ' 23:59:59' + momentTz;
             $scope.endDtTm = moment($scope.obj.endDay + ' 23:59:59');
         }
-        else
-        {
+        else {
             $scope.endDtTm = moment($scope.obj.endDay + ' ' + et + ':59');
         }
 
@@ -254,37 +310,30 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
 
             var statusList = [];
 
-            if($scope.statusFilter)
-            {
+            if ($scope.statusFilter) {
 
                 $scope.statusFilter.forEach(function (item) {
 
                     statusList.push(item);
-                    if(item.DisplayName=="Register" && item.Status=="Register")
-                    {
+                    if (item.DisplayName == "Register" && item.Status == "Register") {
                         statusList.push({DisplayName: "UnRegister", Status: "UnRegister"});
                     }
-                    else if(item.DisplayName=="Un-Register" && item.Status=="UnRegister")
-                    {
+                    else if (item.DisplayName == "Un-Register" && item.Status == "UnRegister") {
                         statusList.push({DisplayName: "Register", Status: "Register"});
                     }
-                    else if(item.DisplayName.indexOf("Break")>=0 && item.Status.indexOf("Break")>=0)
-                    {
+                    else if (item.DisplayName.indexOf("Break") >= 0 && item.Status.indexOf("Break") >= 0) {
                         statusList.push({DisplayName: "EndBreak", Status: "EndBreak"});
 
                     }
 
-                    else
-                    {
+                    else {
 
-                        statusList.push({DisplayName: "end"+item.DisplayName, Status: "end"+item.Status});
+                        statusList.push({DisplayName: "end" + item.DisplayName, Status: "end" + item.Status});
                     }
 
 
                 });
             }
-
-
 
 
             cdrApiHandler.getAgentStatusRecords(startDate, endDate, statusList, $scope.agentFilter).then(function (agentListResp) {
@@ -293,10 +342,10 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
                     for (var resource in agentListResp.Result) {
                         if (agentListResp.Result[resource] && agentListResp.Result[resource].length > 0 && agentListResp.Result[resource][0].ResResource && agentListResp.Result[resource][0].ResResource.ResourceName) {
                             var caption = agentListResp.Result[resource][0].ResResource.ResourceName;
-                            if(!$scope.agentStatusList[caption]){
+                            if (!$scope.agentStatusList[caption]) {
                                 $scope.agentStatusList[caption] = agentListResp.Result[resource];
                             }
-                            else{
+                            else {
                                 $scope.agentStatusList[caption] = $scope.agentStatusList[caption].concat(agentListResp.Result[resource]);
                             }
 
@@ -310,7 +359,7 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
                 $scope.obj.isTableLoading = 1;
 
             }).catch(function (err) {
-                
+
                 $scope.showAlert('Error', 'error', 'Error occurred while loading agent status events');
                 $scope.obj.isTableLoading = 1;
             });
@@ -325,14 +374,13 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
     };
 
 
-
-    $scope.agentStatusListCSV ={};
-    $scope.statusData=[];
-    $scope.isDowloading=false;
+    $scope.agentStatusListCSV = {};
+    $scope.statusData = [];
+    $scope.isDowloading = false;
     $scope.getAgentStatusListCSV = function () {
-        $scope.isDowloading=true;
-        $scope.agentStatusListCSV ={};
-        $scope.statusData=[];
+        $scope.isDowloading = true;
+        $scope.agentStatusListCSV = {};
+        $scope.statusData = [];
         var st = moment($scope.startTime, ["h:mm A"]).format("HH:mm");
         var et = moment($scope.endTime, ["h:mm A"]).format("HH:mm");
         var momentTz = moment.parseZone(new Date()).format('Z');
@@ -346,8 +394,7 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
             endDate = $scope.obj.endDay + ' 23:59:59' + momentTz;
             $scope.endDtTm = moment($scope.obj.endDay + ' 23:59:59');
         }
-        else
-        {
+        else {
             $scope.endDtTm = moment($scope.obj.endDay + ' ' + et + ':59');
         }
 
@@ -359,30 +406,25 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
 
             var statusList = [];
 
-            if($scope.statusFilter)
-            {
+            if ($scope.statusFilter) {
 
                 $scope.statusFilter.forEach(function (item) {
 
                     statusList.push(item);
-                    if(item.DisplayName=="Register" && item.Status=="Register")
-                    {
+                    if (item.DisplayName == "Register" && item.Status == "Register") {
                         statusList.push({DisplayName: "UnRegister", Status: "UnRegister"});
                     }
-                    else if(item.DisplayName=="Un-Register" && item.Status=="UnRegister")
-                    {
+                    else if (item.DisplayName == "Un-Register" && item.Status == "UnRegister") {
                         statusList.push({DisplayName: "Register", Status: "Register"});
                     }
-                    else if(item.DisplayName.indexOf("Break")>=0 && item.Status.indexOf("Break")>=0)
-                    {
+                    else if (item.DisplayName.indexOf("Break") >= 0 && item.Status.indexOf("Break") >= 0) {
                         statusList.push({DisplayName: "EndBreak", Status: "EndBreak"});
 
                     }
 
-                    else
-                    {
+                    else {
 
-                        statusList.push({DisplayName: "end"+item.DisplayName, Status: "end"+item.Status});
+                        statusList.push({DisplayName: "end" + item.DisplayName, Status: "end" + item.Status});
                     }
 
 
@@ -397,7 +439,6 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
                             $scope.agentStatusListCSV [caption] = agentListResp.Result[resource];
 
 
-
                             /*agentListResp.Result[resource].forEach(function (evtItem) {
                              evtItem.Agent = caption;
                              evtItem.Date = moment(evtItem.createdAt).local().format("YYYY-MM-DD HH:mm:ss");
@@ -407,13 +448,11 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
 
                     }
 
-                    if($scope.agentStatusListCSV)
-                    {
-                        for (var key in $scope.agentStatusListCSV)
-                        {
+                    if ($scope.agentStatusListCSV) {
+                        for (var key in $scope.agentStatusListCSV) {
                             $scope.recordMaker($scope.agentStatusListCSV[key]);
                         }
-                        $scope.isDowloading=false;
+                        $scope.isDowloading = false;
                         deferred.resolve($scope.statusData);
                     }
 
@@ -434,11 +473,8 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
                  }*/
 
 
-
-
-
             }).catch(function (err) {
-                
+
                 $scope.showAlert('Error', 'error', 'Error occurred while loading agent status events');
                 deferred.reject($scope.statusData);
             });
@@ -453,12 +489,6 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
         return deferred.promise;
 
     };
-
-
-
-
-
-
 
 
     $scope.recordMaker = function (events) {
@@ -489,26 +519,23 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
                     if (event.Status == "Completed") {
                         isACW = true;
                     }
-                    else
-                    {
-                        isSlotEndEvent=true;
+                    else {
+                        isSlotEndEvent = true;
                     }
                 }
                 else if (event.Reason == "CALL") {
                     if (event.Status == "Connected") {
                         isCALL = true;
-                    }else
-                    {
-                        isSlotEndEvent=true;
+                    } else {
+                        isSlotEndEvent = true;
                     }
                 }
                 else if (event.Reason == "CHAT") {
                     if (event.Status == "Connected") {
                         isCHAT = true;
                     }
-                    else
-                    {
-                        isSlotEndEvent=true;
+                    else {
+                        isSlotEndEvent = true;
                     }
                 }
                 else {
@@ -517,7 +544,6 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
 
 
                 var index = -1;
-
 
 
                 if (isACW) {
@@ -532,40 +558,31 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
                 else if (isCALL) {
 
 
-
                     index = events.map(function (el) {
                         return el.Status;
                     }).indexOf("Completed");
-
-
 
 
                 }
                 else if (isCHAT) {
 
 
-
                     index = events.map(function (el) {
                         return el.Status;
                     }).indexOf("Completed");
 
 
-
-
                 }
-                else  {
+                else {
 
-                    if(!isSlotEndEvent)
-                    {
+                    if (!isSlotEndEvent) {
                         index = events.map(function (el) {
                             return el.Reason;
                         }).indexOf(endEventName);
                     }
 
 
-
                 }
-
 
 
                 if (index >= 0) {
@@ -588,39 +605,35 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
                 else {
 
 
-                    if(moment($scope.endDtTm).diff(moment())>=0)
-                    {
-                        $scope.endDtTm=moment();
+                    if (moment($scope.endDtTm).diff(moment()) >= 0) {
+                        $scope.endDtTm = moment();
                     }
 
-                    if(stEventName=="Register")
-                    {
+                    if (stEventName == "Register") {
                         var
                             eventObj = {
                                 Agent: event.ResResource.ResourceName,
                                 Event: stEventName,
                                 From: moment(event.createdAt).local().format("YYYY-MM-DD HH:mm:ss"),
-                                To:  moment($scope.endDtTm).local().format("YYYY-MM-DD HH:mm:ss")
+                                To: moment($scope.endDtTm).local().format("YYYY-MM-DD HH:mm:ss")
                             }
 
                         $scope.statusData.push(eventObj);
                     }
-                    else if(stEventName. indexOf ("end")==-1 && stEventName!="UnRegister")
-                    {
-                        if(!isSlotEndEvent)
-                        {
+                    else if (stEventName.indexOf("end") == -1 && stEventName != "UnRegister") {
+                        if (!isSlotEndEvent) {
                             var
                                 eventObj = {
                                     Agent: event.ResResource.ResourceName,
                                     Event: stEventName,
                                     From: moment(event.createdAt).local().format("YYYY-MM-DD HH:mm:ss"),
-                                    To:  moment($scope.endDtTm).local().format("YYYY-MM-DD HH:mm:ss")
+                                    To: moment($scope.endDtTm).local().format("YYYY-MM-DD HH:mm:ss")
                                 };
                             $scope.statusData.push(eventObj);
                         }
 
                     }
-                    events.splice(events.indexOf (event),1);
+                    events.splice(events.indexOf(event), 1);
 
                 }
                 eventLength = events.length;
@@ -635,12 +648,7 @@ opConsoleApp.controller("agentStatusEventController", function ($scope,$anchorSc
         }
 
 
-
-
-
-
     }
-
 
 
 });

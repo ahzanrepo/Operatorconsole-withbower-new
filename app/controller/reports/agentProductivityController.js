@@ -3,7 +3,7 @@
  */
 
 
-opConsoleApp.controller("agentProductivityController", function ($scope, $anchorScroll, $filter,$q, uiGridConstants, resourceProductivityService) {
+opConsoleApp.controller("agentProductivityController", function ($scope, $anchorScroll, $filter,$q, ngNotify,uiGridConstants, resourceProductivityService) {
     $anchorScroll();
 
     $scope.showAlert = function (title, type, content) {

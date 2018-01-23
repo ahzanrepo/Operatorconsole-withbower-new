@@ -64,7 +64,7 @@ opConsoleApp.factory("resourceProductivityService", function ($http, $log, baseU
     var getConsolidateAgentDetails = function () {
         return $http({
             method: 'GET',
-            url: baseUrls.resourceServiceBaseUrl + "Resources?consolidated=true"
+            url: baseUrls.resourceServiceBaseUrl + "consolidatedResources?consolidated=true"
         }).then(function (response) {
             if (response.data && response.data.IsSuccess) {
                 return response.data.Result;

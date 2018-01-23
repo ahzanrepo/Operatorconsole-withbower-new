@@ -43,7 +43,7 @@
                             <button type="button" class="btn btn-primary" ng-click="changeTimeAvailability()">
                                 {{timeEnabled}}
                             </button>
-                            <button type="button" class="btn btn-success" ng-click="getAgentStatusList()">
+                            <button ng-disabled="obj.isTableLoading==0"  type="button" class="btn btn-success" ng-click="getAgentStatusList()">
                                 Search
                             </button>
                             <button type="button" class="btn"
@@ -62,7 +62,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group">
                             <label>Status</label>
-                            <tags-input ng-model="statusFilter" display-property="DisplayName"
+                            <tags-input ng-model="statusFilter" display-property="DisplayName" placeholder="Add Status"
                                         add-from-autocomplete-only="true">
                                 <auto-complete source="querySearchStatus($query)" load-on-empty="true"
                                                load-on-focus="true" min-length="1"></auto-complete>
@@ -74,7 +74,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12">
                         <div class="form-group">
                             <label>Agents</label>
-                            <tags-input ng-model="agentFilter" display-property="ResourceName"
+                            <tags-input ng-model="agentFilter" display-property="ResourceName" placeholder="Add Agent"
                                         add-from-autocomplete-only="true">
                                 <auto-complete max-results-to-show="1000" source="querySearch($query)"
                                                load-on-empty="true" load-on-focus="true"
@@ -128,16 +128,13 @@
         </div>
     </div>
 
-    <div class="search-main-wrap" ng-if="obj.isTableLoading==0">
-        <div class="row ">
-            <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="data-state-wrap">
-                    Please Wait...
-                </div>
-
-            </div>
-        </div>
+    <div ng-show="obj.isTableLoading==0"
+         class="loading-current-view" style="background: transparent;">
+        <!--  loader  -->
+        <svg class="circular">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2"></circle>
+        </svg>
+        <div class="loader-section"></div>
     </div>
-
 
 </div>
