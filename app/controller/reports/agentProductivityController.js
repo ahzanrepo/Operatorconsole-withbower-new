@@ -92,11 +92,19 @@ opConsoleApp.controller("agentProductivityController", function ($scope, $anchor
             {
                 enableFiltering: false,
                 width: '150',
+                name: 'Date',
+                field: 'Date',
+                headerTooltip: 'Date',
+                cellClass: 'table-time',
+                cellTemplate: "<div>{{row.entity.Date| date:'MM/dd/yyyy'}}</div>"
+            },{
+                enableFiltering: false,
+                width: '150',
                 name: 'LoginTime',
                 field: 'LoginTime',
                 headerTooltip: 'LoginTime',
                 cellClass: 'table-time',
-                cellTemplate: "<div>{{row.entity.Date| date:'MM/dd/yyyy @ h:mma'}}</div>"
+                cellTemplate: "<div>{{row.entity.LoginTime| date:'MM/dd/yyyy @ h:mma'}}</div>"
             },
             {
                 enableFiltering: false,
