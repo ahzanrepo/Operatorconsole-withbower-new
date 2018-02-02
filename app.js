@@ -120,7 +120,7 @@ var baseUrls = {
     'monitorServerUrl': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
     'sipUserEndpointService': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
     'userServiceAuthUrl': 'http://userservice.app1.veery.cloud/',
-    'resourceServiceBaseUrl': 'http://127.0.0.1:8832/DVP/API/1.0.0.0/ResourceManager/',// resourceservice.app.veery.cloud
+    'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',// resourceservice.app.veery.cloud
     'phoneNumTrunkServiceBaseURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'ruleServiceBaseURL': 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'limitHandlerBaseURL': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
@@ -129,7 +129,7 @@ var baseUrls = {
     'billingserviceURL': 'http://billingservice.app.veery.cloud/DVP/API/1.0.0.0/Billing/',
     'notification': 'http://notificationservice.app.veery.cloud',
     'authUrl':'http://userservice.app1.veery.cloud',
-    'cdrProcessor':'http://localhost:9093/DVP/API/1.0.0.0/CallCDR/' //cdrprocessor.app.veery.cloud
+    'cdrProcessor':'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/' //cdrprocessor.app.veery.cloud
 };
 
 opConsoleApp.constant('baseUrls', baseUrls);
