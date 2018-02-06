@@ -43,15 +43,43 @@
 
                             <div class="col-md-3 col-sm-3 col-xs-12">
                                 <label>Start Date</label>
-                                <input id="startDate" type="text" class="form-control" ng-model="startDate" ng-change="onDateChange()"
+                                <p class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup ng-model="startDate"
+                                           is-open="popupStartDate.opened" datepicker-options="dateOptionsStartDate" ng-required="true"
+                                           close-text="Close"/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="openStartDate()"><i
+                                                class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <label>End Date</label>
+                                <p class="input-group">
+                                    <input type="text" class="form-control" uib-datepicker-popup ng-model="endDate"
+                                           is-open="popupEndDate.opened" datepicker-options="dateOptionsEndDate" ng-required="true"
+                                           close-text="Close"/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="openEndDate()"><i
+                                                class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+
+                            <!--<div class="col-md-3 col-sm-3 col-xs-12">
+                                <label>Start Date</label>
+                                <input id="startDate" type="text" class="form-control" ng-model="startDate"
+                                       ng-change="onDateChange()"
                                        name="startDate"
                                        datepicker>
                             </div>
                             <div class="col-md-3 col-sm-3 col-xs-12">
                                 <label>End Date</label>
-                                <input id="endDate" type="text" class="form-control" ng-model="endDate" ng-change="onDateChange()" name="endDate"
+                                <input id="endDate" type="text" class="form-control" ng-model="endDate"
+                                       ng-change="onDateChange()" name="endDate"
                                        datepicker>
-                            </div>
+                            </div>-->
                             <div class="col-md-3 col-sm-3 col-xs-12">
                                 <label>Agent</label>
 
@@ -66,14 +94,17 @@
                                     <ui-select-match>
                                         <span ng-bind="$select.selected.ResourceName"></span>
                                     </ui-select-match>
-                                    <ui-select-choices repeat="item in (Agents | filter: $select.search) track by item.ResourceId">
+                                    <ui-select-choices
+                                            repeat="item in (Agents | filter: $select.search) track by item.ResourceId">
                                         <span ng-bind="item.ResourceName"></span>
                                     </ui-select-choices>
                                 </ui-select>
 
                             </div>
                             <div class="col-md-1 col-sm-3 col-xs-12">
-                                <button  style="position: relative; top: 25px;" type="button" class="btn btn-primary" ng-disabled="isTableLoading"  ng-click="getAgentSummary()" >Search</button>
+                                <button style="position: relative; top: 25px;" type="button" class="btn btn-primary"
+                                        ng-disabled="isTableLoading" ng-click="getAgentSummary()">Search
+                                </button>
                             </div>
 
                             <div class="col-sm-1">
@@ -109,7 +140,9 @@
                             <div class="loader-section"></div>
                         </div>
 
-                        <div ui-if="gridQOptions.data.length>0" id="grid1" ui-grid="gridQOptions" class="grid" ui-grid-move-columns ui-grid-resize-columns  ui-grid-auto-resize ui-grid-pinning ng-style="getTableHeight()"></div>
+                        <div ui-if="gridQOptions.data.length>0" id="grid1" ui-grid="gridQOptions" class="grid"
+                             ui-grid-move-columns ui-grid-resize-columns ui-grid-auto-resize ui-grid-pinning
+                             ng-style="getTableHeight()"></div>
                     </div>
 
                 </div>

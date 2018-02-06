@@ -132,6 +132,7 @@ var baseUrls = {
     'cdrProcessor':'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/' //cdrprocessor.app.veery.cloud
 };
 
+opConsoleApp.constant('moment', moment);
 opConsoleApp.constant('baseUrls', baseUrls);
 
 opConsoleApp.constant('config', {
@@ -198,27 +199,6 @@ opConsoleApp.directive('passwordVerify', function () {
     }
 });
 
-
-opConsoleApp.directive('datepicker', function () {
-    return {
-        restrict: "A",
-        require: "ngModel",
-        link: function (scope, elem, attrs, ngModelCtrl) {
-            var updateModel = function (dateText) {
-                scope.$apply(function () {
-                    ngModelCtrl.$setViewValue(dateText);
-                });
-            };
-            var options = {
-                dateFormat: "yy-mm-dd",
-                onSelect: function (dateText) {
-                    updateModel(dateText);
-                }
-            };
-            elem.datepicker(options);
-        }
-    }
-});
 
 opConsoleApp.filter('secondsToDateTime', [function () {
     return function (seconds) {

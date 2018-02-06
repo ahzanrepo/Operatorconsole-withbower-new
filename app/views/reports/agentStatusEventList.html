@@ -11,31 +11,45 @@
         <div class="row">
             <div class="x_panel">
                 <div class="x_content">
-                    <div class="col-md-2 col-sm-2 col-xs-12">
+
+
+                    <div  ng-class="{'col-md-4 col-sm-4 col-xs-12': timeEnabledStatus==false, 'col-md-2 col-sm-2 col-xs-12': timeEnabledStatus == true}" >
                         <label>Start Date</label>
-                        <input type="text" class="form-control" ng-model="obj.startDay" name="startDate" datepicker>
+                        <p class="input-group">
+                            <input type="text" class="form-control" uib-datepicker-popup ng-model="obj.startDay"
+                                   is-open="popupStartDate.opened" datepicker-options="dateOptionsStartDate" ng-required="true"
+                                   close-text="Close"/>
+                            <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="openStartDate()"><i
+                                                class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                        </p>
                     </div>
 
-                    <fieldset class="col-md-2 col-sm-2 col-xs-12" ng-disabled="!timeEnabledStatus">
+
+                    <fieldset class="col-md-2 col-sm-2 col-xs-12" ng-show="timeEnabledStatus">
                         <label>Start Time</label>
-                        <div class="bootstrap-timepicker">
-                            <input id="timepickerSt" type="text" class="form-control" ng-model="startTime">
-                            <i class="icon-time"></i>
-                        </div>
+                        <div uib-timepicker ng-model="startTime"  hour-step="hstep" minute-step="mstep" show-meridian="fasle"></div>
                     </fieldset>
 
 
-                    <div class="col-md-2 col-sm-2 col-xs-12">
+
+                    <div ng-class="{'col-md-4 col-sm-4 col-xs-12': timeEnabledStatus==false, 'col-md-2 col-sm-2 col-xs-12': timeEnabledStatus == true}" >
                         <label>End Date</label>
-                        <input type="text" class="form-control" ng-model="obj.endDay" name="endDate" datepicker>
+                        <p class="input-group">
+                            <input type="text" class="form-control" uib-datepicker-popup ng-model="obj.endDay"
+                                   is-open="popupEndDate.opened" datepicker-options="dateOptionsEndDate" ng-required="true"
+                                   close-text="Close"/>
+                            <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="openEndDate()"><i
+                                                class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                        </p>
                     </div>
 
-                    <fieldset class="col-md-2 col-sm-2 col-xs-12" ng-disabled="!timeEnabledStatus">
+                    <fieldset class="col-md-2 col-sm-2 col-xs-12" ng-show="timeEnabledStatus">
                         <label>End Time</label>
-                        <div class="bootstrap-timepicker">
-                            <input id="timepickerEt" type="text" class="form-control" ng-model="endTime">
-                            <i class="icon-time"></i>
-                        </div>
+                        <div uib-timepicker ng-model="endTime"  hour-step="hstep" minute-step="mstep" show-meridian="fasle"></div>
                     </fieldset>
 
                     <div class="col-md-4 col-sm-4 col-xs-12">

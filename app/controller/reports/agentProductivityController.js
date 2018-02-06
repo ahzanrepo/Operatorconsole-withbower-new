@@ -15,8 +15,48 @@ opConsoleApp.controller("agentProductivityController", function ($scope, $anchor
         });
     };
 
-    $scope.startDate = moment().add(-1, 'd').format("YYYY-MM-DD");
-    $scope.endDate = moment().add(-1, 'd').format("YYYY-MM-DD");
+    $scope.today = function() {
+        $scope.endDate = new Date();
+        $scope.startDate = new Date();
+    };
+    $scope.today();
+
+    $scope.clear = function() {
+        $scope.startDate = null;
+    };
+
+    $scope.dateOptionsStartDate = {
+        formatYear: 'yy',
+        maxDate: new Date(),
+        startingDay: 1
+    };
+
+    $scope.openStartDate = function() {
+        $scope.popupStartDate.opened = true;
+        $scope.dateOptionsEndDate.minDate = $scope.startDate;
+    };
+
+    $scope.popupStartDate = {
+        opened: false
+    };
+
+
+    $scope.dateOptionsEndDate = {
+        formatYear: 'yy',
+        maxDate: new Date(),
+        minDate: $scope.startDate,
+        startingDay: 1
+    };
+
+    $scope.openEndDate = function() {
+        $scope.popupEndDate.opened = true;
+        $scope.dateOptionsEndDate.minDate = $scope.startDate;
+    };
+
+    $scope.popupEndDate = {
+        opened: false
+    };
+
 
     var TimeFromatter = function (seconds) {
 
@@ -57,17 +97,6 @@ opConsoleApp.controller("agentProductivityController", function ($scope, $anchor
         };
     };
 
-    $scope.onDateChange = function () {
-        $scope.startDate = moment($scope.startDate).format("YYYY-MM-DD");
-        $scope.endDate = moment($scope.endDate).format("YYYY-MM-DD");
-
-        if (moment($scope.startDate, "YYYY-MM-DD").isValid() && moment($scope.endDate, "YYYY-MM-DD").isValid()) {
-            $scope.dateValid = true;
-        }
-        else {
-            $scope.dateValid = false;
-        }
-    };
 
     $scope.gridQOptions = {
         enableSorting: true,
@@ -319,8 +348,8 @@ opConsoleApp.controller("agentProductivityController", function ($scope, $anchor
         var momentTz = moment.parseZone(new Date()).format('Z');
         momentTz = momentTz.replace("+", "%2B");
 
-        var queryStartDate = $scope.startDate + ' 00:00:00' + momentTz;
-        var queryEndDate = $scope.endDate + ' 23:59:59' + momentTz;
+        var queryStartDate = $filter('date')($scope.startDate, "yyyy-MM-dd")  + ' 00:00:00' + momentTz;
+        var queryEndDate = $filter('date')($scope.endDate, "yyyy-MM-dd") + ' 23:59:59' + momentTz;
         resourceProductivityService.ConsolidatedDailySummary(queryStartDate, queryEndDate, resId).then(function (response) {
             if (response) {
                 response.map(function (item) {
@@ -429,15 +458,15 @@ opConsoleApp.controller("agentProductivityController", function ($scope, $anchor
     $scope.getAgentSummaryCSV = function () {
         $scope.disableDownload = true;
         $scope.isTableLoading = true;
-        $scope.DownloadFileName = 'AGENT_PRODUCTIVITY_SUMMARY_' + $scope.startDate + '_' + $scope.endDate;
+        $scope.DownloadFileName = 'AGENT_PRODUCTIVITY_SUMMARY_' + $filter('date')($scope.startDate, "yyyy-MM-dd") + '_' + $filter('date')($scope.endDate, "yyyy-MM-dd");
         var deferred = $q.defer();
         var agentSummaryList = [];
 
         var momentTz = moment.parseZone(new Date()).format('Z');
         momentTz = momentTz.replace("+", "%2B");
 
-        var queryStartDate = $scope.startDate + ' 00:00:00' + momentTz;
-        var queryEndDate = $scope.endDate + ' 23:59:59' + momentTz;
+        var queryStartDate = $filter('date')($scope.startDate, "yyyy-MM-dd") + ' 00:00:00' + momentTz;
+        var queryEndDate = $filter('date')($scope.endDate, "yyyy-MM-dd") + ' 23:59:59' + momentTz;
 
 
         var resId = null;

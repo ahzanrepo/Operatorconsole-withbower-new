@@ -71,14 +71,63 @@ opConsoleApp.controller("agentStatusEventController", function ($scope, $anchorS
 
     $scope.getBreakTypes();*/
 
+    $scope.startTime = new Date();
+    $scope.endTime = new Date();
+    $scope.hstep = 1;
+    $scope.mstep = 15;
 
     $scope.obj = {
         startDay: moment().format("YYYY-MM-DD"),
         endDay: moment().format("YYYY-MM-DD")
     };
 
-    $scope.startTime = '12:00 AM';
-    $scope.endTime = '12:00 AM';
+    $scope.today = function() {
+        $scope.obj.endDay = new Date();
+        $scope.obj.startDay = new Date();
+    };
+    $scope.today();
+
+
+    $scope.dateOptionsStartDate = {
+        formatYear: 'yy',
+        maxDate: new Date(),
+        startingDay: 1
+    };
+
+    $scope.openStartDate = function() {
+        $scope.popupStartDate.opened = true;
+        $scope.dateOptionsEndDate.minDate = $scope.obj.startDay;
+    };
+
+    $scope.popupStartDate = {
+        opened: false
+    };
+
+
+    $scope.dateOptionsEndDate = {
+        formatYear: 'yy',
+        maxDate: new Date(),
+        minDate: $scope.obj.startDay,
+        startingDay: 1
+    };
+
+    $scope.openEndDate = function() {
+        $scope.popupEndDate.opened = true;
+        $scope.dateOptionsEndDate.minDate = $scope.obj.startDay;
+    };
+
+    $scope.popupEndDate = {
+        opened: false
+    };
+
+
+    /*$scope.obj = {
+        startDay: moment().format("YYYY-MM-DD"),
+        endDay: moment().format("YYYY-MM-DD")
+    };*/
+
+    /*$scope.startTime = '12:00 AM';
+    $scope.endTime = '12:00 AM';*/
     $scope.endDtTm = '';
 
     $scope.timeEnabled = 'Date Only';
@@ -293,16 +342,16 @@ opConsoleApp.controller("agentStatusEventController", function ($scope, $anchorS
         var momentTz = moment.parseZone(new Date()).format('Z');
         momentTz = momentTz.replace("+", "%2B");
 
-        var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
-        var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
+        var startDate = $filter('date')($scope.obj.startDay, "yyyy-MM-dd") + ' ' + st + ':00' + momentTz;
+        var endDate = $filter('date')( $scope.obj.endDay, "yyyy-MM-dd") + ' ' + et + ':59' + momentTz;
 
         if (!$scope.timeEnabledStatus) {
-            startDate = $scope.obj.startDay + ' 00:00:00' + momentTz;
-            endDate = $scope.obj.endDay + ' 23:59:59' + momentTz;
-            $scope.endDtTm = moment($scope.obj.endDay + ' 23:59:59');
+            startDate = $filter('date')($scope.obj.startDay, "yyyy-MM-dd") + ' 00:00:00' + momentTz;
+            endDate = $filter('date')( $scope.obj.endDay, "yyyy-MM-dd") + ' 23:59:59' + momentTz;
+            $scope.endDtTm = moment($filter('date')( $scope.obj.endDay, "yyyy-MM-dd") + ' 23:59:59');
         }
         else {
-            $scope.endDtTm = moment($scope.obj.endDay + ' ' + et + ':59');
+            $scope.endDtTm = moment($filter('date')( $scope.obj.endDay, "yyyy-MM-dd") + ' ' + et + ':59');
         }
 
 
@@ -386,19 +435,19 @@ opConsoleApp.controller("agentStatusEventController", function ($scope, $anchorS
         var momentTz = moment.parseZone(new Date()).format('Z');
         momentTz = momentTz.replace("+", "%2B");
 
-        var startDate = $scope.obj.startDay + ' ' + st + ':00' + momentTz;
-        var endDate = $scope.obj.endDay + ' ' + et + ':59' + momentTz;
+        var startDate = $filter('date')($scope.obj.startDay, "yyyy-MM-dd")  + ' ' + st + ':00' + momentTz;
+        var endDate = $filter('date')($scope.obj.endDay, "yyyy-MM-dd")  + ' ' + et + ':59' + momentTz;
 
         if (!$scope.timeEnabledStatus) {
-            startDate = $scope.obj.startDay + ' 00:00:00' + momentTz;
-            endDate = $scope.obj.endDay + ' 23:59:59' + momentTz;
-            $scope.endDtTm = moment($scope.obj.endDay + ' 23:59:59');
+            startDate = $filter('date')($scope.obj.startDay, "yyyy-MM-dd") + ' 00:00:00' + momentTz;
+            endDate = $filter('date')( $scope.obj.endDay, "yyyy-MM-dd") + ' 23:59:59' + momentTz;
+            $scope.endDtTm = moment($filter('date')( $scope.obj.endDay, "yyyy-MM-dd") + ' 23:59:59');
         }
         else {
-            $scope.endDtTm = moment($scope.obj.endDay + ' ' + et + ':59');
+            $scope.endDtTm = moment($filter('date')( $scope.obj.endDay, "yyyy-MM-dd") + ' ' + et + ':59');
         }
 
-        $scope.DownloadFileName = 'AGENT_STATUS_LIST' + $scope.obj.startDay + '_' + $scope.obj.endDay;
+        $scope.DownloadFileName = 'AGENT_STATUS_LIST' + $filter('date')($scope.obj.startDay, "yyyy-MM-dd") + '_' + $filter('date')( $scope.obj.endDay, "yyyy-MM-dd");
         var deferred = $q.defer();
 
 
