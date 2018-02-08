@@ -6,15 +6,24 @@ var opConsoleApp = angular.module('opConsoleApp', ['ngRoute', 'ui.bootstrap',
     'ui.router', 'angular-jwt', 'angular.filter', 'satellizer',
     'LocalStorageModule', 'base64', 'easypiechart', 'ngNotify',
     'checklist-model', 'as.sortable', 'ui.slimscroll', 'oitozero.ngSweetAlert',
-    'ngTagsInput', 'btford.socket-io', 'cp.ngConfirm']);
+    'ngTagsInput', 'btford.socket-io', 'cp.ngConfirm','ui.grid.pinning',
+    'ui.grid.autoResize',
+    'ui.grid.exporter',
+    'ui.grid.resizeColumns',
+    'ui.grid.resizeColumns',
+    'ui.grid.selection',
+    'ui.grid.moveColumns',
+    'ui.grid.infiniteScroll',
+    'ui.grid.grouping','ui.select', 'ngSanitize','ngCsv','ui.bootstrap.datetimepicker','ngTagsInput','gantt','angularMoment','moment-picker']);
 
 
+opConsoleApp.constant('moment', moment);
 //app router
 opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$authProvider",
     function ($httpProvider, $stateProvider, $urlRouterProvider, $authProvider) {
 
         //auth URL
-        var authProviderUrl = 'http://userservice.app.veery.cloud/';
+        var authProviderUrl = 'http://userservice.app1.veery.cloud/';
         $authProvider.loginUrl = authProviderUrl + 'auth/login';
         $authProvider.signupUrl = authProviderUrl + 'auth/signup';
 
@@ -88,6 +97,17 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
             data: {
                 requireLogin: true
             }
+        }).state('op-console.agent-productivity', {
+            url: "/agent-productivity",
+            controller: "agentProductivityController",
+            templateUrl: "app/views/reports/agentProductivity.html",
+            data: {
+                requireLogin: true
+            }
+        }).state('op-console.agent-summery', {
+            url: "/agent-summery",
+            controller: "agentStatusEventController",
+            templateUrl: "app/views/reports/agentStatusEventList.html"
         })
     }], function () {
 
@@ -96,28 +116,36 @@ opConsoleApp.config(["$httpProvider", "$stateProvider", "$urlRouterProvider", "$
 
 //app base URL
 var baseUrls = {
-    'userServiceBaseUrl': 'http://userservice.app.veery.cloud/DVP/API/1.0.0.0/',
+    'userServiceBaseUrl': 'http://userservice.app1.veery.cloud/DVP/API/1.0.0.0/', //userservice.app.veery.cloud
     'monitorServerUrl': 'http://monitorrestapi.app.veery.cloud/DVP/API/1.0.0.0/MonitorRestAPI/',
     'sipUserEndpointService': 'http://sipuserendpointservice.app.veery.cloud/DVP/API/1.0.0.0/SipUser/',
-    'userServiceAuthUrl': 'http://userservice.app.veery.cloud/',
-    'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',
+    'userServiceAuthUrl': 'http://userservice.app1.veery.cloud/',
+    'resourceServiceBaseUrl': 'http://resourceservice.app.veery.cloud/DVP/API/1.0.0.0/ResourceManager/',// resourceservice.app.veery.cloud
     'phoneNumTrunkServiceBaseURL': 'http://phonenumbertrunkservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'ruleServiceBaseURL': 'http://ruleservice.app.veery.cloud/DVP/API/1.0.0.0/',
     'limitHandlerBaseURL': 'http://limithandler.app.veery.cloud/DVP/API/1.0.0.0/',
     'clusterConfigurationBaseURL': 'http://clusterconfig.app.veery.cloud/DVP/API/1.0.0.0/',
     'ipMessageURL': 'http://ipmessagingservice.app.veery.cloud/',
     'billingserviceURL': 'http://billingservice.app.veery.cloud/DVP/API/1.0.0.0/Billing/',
-    'notification': 'http://notificationservice.app.veery.cloud'
+    'notification': 'http://notificationservice.app.veery.cloud',
+    'authUrl':'http://userservice.app1.veery.cloud',
+    'cdrProcessor':'http://cdrprocessor.app.veery.cloud/DVP/API/1.0.0.0/CallCDR/' //cdrprocessor.app.veery.cloud
 };
 
+opConsoleApp.constant('moment', moment);
 opConsoleApp.constant('baseUrls', baseUrls);
 
 opConsoleApp.constant('config', {
-    Auth_API: 'http://userservice.162.243.230.46.xip.io/',
+    Auth_API: 'http://userservice.app1.veery.cloud/',
     appVersion: 1.0,
     client_Id_secret: 'ae849240-2c6d-11e6-b274-a9eec7dab26b:6145813102144258048',
     clusterId: '2'
 });
+
+opConsoleApp.run(['$anchorScroll', function ($anchorScroll,$rootScope, loginService, $location, $state) {
+    $anchorScroll.yOffset = 50;   // always scroll by 50 extra pixels
+}]);
+
 
 //authentication
 //Authentication
@@ -170,3 +198,10 @@ opConsoleApp.directive('passwordVerify', function () {
         }
     }
 });
+
+
+opConsoleApp.filter('secondsToDateTime', [function () {
+    return function (seconds) {
+        return new Date(1970, 0, 1).setSeconds(seconds);
+    };
+}]);

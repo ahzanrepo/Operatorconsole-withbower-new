@@ -1531,3 +1531,20 @@ body .container.body .right_col {
     color: #4a91e3;
     text-decoration: underline;
 }
+
+.table-number {
+    text-align: right;
+}
+
+.table-time {
+    text-align: center;
+}
+
+.presentage {
+    text-align: right;
+}
+
+.presentage .ui-grid-cell-contents:before {
+    content: ' %';
+    float: right;
+}
