@@ -57,11 +57,17 @@
     <!-- confirmation box -->
     <link rel="stylesheet" href="bower_components/angular-confirm/css/angular-confirm.css"/>
 
+
+    <!-- angular UI-grid -->
+    <link rel="stylesheet" type="text/css" href="bower_components/angular-ui-grid/ui-grid.min.css">
+
     <!-- customer css -->
     <link rel="stylesheet" href="assets/css/op-console1.css"/>
     <link rel="stylesheet" href="assets/css/element-animation.css"/>
     <link rel="stylesheet" href="assets/css/sign-in.css"/>
     <link rel="stylesheet" href="assets/css/animate.css"/>
+
+    <link rel="stylesheet" href="bower_components/angular-gantt/dist/angular-gantt.css"/>
 </head>
 
 <body class="nav-md">
@@ -232,6 +238,40 @@
 
 <!-- Account Activation  -->
 <script type="text/javascript" src="app/services/billingservice/billingservice.js"></script>
+
+<!--reports -->
+<script type="text/javascript" src="app/controller/reports/agentProductivityController.js"></script>
+<script type="text/javascript" src="app/controller/reports/agentStatusEventController.js"></script>
+<script type="text/javascript" src="app/services/productivity/resourceProductivityService.js"></script>
+
+
+<!--- angular UI-grid -->
+<script type="text/javascript" src="bower_components/angular-ui-grid/ui-grid.js"></script>
+
+<!--'ui.select', 'ngSanitize'-->
+<script type="text/javascript" src="bower_components/angular-ui-select/dist/select.min.js"></script>
+<script type="text/javascript" src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+<link rel="stylesheet" href="bower_components/angular-ui-select/dist/select.css"/>
+
+
+<!-- json to csv -->
+<script type="text/javascript" src="bower_components/ng-csv/build/ng-csv.js"></script>
+<!-- json to csv -->
+
+<!--Reports-->
+<script type="text/javascript" src="app/services/Reports/cdrApiHandler.js"></script>
+<script type="text/javascript" src="app/services/Reports/companyConfigService.js"></script>
+<script type="text/javascript" src="app/directive/Reports/statusgantt.js"></script>
+<script type="text/javascript" src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.min.js "></script>
+<script type="text/javascript" src="bower_components/ng-tags-input/ng-tags-input.min.js"></script>
+<script type="text/javascript" src="bower_components/angular-gantt/dist/angular-gantt.js"></script>
+
+<script src="bower_components/moment/moment.js"></script>
+<script src="bower_components/angular-moment/angular-moment.js"></script>
+<script src="bower_components/angular-moment-picker/dist/angular-moment-picker.js"></script>
+
+
+
 
 </body>
 </html>
